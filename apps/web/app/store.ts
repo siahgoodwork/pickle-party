@@ -1,21 +1,22 @@
 import { syncedStore, getYjsDoc } from "@syncedstore/core";
 import { WebsocketProvider } from "y-websocket";
-
-interface Vehicle {
-  color: string;
-  brand: string;
-}
+import type { Room } from "pickle-types";
 
 // Create your SyncedStore store
-export const store = syncedStore({
-  vehicles: [] as Vehicle[],
-  fragment: "xml",
+export const store = syncedStore<{ room: Room }>({
+  room: {
+    polls: [],
+  },
 });
 
 // Create a document that syncs automatically using Y-websocket
 const doc = getYjsDoc(store);
+
+//enable garbage collection
+doc.gc = true;
+
 const websocketProvider = new WebsocketProvider(
-  "ws://localhost:1234",
+  process.env.NEXT_PUBLIC_YWEBSOCK_HOST || "ws://localhost:1234",
   "my-roomname",
   doc
 );

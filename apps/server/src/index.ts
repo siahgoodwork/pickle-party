@@ -12,7 +12,7 @@ const doc = getYjsDoc(store);
 // Start a y-websocket server, e.g.: HOST=localhost PORT=1234 npx y-websocket-server
 
 const wsProvider = new WebsocketProvider(
-  "ws://localhost:1234",
+  "ws://139.59.118.109:9999",
   "my-roomname",
   doc,
   {
