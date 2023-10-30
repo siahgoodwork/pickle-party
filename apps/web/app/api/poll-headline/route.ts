@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+export const maxDuration = 30;
+
 interface ChatResponse {
   ok: boolean;
   response: { choices: { message: { role: string; content: string } }[] };
