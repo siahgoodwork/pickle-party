@@ -1,8 +1,21 @@
-import { NextRequest, NextResponse } from "next/server";
-export async function POST(req: NextRequest) {
-  const { headlinePrompt, pollResult } = await req.json();
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-  console.log({ headlinePrompt, pollResult });
+interface ChatResponse {
+  ok: boolean;
+  response: { choices: { message: { role: string; content: string } }[] };
+}
+
+export async function POST(
+  req: NextRequest
+): Promise<ReturnType<typeof NextResponse.json>> {
+  const { headlinePrompt, pollResult } = (await req.json()) as {
+    headlinePrompt: string;
+    pollResult: {
+      question: string;
+      choices: { votes: number; text: string }[];
+    };
+  };
 
   const chatResponse = await fetch(
     `${process.env.SERVER_HOSTNAME || ""}/chat/headline`,
@@ -18,16 +31,15 @@ export async function POST(req: NextRequest) {
     }
   );
 
-  const chatResponseObj = await chatResponse.json();
+  const chatResponseObj = (await chatResponse.json()) as ChatResponse;
 
-  if (chatResponseObj.ok === true) {
+  if (chatResponseObj.ok) {
     return NextResponse.json({
       ok: true,
       chatResponse: chatResponseObj.response.choices,
     });
-  } else {
-    return NextResponse.json({
-      ok: false,
-    });
   }
+  return NextResponse.json({
+    ok: false,
+  });
 }

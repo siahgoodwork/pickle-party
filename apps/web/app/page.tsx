@@ -1,8 +1,8 @@
 "use client";
 import { useSyncedStore } from "@syncedstore/react";
 import { useMemo, useState } from "react";
-import { store } from "./store";
 import Marquee from "react-double-marquee";
+import { store } from "./store";
 
 // Get the Yjs document and sync automatically using y-webrtc
 
