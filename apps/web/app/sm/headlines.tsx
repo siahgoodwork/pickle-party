@@ -66,6 +66,7 @@ export default function Page(): React.ReactElement {
             selectedPollResult !== undefined ? selectedPollResult.id : undefined
           }
         >
+          <option value=""> </option>
           {state.pollResults.map((result) => (
             <option key={result.id} value={result.id}>
               {state.polls.find((p) => p.id === result.id)?.question}
@@ -189,20 +190,31 @@ export default function Page(): React.ReactElement {
             className="flex justify-between py-2 border-b border-black"
           >
             <h2>{headline.text}</h2>
-            <div className="flex-shrink-0 w-16">
-              Active{" "}
-              <input
-                type="checkbox"
-                checked={headline.active}
-                onClick={(e) => {
-                  const _headline = {
-                    ...headline,
-                    active: e.currentTarget.checked,
-                  };
-
-                  state.headlines.splice(n, 1, _headline);
+            <div className="flex flex-shrink-0 w-32 gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  state.headlines.splice(n, 1);
                 }}
-              />
+              >
+                Del
+              </button>
+
+              <div className="">
+                Active{" "}
+                <input
+                  type="checkbox"
+                  checked={headline.active}
+                  onClick={(e) => {
+                    const _headline = {
+                      ...headline,
+                      active: e.currentTarget.checked,
+                    };
+
+                    state.headlines.splice(n, 1, _headline);
+                  }}
+                />
+              </div>
             </div>
           </div>
         ))}
