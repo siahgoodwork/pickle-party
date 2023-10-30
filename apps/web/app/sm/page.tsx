@@ -24,15 +24,20 @@ export default function Page(): JSX.Element {
   }, []);
   return (
     <main>
-      <b
-        className={`w-4 h-4 border ${
-          connected ? "bg-green-500" : "bg-[transparent]"
-        } block border-black`}
-      >
-        {" "}
-      </b>
+      <img
+        src="/pickle.gif"
+        alt="Pickle gif"
+        className="w-[50px] h-[50px] rounded-full overflow-hidden block object-contain absolute top-2 right-2"
+      />
       <Tab.Group>
-        <Tab.List className="flex p-1 border-b-2 space-x-1 border-b-black">
+        <Tab.List className="flex items-center p-1 border-b-2 space-x-1 border-b-black">
+          <b
+            className={`w-3 h-3 border rounded-full ${
+              connected ? "bg-green-500" : "bg-[transparent]"
+            } block border-black`}
+          >
+            {" "}
+          </b>
           <Tab className={tabClass}>Polls</Tab>
           <Tab className={tabClass}>Headline Prompts</Tab>
           <Tab className={tabClass}>Headlines</Tab>
