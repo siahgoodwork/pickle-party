@@ -3,7 +3,7 @@ interface Room {
   activePoll: string;
 }
 
-interface Poll extends JSONValue {
+interface Poll {
   id: string;
   question: string;
   choices: PollChoice[];
@@ -14,4 +14,25 @@ interface PollChoice {
   text: string;
 }
 
-export type { Room, Poll };
+interface PollResult {
+  id: string;
+  choices: PollChoiceResult[];
+}
+
+interface PollChoiceResult {
+  id: string;
+  voters: string[];
+}
+
+interface Headline {
+  id: string;
+  text: string;
+  active: boolean;
+}
+
+interface HeadlinePrompt {
+  id: string;
+  prompt: string;
+}
+
+export type { Room, Poll, PollResult, HeadlinePrompt, Headline };

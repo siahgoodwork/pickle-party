@@ -2,15 +2,27 @@
 
 import { syncedStore, getYjsDoc } from "@syncedstore/core";
 import { WebsocketProvider } from "y-websocket";
-import type { Room, Poll } from "pickle-types";
+import type {
+  Room,
+  Poll,
+  PollResult,
+  HeadlinePrompt,
+  Headline,
+} from "pickle-types";
 
 // Create your SyncedStore store
 export const store = syncedStore<{
   polls: Poll[];
+  pollResults: PollResult[];
+  headlines: Headline[];
+  headlinePrompts: HeadlinePrompt[];
   room: Partial<Room>;
 }>({
   room: {},
   polls: [],
+  pollResults: [],
+  headlines: [],
+  headlinePrompts: [],
 });
 
 // Create a document that syncs automatically using Y-websocket
@@ -32,6 +44,4 @@ export const connect: () => void = () => {
   websocketProvider.connect();
 };
 
-export const status: () => boolean = () => {
-  return websocketProvider.wsconnected;
-};
+export { websocketProvider };

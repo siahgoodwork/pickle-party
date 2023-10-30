@@ -1,6 +1,10 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalEnv": ["NEXT_PUBLIC_YWEBSOCK_HOST"],
+  "globalEnv": [
+    "NEXT_PUBLIC_YWEBSOCK_HOST",
+    "OPENAI_API_KEY",
+    "SERVER_HOSTNAME"
+  ],
   "globalDependencies": ["**/.env.*local"],
   "pipeline": {
     "build": {

@@ -208,7 +208,7 @@ export default function Pollmaker(): JSX.Element {
               </div>
               <div>
                 <ul className="list-disc list-inside">
-                  {poll.choices?.map((choice) => {
+                  {poll.choices.map((choice) => {
                     return <li key={choice.id}>{choice.text}</li>;
                   })}
                 </ul>

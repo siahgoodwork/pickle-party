@@ -19,6 +19,7 @@
     "pickle-types": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-double-marquee": "^1.1.0",
     "ui": "workspace:*",
     "y-webrtc": "^10.2.5",
     "y-websocket": "^1.5.0",

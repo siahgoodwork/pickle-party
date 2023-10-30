@@ -1,7 +1,14 @@
 import { syncedStore, getYjsDoc } from "@syncedstore/core";
 import { WebsocketProvider } from "y-websocket";
+import express from "express";
+import { Room } from "pickle-types";
 
-export const store = syncedStore({});
+import bodyParser from "body-parser";
+import { chatGenerateHeadlineFromPoll } from "./openai";
+
+export const store = syncedStore<{
+  room: Partial<Room>;
+}>({ room: {} });
 
 const doc = getYjsDoc(store);
 
@@ -9,7 +16,6 @@ const doc = getYjsDoc(store);
 
 const wsProvider = new WebsocketProvider(
   "wss://pickle-yjs-websocket.goodwork.run",
-  //"wss://pickle-yjs-websocket.goodwork.run",
   "my-roomname",
   doc,
   {
@@ -29,3 +35,11 @@ doc.on("update", () => {
   const a = doc.getArray<{ color: string; brand: string }>("vehicles");
   console.log(a.toJSON());
 });
+
+const app = express();
+
+app.use(bodyParser.json());
+
+app.post("/chat/headline", chatGenerateHeadlineFromPoll);
+
+app.listen(process.env.PORT || 4000);

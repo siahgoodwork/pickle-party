@@ -1,0 +1,25 @@
+meta {
+  name: Chat
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3000/api/poll-headline
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "headlinePrompt" : "You are a creative API that looks at the results of a poll, and generates a news article that summarises the epic cook-off between the different vegetarian restaurants, and the victory of the winner, in 120 words.", 
+    "pollResult" : {
+      "question" : "What is your favourite vegetable?", 
+      "choices": [
+        {"text": "Lettuce", "votes": 1625},
+        {"text": "Eggplants", "votes": 3025},
+        {"text": "kangkung", "votes": 2075}
+      ]
+    }
+  }
+}
