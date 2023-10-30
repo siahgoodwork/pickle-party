@@ -1,18 +1,15 @@
 import { syncedStore, getYjsDoc } from "@syncedstore/core";
 import { WebsocketProvider } from "y-websocket";
-import * as Y from "yjs";
 
-export const store = syncedStore({
-  vehicles: [],
-  fragment: "xml",
-});
+export const store = syncedStore({});
 
 const doc = getYjsDoc(store);
 
 // Start a y-websocket server, e.g.: HOST=localhost PORT=1234 npx y-websocket-server
 
 const wsProvider = new WebsocketProvider(
-  "ws://139.59.118.109:9999",
+  "wss://pickle-yjs-websocket.goodwork.run",
+  //"wss://pickle-yjs-websocket.goodwork.run",
   "my-roomname",
   doc,
   {

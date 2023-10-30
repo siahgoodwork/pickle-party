@@ -1,12 +1,16 @@
+"use client";
+
 import { syncedStore, getYjsDoc } from "@syncedstore/core";
 import { WebsocketProvider } from "y-websocket";
-import type { Room } from "pickle-types";
+import type { Room, Poll } from "pickle-types";
 
 // Create your SyncedStore store
-export const store = syncedStore<{ room: Room }>({
-  room: {
-    polls: [],
-  },
+export const store = syncedStore<{
+  polls: Poll[];
+  room: Partial<Room>;
+}>({
+  room: {},
+  polls: [],
 });
 
 // Create a document that syncs automatically using Y-websocket
