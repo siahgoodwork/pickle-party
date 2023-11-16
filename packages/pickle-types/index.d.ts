@@ -1,6 +1,8 @@
 import { JSONValue } from "@syncedstore/core";
 interface Room {
   activePoll: string;
+  chatOn: boolean;
+  chatBanned: string[];
 }
 
 interface Poll {
@@ -35,4 +37,12 @@ interface HeadlinePrompt {
   prompt: string;
 }
 
-export type { Room, Poll, PollResult, HeadlinePrompt, Headline };
+interface ChatMessage {
+  id: string;
+  message: string;
+  sender: string;
+  timestamp: string; // unix timestamp stored as string
+  admin?: boolean;
+}
+
+export type { Room, Poll, PollResult, HeadlinePrompt, Headline, ChatMessage };
