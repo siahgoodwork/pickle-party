@@ -42,9 +42,10 @@ export async function POST(
       chatResponse: chatResponseObj.response.choices[0],
     });
   } catch (err) {
+    /* eslint no-console: ["error", { allow: ["warn", "error"] }] -- warn user here */
+    console.warn(err);
     return NextResponse.json({
       ok: false,
-      err,
     });
   }
 }
