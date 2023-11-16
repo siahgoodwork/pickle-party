@@ -2,9 +2,16 @@ import { syncedStore, getYjsDoc } from "@syncedstore/core";
 import { WebsocketProvider } from "y-websocket";
 import express from "express";
 import { Room } from "pickle-types";
+import { Y } from "@syncedstore/core";
+import { Poll } from "pickle-types";
 
 import bodyParser from "body-parser";
-import { chatGenerateHeadlineFromPoll } from "./openai";
+import {
+  chatCategoriseConversation,
+  chatGeneralPrompt,
+  chatGenerateHeadlineFromPoll,
+  chatImaginePickle,
+} from "./openai";
 
 export const store = syncedStore<{
   room: Partial<Room>;
@@ -29,6 +36,7 @@ wsProvider.on("status", (event: any) => {
 
 wsProvider.on("sync", (synced: boolean) => {
   console.log(synced);
+  const polls = doc.get("polls") as Y.Array<Poll>;
 });
 
 doc.on("update", () => {
@@ -40,6 +48,8 @@ const app = express();
 
 app.use(bodyParser.json());
 
+app.post("/chat/categorise-conversation", chatCategoriseConversation);
+app.post("/chat/imagine-pickle", chatImaginePickle);
 app.post("/chat/headline", chatGenerateHeadlineFromPoll);
 
 app.listen(process.env.PORT || 4000);

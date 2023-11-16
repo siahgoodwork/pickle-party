@@ -5,21 +5,13 @@ meta {
 }
 
 post {
-  url: http://localhost:3000/api/poll-headline
+  url: http://localhost:4000/chat/general
   body: json
   auth: none
 }
 
 body:json {
   {
-    "headlinePrompt" : "You are a creative API that looks at the results of a poll, and generates a news articlejkjk that summarises the epic cook-off between the different vegetarian restaurants, and the victory of the winner, in 5 words.", 
-    "pollResult" : {
-      "question" : "What is your favourite vegetable?", 
-      "choices": [
-        {"text": "Lettuce", "votes": 1625},
-        {"text": "Eggplants", "votes": 3025},
-        {"text": "kangkung", "votes": 2075}
-      ]
-    }
+   "prompt" : "Given the following emotions: happy, sad, amazed, disappointed, confusion, joy. Infer whether these people are democrats or republicans. \n\n\n \n\nPerson A: Why did you pickle the eggplant?\nPerson B: The cucumbers were not ready yet. \nPerson A: What do you think I'm waiting for?\nPerson A: Why did the person then create it in 5 jars? \nPerson B: "
   }
 }

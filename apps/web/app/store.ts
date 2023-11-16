@@ -8,6 +8,7 @@ import type {
   PollResult,
   HeadlinePrompt,
   Headline,
+  ChatMessage,
 } from "pickle-types";
 
 // Create your SyncedStore store
@@ -16,6 +17,7 @@ export const store = syncedStore<{
   pollResults: PollResult[];
   headlines: Headline[];
   headlinePrompts: HeadlinePrompt[];
+  chat: ChatMessage[];
   room: Partial<Room>;
 }>({
   room: {},
@@ -23,6 +25,7 @@ export const store = syncedStore<{
   pollResults: [],
   headlines: [],
   headlinePrompts: [],
+  chat: [],
 });
 
 // Create a document that syncs automatically using Y-websocket

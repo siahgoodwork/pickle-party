@@ -7,6 +7,7 @@ import Pollmaker from "./polls";
 import PollResults from "./poll-results";
 import Headlines from "./headlines";
 import HeadlinePrompts from "./headline-prompts";
+import { ChatAdmin } from "./chat-admin";
 
 const tabClass = cls(
   "ui-selected:text-white ui-selected:bg-black rounded px-2 py-1 ui-not-selected:bg-[transparent] ui-not-selected:text-black"
@@ -27,7 +28,7 @@ export default function Page(): JSX.Element {
       <img
         src="/pickle.gif"
         alt="Pickle gif"
-        className="w-[50px] h-[50px] rounded-full overflow-hidden block object-contain absolute top-2 right-2"
+        className="w-[30px] h-[30px] rounded-full overflow-hidden block object-contain absolute top-2 right-2"
       />
       <Tab.Group>
         <Tab.List className="flex items-center p-1 border-b-2 space-x-1 border-b-black">
@@ -39,6 +40,7 @@ export default function Page(): JSX.Element {
             {" "}
           </b>
           <Tab className={tabClass}>Polls</Tab>
+          <Tab className={tabClass}>Chat</Tab>
           <Tab className={tabClass}>Headline Prompts</Tab>
           <Tab className={tabClass}>Headlines</Tab>
           <Tab className={tabClass}>Results</Tab>
@@ -47,6 +49,10 @@ export default function Page(): JSX.Element {
 
         <Tab.Panel>
           <Pollmaker />
+        </Tab.Panel>
+
+        <Tab.Panel>
+          <ChatAdmin />
         </Tab.Panel>
 
         <Tab.Panel>

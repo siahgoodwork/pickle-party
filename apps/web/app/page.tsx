@@ -2,6 +2,7 @@
 import { useSyncedStore } from "@syncedstore/react";
 import { useMemo, useState } from "react";
 import Marquee from "react-double-marquee";
+import Chat from "./chat";
 import { store } from "./store";
 
 // Get the Yjs document and sync automatically using y-webrtc
@@ -68,10 +69,10 @@ export default function Page(): JSX.Element {
           </button>
         </div>
       ) : (
-        <div className="p-4 grid-cols-4 grid gap-4 grid-rows-4">
-          <div className="col-span-3 aspect-[16/9] row-span-4">
+        <div className="p-4 grid-cols-4 grid gap-2 grid-rows-4 h-[calc(100vh_-_50px)]">
+          <div className="col-span-3 row-span-4">
             <iframe
-              className="w-full h-full"
+              className="w-full h-full bg-black"
               src="https://www.youtube.com/embed/f_7QbCTkTOI"
               title="YouTube video player"
             />
@@ -140,8 +141,8 @@ export default function Page(): JSX.Element {
               <div>No poll</div>
             )}
           </div>
-          <div className="p-2 border border-black row-span-2">
-            Chat goes here
+          <div className="border border-black rounded row-span-2">
+            <Chat userId={userId} />
           </div>
         </div>
       )}

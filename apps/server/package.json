@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon src/index.ts",
     "build": "tsc",
-    "ywebsocket": "y-websocket"
+    "ywebsocket": "PORT=9999 y-websocket"
   },
   "keywords": [],
   "author": "",
