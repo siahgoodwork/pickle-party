@@ -1,4 +1,4 @@
-import type { Poll } from "pickle-types";
+import type { Poll, WherePoll } from "pickle-types";
 import { useState } from "react";
 import classNames from "classnames";
 import { useSyncedStore } from "@syncedstore/react";
@@ -6,6 +6,19 @@ import { nanoid } from "nanoid";
 import { store } from "../store";
 
 const btnCls = classNames(`w-10 h-10 border bg-white`);
+
+const wherePoll: WherePoll = {
+  id: "where-poll",
+  choices: [
+    { id: "where-asia", text: "asia" },
+    { id: "where-na", text: "north america" },
+    { id: "where-sa", text: "south america" },
+    { id: "where-africa", text: "africa" },
+    { id: "where-europe", text: "europe" },
+    { id: "where-oceania", text: "oceania" },
+  ],
+  question: "Where from the world do you come from?",
+};
 
 export default function Pollmaker(): JSX.Element {
   const { polls, room } = useSyncedStore(store);
@@ -148,74 +161,105 @@ export default function Pollmaker(): JSX.Element {
         </div>
       </div>
 
-      <div className="p-2">
-        <h3>Current Polls ({polls.length})</h3>
+      <div className="flex flex-col gap-4">
+        <div className="p-2">
+          <h3 className="font-bold">Poll Layout</h3>
+          <button
+            type="button"
+            onClick={() => {
+              room.pollLayout = "A";
+            }}
+            className={`${
+              room.pollLayout === "A"
+                ? "bg-pickle-green text-pickle-beige"
+                : "bg-[transparent] text-black"
+            }`}
+          >
+            Right
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              room.pollLayout = "B";
+            }}
+            className={`${
+              room.pollLayout === "B"
+                ? "bg-pickle-green text-pickle-beige"
+                : "bg-[transparent] text-black"
+            }`}
+          >
+            Bottom
+          </button>
+        </div>
+        <div className="p-2">
+          <h3 className="font-bold">Current Polls ({polls.length})</h3>
 
-        {polls.map((poll, n) => {
-          return (
-            <div
-              key={poll.id}
-              className={classNames(
-                "p-2 border-t border-black",
-                room.activePoll === poll.id
-                  ? "bg-white"
-                  : pollInput.id === poll.id
-                  ? "bg-yellow-100"
-                  : ""
-              )}
-            >
-              <div className="flex items-center gap-2">
-                {poll.question}
-                {poll.id !== room.activePoll && (
-                  <div className="flex gap-2">
-                    <button
-                      type="button"
-                      disabled={room.activePoll === poll.id}
-                      className="text-sm"
-                      onClick={() => {
-                        setPollInput({
-                          ...poll,
-                          choices: poll.choices.map((c) => ({ ...c })),
-                        });
-                      }}
-                    >
-                      edit
-                    </button>
-                    <button
-                      type="button"
-                      className="text-sm"
-                      disabled={room.activePoll === poll.id}
-                      onClick={() => {
-                        polls.splice(n, 1);
-                      }}
-                    >
-                      del
-                    </button>
-                  </div>
+          {[...polls, wherePoll].map((poll: Poll, n) => {
+            return (
+              <div
+                key={poll.id}
+                className={classNames(
+                  "p-2 border-t border-black",
+                  room.activePoll === poll.id
+                    ? "bg-white"
+                    : pollInput.id === poll.id
+                    ? "bg-yellow-100"
+                    : ""
                 )}
-                <button
-                  onClick={() => {
-                    room.activePoll =
-                      room.activePoll === poll.id ? "" : poll.id;
-                  }}
-                  type="button"
-                  className="text-sm"
-                >
-                  {room.activePoll === poll.id
-                    ? "Disable Active"
-                    : "Set Active"}
-                </button>
+              >
+                <div className="flex items-center gap-2">
+                  {poll.question}
+                  {poll.id !== room.activePoll && (
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        disabled={room.activePoll === poll.id}
+                        className="text-sm"
+                        onClick={() => {
+                          setPollInput({
+                            ...poll,
+                            choices: poll.choices.map((c) => ({ ...c })),
+                          });
+                        }}
+                      >
+                        edit
+                      </button>
+                      <button
+                        type="button"
+                        className="text-sm"
+                        disabled={room.activePoll === poll.id}
+                        onClick={() => {
+                          polls.splice(n, 1);
+                        }}
+                      >
+                        del
+                      </button>
+                    </div>
+                  )}
+                  <button
+                    onClick={() => {
+                      room.activePoll =
+                        room.activePoll === poll.id ? "" : poll.id;
+                    }}
+                    type="button"
+                    className="text-sm"
+                  >
+                    {room.activePoll === poll.id
+                      ? "Disable Active"
+                      : "Set Active"}
+                  </button>
+                </div>
+                <div>
+                  <ul className="list-disc list-inside">
+                    {poll.choices.map((choice) => {
+                      return <li key={choice.id}>{choice.text}</li>;
+                    })}
+                  </ul>
+                </div>
               </div>
-              <div>
-                <ul className="list-disc list-inside">
-                  {poll.choices.map((choice) => {
-                    return <li key={choice.id}>{choice.text}</li>;
-                  })}
-                </ul>
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </div>
   );

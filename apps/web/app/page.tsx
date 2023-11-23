@@ -115,18 +115,18 @@ export default function Page(): JSX.Element {
             } row-span-4`}
             id="video-frame"
           >
-            <iframe
-              className="w-full h-full bg-black"
-              src="https://www.youtube.com/embed/f_7QbCTkTOI"
-              title="YouTube video player"
-            />
+            <div className="flex items-center w-full h-full p-2 bg-pickle-green">
+              <div className="flex items-center justify-center w-full h-auto border aspect-video text-pickle-beige border-pickle-beige">
+                live video here
+              </div>
+            </div>
           </div>
 
-          {state.room.chatOn && (
+          {state.room.chatOn ? (
             <div className="border border-black rounded row-span-4">
               <Chat userId={userId} />
             </div>
-          )}
+          ) : null}
         </div>
       )}
 
@@ -136,7 +136,7 @@ export default function Page(): JSX.Element {
             <h1 className="text-lg font-bold text-center text-pickle-purple">
               Disconnected
             </h1>
-            <p>Automatically reconnecting...</p>
+            <p>Connecting...</p>
           </div>
         </div>
       )}

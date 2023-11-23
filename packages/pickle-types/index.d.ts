@@ -1,12 +1,19 @@
 import { JSONValue } from "@syncedstore/core";
 interface Room {
   activePoll: string;
+  pollLayout: "A" | "B" | "C";
   chatOn: boolean;
   chatBanned: string[];
 }
 
 interface Poll {
   id: string;
+  question: string;
+  choices: PollChoice[];
+}
+
+interface WherePoll extends Poll {
+  id: "where-poll";
   question: string;
   choices: PollChoice[];
 }
@@ -45,4 +52,12 @@ interface ChatMessage {
   admin?: boolean;
 }
 
-export type { Room, Poll, PollResult, HeadlinePrompt, Headline, ChatMessage };
+export type {
+  Room,
+  WherePoll,
+  Poll,
+  PollResult,
+  HeadlinePrompt,
+  Headline,
+  ChatMessage,
+};

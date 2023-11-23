@@ -1,29 +1,50 @@
 import { syncedStore, getYjsDoc } from "@syncedstore/core";
 import { WebsocketProvider } from "y-websocket";
 import express from "express";
-import { Room } from "pickle-types";
-import { Y } from "@syncedstore/core";
-import { Poll } from "pickle-types";
+import {
+  Room,
+  Poll,
+  PollResult,
+  Headline,
+  HeadlinePrompt,
+  ChatMessage,
+} from "pickle-types";
+import { config } from "dotenv";
+
+config();
+
+const store = syncedStore<{
+  polls: Poll[];
+  pollResults: PollResult[];
+  headlines: Headline[];
+  headlinePrompts: HeadlinePrompt[];
+  chat: ChatMessage[];
+  room: Partial<Room>;
+}>({
+  room: {},
+  polls: [],
+  pollResults: [],
+  headlines: [],
+  headlinePrompts: [],
+  chat: [],
+});
 
 import bodyParser from "body-parser";
+
 import {
   chatCategoriseConversation,
   chatGeneralPrompt,
   chatGenerateHeadlineFromPoll,
   chatImaginePickle,
 } from "./openai";
-
-export const store = syncedStore<{
-  room: Partial<Room>;
-}>({ room: {} });
+import { YArray } from "yjs/dist/src/internals";
 
 const doc = getYjsDoc(store);
-
-// Start a y-websocket server, e.g.: HOST=localhost PORT=1234 npx y-websocket-server
+const roomName = "pickle1";
 
 const wsProvider = new WebsocketProvider(
-  "wss://pickle-yjs-websocket.goodwork.run",
-  "my-roomname",
+  process.env.YWEBSOCKET_HOST || "",
+  roomName,
   doc,
   {
     WebSocketPolyfill: require("ws"),
@@ -34,15 +55,7 @@ wsProvider.on("status", (event: any) => {
   console.log(event);
 });
 
-wsProvider.on("sync", (synced: boolean) => {
-  console.log(synced);
-  const polls = doc.get("polls") as Y.Array<Poll>;
-});
-
-doc.on("update", () => {
-  const a = doc.getArray<{ color: string; brand: string }>("vehicles");
-  console.log(a.toJSON());
-});
+wsProvider.on("sync", (synced: boolean) => {});
 
 const app = express();
 
@@ -51,5 +64,17 @@ app.use(bodyParser.json());
 app.post("/chat/categorise-conversation", chatCategoriseConversation);
 app.post("/chat/imagine-pickle", chatImaginePickle);
 app.post("/chat/headline", chatGenerateHeadlineFromPoll);
+
+app.get("/room", (_req, res) => {
+  const room = doc.getMap("room");
+  res.json({ room });
+});
+
+app.get("/room/unban-all", (_req, res) => {
+  const room = doc.getMap("room");
+  const banned = room.get("chatBanned") as YArray<string>;
+  banned.delete(0, banned.length);
+  res.json({ room });
+});
 
 app.listen(process.env.PORT || 4000);
