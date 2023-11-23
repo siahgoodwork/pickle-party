@@ -36,7 +36,7 @@ doc.gc = true;
 
 const websocketProvider = new WebsocketProvider(
   process.env.NEXT_PUBLIC_YWEBSOCK_HOST || "ws://localhost:1234",
-  "my-roomname",
+  "pickle1",
   doc
 );
 

@@ -5,16 +5,37 @@ import { nanoid } from "nanoid";
 import type { ReactElement } from "react";
 import { useState, useCallback, useEffect } from "react";
 import type { ChatMessage } from "pickle-types";
-import { store } from "./store";
+import { store, websocketProvider } from "./store";
+import type { UserPresence } from "./page";
 
 export default function Page({ userId }: { userId: string }): ReactElement {
   const [chatInput, setChatInput] = useState("");
   const { chat, room } = useSyncedStore(store);
+  const [userPresences, setUserPresences] = useState<UserPresence[]>([]);
   const _chat = [...chat].filter((c) =>
     room.chatBanned === undefined
       ? true
       : !room.chatBanned.includes(c.sender) || c.sender === userId
   );
+
+  useEffect(() => {
+    const awareness = websocketProvider.awareness;
+    const handleChange = function (): void {
+      const users = Array.from(awareness.getStates().values()).filter(
+        (a: UserPresence) =>
+          a.user !== undefined && typeof a.user.name === "string"
+      );
+      setUserPresences(users);
+    };
+
+    awareness.on("change", handleChange);
+
+    handleChange();
+
+    return () => {
+      awareness.off("change", handleChange);
+    };
+  }, []);
 
   useEffect(() => {
     const messageDiv = document.getElementById("chatMessages");
@@ -58,7 +79,7 @@ export default function Page({ userId }: { userId: string }): ReactElement {
       {room.chatOn === true ? (
         <div className="h-full">
           <h1 className="p-2 text-xs text-white uppercase bg-black">
-            Pickle Messenger
+            Pickle Messenger ({userPresences.length} online)
           </h1>
           <div id="chat" className="flex flex-col-reverse">
             <div className="flex flex-shrink-0 w-full p-1 border-t border-black height-24 gap-2">
@@ -98,7 +119,7 @@ export default function Page({ userId }: { userId: string }): ReactElement {
             </div>
 
             <div
-              className="h-[calc(50vh_-_125px)] px-2 py-4 overflow-scroll messages no-scroll"
+              className="h-[calc(100vh_-_160px)] px-2 py-4 overflow-scroll messages no-scroll bg-white"
               key="chat-message"
               id="chatMessages"
             >
@@ -111,10 +132,17 @@ export default function Page({ userId }: { userId: string }): ReactElement {
                 .map((msg, n, chatArr) => (
                   <div
                     key={msg.id}
-                    className="flex flex-col items-start mt-1 md:mt-2 md:flex-row message gap-1 md:gap-4"
+                    className={`flex flex-col items-start md:flex-row message gap-1 md:gap-2
+											${
+                        (chatArr[n - 1] as ChatMessage | undefined) !==
+                          undefined && chatArr[n - 1].sender === msg.sender
+                          ? "mt-1"
+                          : "mt-4"
+                      }
+											`}
                   >
                     <label
-                      className={`p-1 text-sm pointer-events-none sender ${
+                      className={`p-1 text-sm pointer-events-none sender flex-shrink-0 w-[5em] truncate text-black/50 ${
                         (chatArr[n - 1] as ChatMessage | undefined) !==
                           undefined && chatArr[n - 1].sender === msg.sender
                           ? "opacity-0 md:h-auto h-[0] md:overflow-hidden"
@@ -124,8 +152,10 @@ export default function Page({ userId }: { userId: string }): ReactElement {
                       {msg.sender}
                     </label>
                     <span
-                      className={`flex-grow p-1 px-2 rounded ${
-                        msg.sender === userId ? "bg-yellow-50" : "bg-white"
+                      className={`flex-grow p-1 px-2 border-pickle-green/20 border rounded ${
+                        msg.sender === userId
+                          ? "bg-pickle-beige/50"
+                          : "bg-pickle-beige/10"
                       }`}
                     >
                       {msg.message}

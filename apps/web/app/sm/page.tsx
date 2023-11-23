@@ -23,6 +23,7 @@ export default function Page(): JSX.Element {
       clearInterval(id);
     };
   }, []);
+
   return (
     <main>
       <img
