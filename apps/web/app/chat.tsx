@@ -46,13 +46,25 @@ export default function Page({ userId }: { userId: string }): ReactElement {
     const msgHeight = messageDiv.offsetHeight;
     const msgScrollHeight = messageDiv.scrollHeight;
 
-    if (Math.abs(msgScrollHeight - (msgScrollY + msgHeight)) < 50) {
+    if (Math.abs(msgScrollHeight - (msgScrollY + msgHeight)) < msgHeight) {
       messageDiv.scrollTo({
         top: messageDiv.scrollHeight,
         behavior: "smooth",
       });
     }
   }, [chat, chat.length]);
+
+  useEffect(() => {
+    const messageDiv = document.getElementById("chatMessages");
+    if (messageDiv === null) {
+      return;
+    }
+
+    messageDiv.scrollTo({
+      top: messageDiv.scrollHeight,
+      behavior: "smooth",
+    });
+  }, []);
 
   const sendMessage = useCallback(
     (msg: ChatMessage) => {
@@ -86,7 +98,7 @@ export default function Page({ userId }: { userId: string }): ReactElement {
               <input
                 type="text"
                 value={chatInput}
-                className="flex-grow min-w-0"
+                className="flex-grow min-w-0 px-2"
                 onKeyUp={(e) => {
                   if (e.key === "Enter") {
                     sendMessage({

@@ -51,7 +51,7 @@ export function ChatAdmin(): JSX.Element {
     <div>
       <div className="grid grid-cols-3 gap-4">
         <div className="p-2 col-span-2">
-          <div className="flex items-center mb-2 gap-4">
+          <div className="flex items-center mb-2 gap-2">
             Chatbox:
             <button
               type="button"
@@ -68,6 +68,37 @@ export function ChatAdmin(): JSX.Element {
               }}
             >
               Clear messages
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                const text = _chat
+                  .sort(
+                    (a, b) =>
+                      new Date(a.timestamp).getTime() -
+                      new Date(b.timestamp).getTime()
+                  )
+                  .map((c) => `${c.timestamp} - ${c.sender} : ${c.message}\r\n`)
+                  .join("");
+                const element = document.createElement("a");
+                element.setAttribute(
+                  "href",
+                  `data:text/plain;charset=utf-8,${encodeURIComponent(text)}`
+                );
+                element.setAttribute(
+                  "download",
+                  `chat-${new Date().toISOString()}.txt`
+                );
+
+                element.style.display = "none";
+                document.body.appendChild(element);
+
+                element.click();
+
+                document.body.removeChild(element);
+              }}
+            >
+              Download chat
             </button>
           </div>
           <hr />
@@ -189,8 +220,8 @@ export function ChatAdmin(): JSX.Element {
                   new Date(a.timestamp).getTime() -
                   new Date(b.timestamp).getTime()
               )
-              .map((c) => `${c.timestamp} - ${c.sender} : ${c.message}`)
-              .join("  ");
+              .map((c) => `${c.timestamp} - ${c.sender} : ${c.message}\r\n`)
+              .join("");
 
             try {
               const req = await fetch("/api/categorise-conversation", {
@@ -246,7 +277,7 @@ export function ChatAdmin(): JSX.Element {
               className="[&>ul]:list-disc [&>ul]:list-inside"
               dangerouslySetInnerHTML={{ __html: categoriseResult.content }}
             />
-            <hr className="bg-none border-t border-black my-8" />
+            <hr className="my-8 border-t border-black bg-none" />
             <button
               type="button"
               onClick={async () => {
