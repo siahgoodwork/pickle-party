@@ -13,16 +13,16 @@ import type {
 
 // Create your SyncedStore store
 export const store = syncedStore<{
-  polls: Poll[];
-  pollResults: PollResult[];
+  polls: Record<string, Poll>;
+  pollResults: Record<string, PollResult>;
   headlines: Headline[];
   headlinePrompts: HeadlinePrompt[];
   chat: ChatMessage[];
   room: Partial<Room>;
 }>({
   room: {},
-  polls: [],
-  pollResults: [],
+  polls: {},
+  pollResults: {},
   headlines: [],
   headlinePrompts: [],
   chat: [],

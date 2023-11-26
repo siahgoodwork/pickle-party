@@ -11,24 +11,6 @@ import {
 } from "pickle-types";
 import { config } from "dotenv";
 
-config();
-
-const store = syncedStore<{
-  polls: Poll[];
-  pollResults: PollResult[];
-  headlines: Headline[];
-  headlinePrompts: HeadlinePrompt[];
-  chat: ChatMessage[];
-  room: Partial<Room>;
-}>({
-  room: {},
-  polls: [],
-  pollResults: [],
-  headlines: [],
-  headlinePrompts: [],
-  chat: [],
-});
-
 import bodyParser from "body-parser";
 
 import {
@@ -38,6 +20,24 @@ import {
   chatImaginePickle,
 } from "./openai";
 import { YArray } from "yjs/dist/src/internals";
+
+config();
+
+const store = syncedStore<{
+  polls: Record<string, Poll>;
+  pollResults: Record<string, PollResult>;
+  headlines: Headline[];
+  headlinePrompts: HeadlinePrompt[];
+  chat: ChatMessage[];
+  room: Partial<Room>;
+}>({
+  room: {},
+  polls: {},
+  pollResults: {},
+  headlines: [],
+  headlinePrompts: [],
+  chat: [],
+});
 
 const doc = getYjsDoc(store);
 const roomName = "pickle1";
@@ -67,7 +67,9 @@ app.post("/chat/headline", chatGenerateHeadlineFromPoll);
 
 app.get("/room", (_req, res) => {
   const room = doc.getMap("room");
-  res.json({ room });
+  const polls = doc.getMap("polls");
+  const pollResults = doc.getMap("pollResults");
+  res.json({ room, polls, pollResults });
 });
 
 app.get("/room/unban-all", (_req, res) => {

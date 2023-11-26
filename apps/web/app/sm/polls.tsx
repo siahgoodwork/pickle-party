@@ -7,7 +7,7 @@ import { store } from "../store";
 
 const btnCls = classNames(`w-10 h-10 border bg-white`);
 
-const wherePoll: WherePoll = {
+export const wherePoll: WherePoll = {
   id: "where-poll",
   choices: [
     { id: "where-asia", text: "asia" },
@@ -17,7 +17,7 @@ const wherePoll: WherePoll = {
     { id: "where-europe", text: "europe" },
     { id: "where-oceania", text: "oceania" },
   ],
-  question: "Where from the world do you come from?",
+  question: "Which part of the world do you come from?",
 };
 
 export default function Pollmaker(): JSX.Element {
@@ -140,13 +140,11 @@ export default function Pollmaker(): JSX.Element {
                 //create new poll
                 const newId = nanoid();
                 const newPoll: Poll = { ...pollInput, id: newId };
-                polls.push(newPoll);
+                polls[newId] = newPoll;
               } else {
                 // update the poll
-                const pollIndex = polls.findIndex((p) => p.id === pollInput.id);
-                if (pollIndex > -1) {
-                  polls.splice(pollIndex, 1, pollInput);
-                }
+
+                polls[pollInput.id] = pollInput;
               }
 
               setPollInput(() => ({
@@ -192,9 +190,17 @@ export default function Pollmaker(): JSX.Element {
           </button>
         </div>
         <div className="p-2">
-          <h3 className="font-bold">Current Polls ({polls.length})</h3>
+          <h3 className="font-bold">
+            Current Polls ({Object.keys(polls).length + 1})
+          </h3>
 
-          {[...polls, wherePoll].map((poll: Poll, n) => {
+          {[...Object.keys(polls), "wherePoll"].map((pollId: string) => {
+            const poll = pollId === "wherePoll" ? wherePoll : polls[pollId];
+
+            if (poll === undefined) {
+              return false;
+            }
+
             return (
               <div
                 key={poll.id}
@@ -213,7 +219,10 @@ export default function Pollmaker(): JSX.Element {
                     <div className="flex gap-2">
                       <button
                         type="button"
-                        disabled={room.activePoll === poll.id}
+                        disabled={
+                          room.activePoll === poll.id ||
+                          poll.id === "where-poll"
+                        }
                         className="text-sm"
                         onClick={() => {
                           setPollInput({
@@ -227,9 +236,13 @@ export default function Pollmaker(): JSX.Element {
                       <button
                         type="button"
                         className="text-sm"
-                        disabled={room.activePoll === poll.id}
+                        disabled={
+                          room.activePoll === poll.id ||
+                          poll.id === "where-poll"
+                        }
                         onClick={() => {
-                          polls.splice(n, 1);
+                          // eslint-disable-next-line @typescript-eslint/no-dynamic-delete -- this poll will definitely exist
+                          delete polls[poll.id];
                         }}
                       >
                         del

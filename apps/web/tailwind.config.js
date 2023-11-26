@@ -1,7 +1,17 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./app/**/*.{html,js,ts,tsx,jsx}"],
-  safelist: ["mt-1", "mt-2", "col-span-3", "col-span-4"],
+  safelist: [
+    "mt-1",
+    "mt-2",
+    "col-span-3",
+    "col-span-4",
+    "flex",
+    "flex-col",
+    "flex-row",
+    "flex-wrap",
+    "flex-nowrap",
+  ],
   theme: {
     extend: {
       colors: {

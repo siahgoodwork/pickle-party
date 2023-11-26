@@ -3,6 +3,7 @@ import { nanoid } from "nanoid";
 import type { HeadlinePrompt, PollResult } from "pickle-types";
 import { useState } from "react";
 import { store } from "../store";
+import { wherePoll } from "./polls";
 
 interface ChatResponse {
   ok: boolean;
@@ -35,11 +36,13 @@ export default function Page(): React.ReactElement {
           }
         >
           <option value=""> </option>
-          {state.headlinePrompts.map((hpr) => (
-            <option key={hpr.id} value={hpr.id}>
-              {state.headlinePrompts.find((p) => p.id === hpr.id)?.prompt}
-            </option>
-          ))}
+          {state.headlinePrompts.map((hpr) => {
+            return (
+              <option key={hpr.id} value={hpr.id}>
+                {state.headlinePrompts.find((p) => p.id === hpr.id)?.prompt}
+              </option>
+            );
+          })}
         </select>
         {state.headlinePrompts.findIndex(
           (p) => p.id === selectedHeadlinePrompt?.id
@@ -57,9 +60,7 @@ export default function Page(): React.ReactElement {
       <div className="p-2">
         <select
           onChange={(e) => {
-            setSelectedPollResult(
-              state.pollResults.find((p) => p.id === e.target.value)
-            );
+            setSelectedPollResult(state.pollResults[e.target.value]);
           }}
           className="p-2 bg-white border border-black"
           value={
@@ -67,30 +68,56 @@ export default function Page(): React.ReactElement {
           }
         >
           <option value=""> </option>
-          {state.pollResults.map((result) => (
-            <option key={result.id} value={result.id}>
-              {state.polls.find((p) => p.id === result.id)?.question}
-            </option>
-          ))}
+          {Object.values(state.pollResults).map((result) => {
+            if (result === undefined) {
+              return false;
+            }
+
+            const id = result.id;
+            const pollQuestion =
+              id === "where-poll"
+                ? wherePoll.question
+                : state.polls[id]?.question;
+
+            if (pollQuestion === undefined) {
+              return false;
+            }
+
+            return (
+              <option key={id} value={id}>
+                {pollQuestion}
+              </option>
+            );
+          })}
         </select>
-        {state.polls.findIndex((p) => p.id === selectedPollResult?.id) > -1 ? (
-          <div className="mt-8">
-            {state.polls
-              .find((p) => p.id === selectedPollResult?.id)
-              ?.choices.map((choice) => {
-                return (
-                  <div key={choice.id}>
-                    {choice.text} -{" "}
-                    {
-                      state.pollResults
-                        .find((p) => p.id === selectedPollResult?.id)
-                        ?.choices.find((c) => c.id === choice.id)?.voters.length
-                    }
-                  </div>
-                );
-              })}
+        {selectedPollResult === undefined ? (
+          false
+        ) : selectedPollResult.id === "where-poll" ? (
+          <div>
+            {Object.values(selectedPollResult.choices).map((choice) => (
+              <div key={choice.id}>
+                {choice.id} - {choice.voters.length}
+              </div>
+            ))}
           </div>
-        ) : null}
+        ) : state.polls[selectedPollResult.id || ""] ? (
+          <div className="mt-8">
+            {state.polls[selectedPollResult.id]?.choices.map((choice) => {
+              return (
+                <div key={choice.id}>
+                  {choice.text} -{" "}
+                  {/*
+											state.pollResults[selectedPollResult?.id]?.choices[
+											choice.id
+											]?.voters.length
+											*/}
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          false
+        )}
       </div>
       <div className="text-center col-span-2">
         <button
@@ -112,9 +139,7 @@ export default function Page(): React.ReactElement {
                 return;
               }
 
-              const _poll = state.polls.find(
-                (p) => p.id === selectedPollResult.id
-              );
+              const _poll = state.polls[selectedPollResult.id];
 
               if (_poll === undefined) {
                 return;
@@ -130,9 +155,9 @@ export default function Page(): React.ReactElement {
                   pollResult: {
                     question: _poll.question,
                     choices: _poll.choices.map((c) => ({
-                      votes: selectedPollResult.choices.find(
-                        (_c) => c.id === _c.id
-                      )?.voters.length,
+                      votes:
+                        _poll.choices.find((_c) => _c.id === c.id)?.voters
+                          .length || 0,
                       text: c.text,
                     })),
                   },

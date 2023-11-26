@@ -27,7 +27,7 @@ interface PollChoice {
 
 interface PollResult {
   id: string;
-  choices: PollChoiceResult[];
+  choices: Record<string, PollChoiceResult>;
 }
 
 interface PollChoiceResult {
