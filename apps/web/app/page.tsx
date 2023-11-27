@@ -108,13 +108,28 @@ export default function Page(): JSX.Element {
           </div>
 
           {state.room.chatOn ? (
-            <div className="border border-black rounded row-span-2">
-              <Chat userId={userId} />
+            <div
+              className={`border border-black rounded ${
+                state.room.gifSearchOn ? "row-span-2" : "row-span-4"
+              }`}
+            >
+              <Chat
+                userId={userId}
+                key={`chat_${
+                  state.room.gifSearchOn ? "with_chat" : "without_chat"
+                }`}
+              />
             </div>
-          ) : null}
-          <div className="border border-black rounded row-span-2">
-            <GifSearcher userId={userId} />
-          </div>
+          ) : (
+            false
+          )}
+          {state.room.gifSearchOn ? (
+            <div className="border border-black rounded row-span-2">
+              <GifSearcher userId={userId} />
+            </div>
+          ) : (
+            false
+          )}
         </div>
       )}
 

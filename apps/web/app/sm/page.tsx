@@ -8,6 +8,7 @@ import PollResults from "./poll-results";
 import Headlines from "./headlines";
 import HeadlinePrompts from "./headline-prompts";
 import { ChatAdmin } from "./chat-admin";
+import Gifs from "./gifs";
 
 const tabClass = cls(
   "ui-selected:text-white ui-selected:bg-black rounded px-2 py-1 ui-not-selected:bg-[transparent] ui-not-selected:text-black"
@@ -41,15 +42,19 @@ export default function Page(): JSX.Element {
             {" "}
           </b>
           <Tab className={tabClass}>Polls</Tab>
+          <Tab className={tabClass}>Poll Results</Tab>
           <Tab className={tabClass}>Chat</Tab>
           <Tab className={tabClass}>Headline Prompts</Tab>
           <Tab className={tabClass}>Headlines</Tab>
-          <Tab className={tabClass}>Results</Tab>
-          <Tab className={tabClass}>Stage</Tab>
+          <Tab className={tabClass}>GIFs</Tab>
         </Tab.List>
 
         <Tab.Panel>
           <Pollmaker />
+        </Tab.Panel>
+
+        <Tab.Panel>
+          <PollResults />
         </Tab.Panel>
 
         <Tab.Panel>
@@ -65,7 +70,7 @@ export default function Page(): JSX.Element {
         </Tab.Panel>
 
         <Tab.Panel>
-          <PollResults />
+          <Gifs />
         </Tab.Panel>
       </Tab.Group>
     </main>

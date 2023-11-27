@@ -9,6 +9,7 @@ import {
   HeadlinePrompt,
   ChatMessage,
   GifSubmission,
+  GifFeedItem,
 } from "pickle-types";
 import { config } from "dotenv";
 
@@ -32,6 +33,7 @@ const store = syncedStore<{
   chat: ChatMessage[];
   room: Partial<Room>;
   gifSubmissions: GifSubmission[];
+  gifFeedItems: GifFeedItem[];
 }>({
   room: {},
   polls: {},
@@ -40,6 +42,7 @@ const store = syncedStore<{
   headlinePrompts: [],
   chat: [],
   gifSubmissions: [],
+  gifFeedItems: [],
 });
 
 const doc = getYjsDoc(store);

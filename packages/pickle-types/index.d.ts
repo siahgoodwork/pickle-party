@@ -60,6 +60,11 @@ interface GifSubmission {
   sender: string;
 }
 
+interface GifFeedItem {
+  url: string;
+  sender: string;
+}
+
 export type {
   Room,
   WherePoll,
@@ -69,4 +74,5 @@ export type {
   Headline,
   ChatMessage,
   GifSubmission,
+  GifFeedItem,
 };
