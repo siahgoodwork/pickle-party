@@ -180,32 +180,91 @@ export default function Pollmaker(): JSX.Element {
       <div className="flex flex-col gap-4">
         <div className="p-2">
           <h3 className="font-bold">Poll Layout</h3>
-          <button
-            type="button"
-            onClick={() => {
-              room.pollLayout = "A";
-            }}
-            className={`${
-              room.pollLayout === "A"
-                ? "bg-pickle-green text-pickle-beige"
-                : "bg-[transparent] text-black"
-            }`}
-          >
-            Right
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              room.pollLayout = "B";
-            }}
-            className={`${
-              room.pollLayout === "B"
-                ? "bg-pickle-green text-pickle-beige"
-                : "bg-[transparent] text-black"
-            }`}
-          >
-            Bottom
-          </button>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                room.pollLayout = "A";
+              }}
+              className={`${
+                room.pollLayout === "A"
+                  ? "bg-pickle-green text-pickle-beige"
+                  : "bg-[transparent] text-black"
+              }`}
+            >
+              Right
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                room.pollLayout = "B";
+              }}
+              className={`${
+                room.pollLayout === "B"
+                  ? "bg-pickle-green text-pickle-beige"
+                  : "bg-[transparent] text-black"
+              }`}
+            >
+              Bottom
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                room.pollLayout = "C";
+              }}
+              className={`${
+                room.pollLayout === "C"
+                  ? "bg-pickle-green text-pickle-beige"
+                  : "bg-[transparent] text-black"
+              }`}
+            >
+              Top Right Quarter
+            </button>
+          </div>
+        </div>
+        <div className="p-2">
+          <h3 className="font-bold">Poll Trivia Layout</h3>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                room.pollTriviaLayout = "A";
+              }}
+              className={`${
+                room.pollTriviaLayout === "A"
+                  ? "bg-pickle-green text-pickle-beige"
+                  : "bg-[transparent] text-black"
+              }`}
+            >
+              Right
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                room.pollTriviaLayout = "B";
+              }}
+              className={`${
+                room.pollTriviaLayout === "B"
+                  ? "bg-pickle-green text-pickle-beige"
+                  : "bg-[transparent] text-black"
+              }`}
+            >
+              Bottom
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                room.pollTriviaLayout = "C";
+              }}
+              className={`${
+                room.pollTriviaLayout === "C"
+                  ? "bg-pickle-green text-pickle-beige"
+                  : "bg-[transparent] text-black"
+              }`}
+            >
+              Top Right Quarter
+            </button>
+          </div>
         </div>
         <div className="p-2">
           <h3 className="font-bold">

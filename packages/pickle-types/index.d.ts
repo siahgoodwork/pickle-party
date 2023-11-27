@@ -5,6 +5,7 @@ interface Room {
   activePollTrivia: string;
   pollLayout: "A" | "B" | "C";
   pollResultLayout: "A" | "B" | "C";
+  pollTriviaLayout: "A" | "B" | "C";
   chatOn: boolean;
   chatBanned: string[];
   gifSearchOn: boolean;
