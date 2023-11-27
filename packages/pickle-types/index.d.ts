@@ -2,6 +2,7 @@ import { JSONValue } from "@syncedstore/core";
 interface Room {
   activePoll: string;
   activePollResult: string;
+  activeTrivia: string;
   pollLayout: "A" | "B" | "C";
   pollResultLayout: "A" | "B" | "C";
   chatOn: boolean;
@@ -13,12 +14,14 @@ interface Poll {
   id: string;
   question: string;
   choices: PollChoice[];
+  trivia: string;
 }
 
 interface WherePoll extends Poll {
   id: "where-poll";
   question: string;
   choices: PollChoice[];
+  trivia: string;
 }
 
 interface PollChoice {

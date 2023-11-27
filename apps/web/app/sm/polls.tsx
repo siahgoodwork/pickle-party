@@ -18,6 +18,7 @@ export const wherePoll: WherePoll = {
     { id: "where-oceania", text: "oceania" },
   ],
   question: "Which part of the world do you come from?",
+  trivia: "",
 };
 
 export default function Pollmaker(): JSX.Element {
@@ -26,6 +27,7 @@ export default function Pollmaker(): JSX.Element {
     id: "",
     question: "",
     choices: [],
+    trivia: "",
   });
 
   return (
@@ -118,7 +120,7 @@ export default function Pollmaker(): JSX.Element {
                 &times;
               </button>
               <textarea
-                className="h-[6em] block w-[20em] p-2 resize-none"
+                className="h-[3em] block flex-grow p-2 resize-none"
                 onChange={(e) => {
                   setPollInput((a) => {
                     const _a = { ...a };
@@ -131,7 +133,22 @@ export default function Pollmaker(): JSX.Element {
             </fieldset>
           ))}
         </div>
+
         <div className="p-2">
+          <textarea
+            className="w-full h-[6rem] p-2 resize-none"
+            value={pollInput.trivia}
+            onChange={(e) => {
+              setPollInput((a) => {
+                const _a = { ...a };
+                a.trivia = e.target.value;
+                return _a;
+              });
+            }}
+          />
+        </div>
+
+        <div className="p-2 py-4">
           <button
             type="button"
             disabled={pollInput.choices.length < 2}
@@ -151,6 +168,7 @@ export default function Pollmaker(): JSX.Element {
                 id: "",
                 choices: [],
                 question: "",
+                trivia: "",
               }));
             }}
           >
