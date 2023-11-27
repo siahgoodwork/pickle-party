@@ -232,9 +232,8 @@ export default function Pollmaker(): JSX.Element {
                 )}
               >
                 <div className="flex items-center gap-2">
-                  {poll.question}
                   {poll.id !== room.activePoll && (
-                    <div className="flex gap-2">
+                    <>
                       <button
                         type="button"
                         disabled={
@@ -265,8 +264,9 @@ export default function Pollmaker(): JSX.Element {
                       >
                         del
                       </button>
-                    </div>
+                    </>
                   )}
+
                   <button
                     onClick={() => {
                       room.activePoll =
@@ -281,11 +281,41 @@ export default function Pollmaker(): JSX.Element {
                   </button>
                 </div>
                 <div>
+                  <h3 className="my-2 text-lg">{poll.question}</h3>
+                </div>
+                <div className="grid grid-cols-2">
                   <ul className="list-disc list-inside">
                     {poll.choices.map((choice) => {
                       return <li key={choice.id}>{choice.text}</li>;
                     })}
                   </ul>
+                  <div>
+                    <h4 className="text-xs uppercase">Trivia</h4>
+                    <p>{poll.trivia}</p>
+
+                    {poll.id !== room.activePollTrivia ? (
+                      <button
+                        className="text-sm"
+                        type="button"
+                        onClick={() => {
+                          room.activePollTrivia = poll.id;
+                        }}
+                      >
+                        Show Trivia
+                      </button>
+                    ) : (
+                      <button
+                        className="text-sm"
+                        type="button"
+                        onClick={() => {
+                          room.activePollTrivia = undefined;
+                        }}
+                      >
+                        {" "}
+                        Unset show trivia 🟢
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             );

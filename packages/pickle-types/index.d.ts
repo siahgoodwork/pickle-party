@@ -2,7 +2,7 @@ import { JSONValue } from "@syncedstore/core";
 interface Room {
   activePoll: string;
   activePollResult: string;
-  activeTrivia: string;
+  activePollTrivia: string;
   pollLayout: "A" | "B" | "C";
   pollResultLayout: "A" | "B" | "C";
   chatOn: boolean;
