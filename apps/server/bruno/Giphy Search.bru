@@ -1,0 +1,17 @@
+meta {
+  name: Giphy Search
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:3000/api/giphy
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "search" : "hahaha"
+  }
+}

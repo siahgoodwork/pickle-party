@@ -6,6 +6,7 @@ interface Room {
   pollResultLayout: "A" | "B" | "C";
   chatOn: boolean;
   chatBanned: string[];
+  gifSearchOn: boolean;
 }
 
 interface Poll {
@@ -54,6 +55,11 @@ interface ChatMessage {
   admin?: boolean;
 }
 
+interface GifSubmission {
+  url: string;
+  sender: string;
+}
+
 export type {
   Room,
   WherePoll,
@@ -62,4 +68,5 @@ export type {
   HeadlinePrompt,
   Headline,
   ChatMessage,
+  GifSubmission,
 };

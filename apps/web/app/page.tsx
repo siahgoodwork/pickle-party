@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Chat from "./chat";
 import { PollView } from "./poll";
 import { store, websocketProvider } from "./store";
+import GifSearcher from "./gif-searcher";
 
 // Get the Yjs document and sync automatically using y-webrtc
 
@@ -107,10 +108,13 @@ export default function Page(): JSX.Element {
           </div>
 
           {state.room.chatOn ? (
-            <div className="border border-black rounded row-span-4">
+            <div className="border border-black rounded row-span-2">
               <Chat userId={userId} />
             </div>
           ) : null}
+          <div className="border border-black rounded row-span-2">
+            <GifSearcher userId={userId} />
+          </div>
         </div>
       )}
 

@@ -86,10 +86,31 @@ export default function Page({ userId }: { userId: string }): ReactElement {
     [chat, setChatInput]
   );
 
+  useEffect(() => {
+    const handleResize: () => void = () => {
+      const container = document.getElementById("chat-container");
+      const msgDiv = document.getElementById("chatMessages");
+      if (container === null || msgDiv === null) {
+        return;
+      }
+      const cHeight = container.offsetHeight;
+      const targetHeight = `${cHeight - 75}px`;
+      msgDiv.style.height = targetHeight;
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [
+    room.chatOn,
+    // TODO: add room.gifSearcherOn dependency
+  ]);
+
   return (
     <div className="w-full h-full">
       {room.chatOn === true ? (
-        <div className="h-full">
+        <div className="h-full" id="chat-container">
           <h1 className="p-2 text-xs text-white uppercase bg-black">
             Pickle Messenger ({userPresences.length} online)
           </h1>
@@ -131,8 +152,8 @@ export default function Page({ userId }: { userId: string }): ReactElement {
             </div>
 
             <div
-              className="h-[calc(100vh_-_160px)] px-2 py-4 overflow-scroll messages no-scroll bg-white"
-              key="chat-message"
+              className="px-2 py-4 overflow-scroll bg-white messages no-scroll"
+              //key="chat-message"
               id="chatMessages"
             >
               {_chat

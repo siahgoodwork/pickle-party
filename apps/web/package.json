@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@floating-ui/react": "^0.26.2",
     "@headlessui/react": "^1.7.17",
     "@headlessui/tailwindcss": "^0.2.0",
     "@syncedstore/core": "^0.6.0",
@@ -20,6 +21,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-double-marquee": "^1.1.0",
+    "react-hot-toast": "^2.4.1",
     "ui": "workspace:*",
     "y-webrtc": "^10.2.5",
     "y-websocket": "^1.5.0",

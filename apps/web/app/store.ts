@@ -9,6 +9,7 @@ import type {
   HeadlinePrompt,
   Headline,
   ChatMessage,
+  GifSubmission,
 } from "pickle-types";
 
 // Create your SyncedStore store
@@ -18,6 +19,7 @@ export const store = syncedStore<{
   headlines: Headline[];
   headlinePrompts: HeadlinePrompt[];
   chat: ChatMessage[];
+  gifSubmissions: GifSubmission[];
   room: Partial<Room>;
 }>({
   room: {},
@@ -25,6 +27,7 @@ export const store = syncedStore<{
   pollResults: {},
   headlines: [],
   headlinePrompts: [],
+  gifSubmissions: [],
   chat: [],
 });
 

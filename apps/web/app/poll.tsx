@@ -45,7 +45,7 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
         // insert option
         if (optionRef !== undefined) {
           if (Array.isArray(optionRef.voters)) {
-            (optionRef.voters as string[]).push(userId);
+            optionRef.voters.push(userId);
           } else {
             optionRef.voters = [userId];
           }
@@ -59,8 +59,6 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
     },
     [userId, pollResults, room.activePoll]
   );
-
-  console.log({ userHasVotedActivePoll });
 
   if (activePoll === undefined) {
     return <div />;

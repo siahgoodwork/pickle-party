@@ -8,6 +8,7 @@ import {
   Headline,
   HeadlinePrompt,
   ChatMessage,
+  GifSubmission,
 } from "pickle-types";
 import { config } from "dotenv";
 
@@ -30,6 +31,7 @@ const store = syncedStore<{
   headlinePrompts: HeadlinePrompt[];
   chat: ChatMessage[];
   room: Partial<Room>;
+  gifSubmissions: GifSubmission[];
 }>({
   room: {},
   polls: {},
@@ -37,6 +39,7 @@ const store = syncedStore<{
   headlines: [],
   headlinePrompts: [],
   chat: [],
+  gifSubmissions: [],
 });
 
 const doc = getYjsDoc(store);
@@ -69,7 +72,8 @@ app.get("/room", (_req, res) => {
   const room = doc.getMap("room");
   const polls = doc.getMap("polls");
   const pollResults = doc.getMap("pollResults");
-  res.json({ room, polls, pollResults });
+  const gifSubmissions = doc.getArray("gifSubmissions");
+  res.json({ room, polls, pollResults, gifSubmissions });
 });
 
 app.get("/room/unban-all", (_req, res) => {

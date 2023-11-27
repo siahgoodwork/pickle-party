@@ -3,6 +3,7 @@
   "globalEnv": [
     "NEXT_PUBLIC_YWEBSOCK_HOST",
     "OPENAI_API_KEY",
+    "GIPHY_API_KEY",
     "SERVER_HOSTNAME"
   ],
   "globalDependencies": ["**/.env.*local"],

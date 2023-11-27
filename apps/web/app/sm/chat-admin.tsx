@@ -32,6 +32,7 @@ export function ChatAdmin(): JSX.Element {
   useEffect(() => {
     if (thinkingCategory) {
       setCategoriseResult(() => undefined);
+      setPickleResult(() => "");
       setTimeout(() => {
         setThinkingCategory(() => false);
       }, 30000);
@@ -48,7 +49,7 @@ export function ChatAdmin(): JSX.Element {
   }, [imaginingPickle]);
 
   return (
-    <div>
+    <div className="py-2">
       <div className="grid grid-cols-3 gap-4">
         <div className="p-2 col-span-2">
           <div className="flex items-center mb-2 gap-2">
