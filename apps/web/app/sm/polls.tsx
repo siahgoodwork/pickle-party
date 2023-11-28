@@ -28,6 +28,7 @@ export default function Pollmaker(): JSX.Element {
     question: "",
     choices: [],
     trivia: "",
+    thankyouMessage: "",
   });
 
   return (
@@ -119,6 +120,7 @@ export default function Pollmaker(): JSX.Element {
               >
                 &times;
               </button>
+
               <textarea
                 className="h-[3em] block flex-grow p-2 resize-none"
                 onChange={(e) => {
@@ -135,8 +137,27 @@ export default function Pollmaker(): JSX.Element {
         </div>
 
         <div className="p-2">
+          <label htmlFor="trivia">Thank you message</label>
           <textarea
             className="w-full h-[6rem] p-2 resize-none"
+            id="trivia"
+            value={pollInput.thankyouMessage || ""}
+            placeholder="Thank you for your response"
+            onChange={(e) => {
+              setPollInput((a) => {
+                const _a = { ...a };
+                a.thankyouMessage = e.target.value;
+                return _a;
+              });
+            }}
+          />
+        </div>
+
+        <div className="p-2">
+          <label htmlFor="tq">Poll Trivia</label>
+          <textarea
+            className="w-full h-[6rem] p-2 resize-none"
+            id="tq"
             value={pollInput.trivia}
             onChange={(e) => {
               setPollInput((a) => {
@@ -169,6 +190,7 @@ export default function Pollmaker(): JSX.Element {
                 choices: [],
                 question: "",
                 trivia: "",
+                thankyouMessage: "",
               }));
             }}
           >

@@ -71,7 +71,7 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
           ? "left-[50%] top-[0] w-[50%] h-full"
           : pollLayout === "B"
           ? "left-0 top-[66.7%] w-full h-[33.3%]"
-          : ""
+          : "left-[50%] top-[0] w-[50%] h-[50%]"
       }`}
     >
       <h2 className="my-4 text-lg text-center">{activePoll.question}</h2>
@@ -126,7 +126,11 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                   type="button"
                   key={c.id}
                   className={`${
-                    room.pollLayout === "A" ? "w-full" : "w-[20%]"
+                    room.pollLayout === "A"
+                      ? "w-full"
+                      : room.pollLayout === "B"
+                      ? "w-[20%]"
+                      : "w-[25%]"
                   }`}
                   onClick={() => {
                     sendVote(c.id);

@@ -20,9 +20,18 @@ export default function Gifs(): React.ReactElement {
       <div className="mt-4 grid grid-cols-2 gap-4">
         <div className="p-2 border border-black">
           <h1 className="mt-4 text-lg font-bold">Submissions</h1>
-          <div className="h-[calc(100vh_-_200px)] overflow-scroll no-scroll">
+          <button
+            type="button"
+            className="my-4"
+            onClick={() => {
+              gifSubmissions.splice(0, gifSubmissions.length);
+            }}
+          >
+            Clear submissions
+          </button>
+          <div className="h-[calc(100vh_-_250px)] overflow-scroll no-scroll">
             <div className="grid gap-1 grid-cols-4 ">
-              {gifSubmissions.map((gif) => {
+              {gifSubmissions.map((gif, gifIndex) => {
                 const gifIndexInFeed = gifFeedItems.findIndex(
                   (gf) => gf.url === gif.url
                 );
@@ -42,7 +51,19 @@ export default function Gifs(): React.ReactElement {
                       }
                     }}
                   >
-                    sender: {gif.sender}
+                    <p className="mb-2 text-sm">
+                      sender: {gif.sender}{" "}
+                      <button
+                        type="button"
+                        className="text-xs"
+                        onClick={(e) => {
+                          gifSubmissions.splice(gifIndex, 1);
+                          e.stopPropagation();
+                        }}
+                      >
+                        Del
+                      </button>
+                    </p>
                     <div className="relative w-full aspect-square">
                       <img
                         src={gif.url}
@@ -94,7 +115,7 @@ export default function Gifs(): React.ReactElement {
                         alt={`gif submitted by ${gif.sender}`}
                         className={`object-cover w-full h-full`}
                       />
-                      <span className="text-sm bg-white absolute bottom-0 right-0">
+                      <span className="absolute bottom-0 right-0 text-sm bg-white">
                         {gif.sender}
                       </span>
                     </div>

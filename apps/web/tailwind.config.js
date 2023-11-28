@@ -21,6 +21,8 @@ module.exports = {
     "flex-nowrap",
     "opacity-25",
     "opacity-100",
+    "w-[20%]",
+    "w-[25%]",
   ],
   theme: {
     extend: {

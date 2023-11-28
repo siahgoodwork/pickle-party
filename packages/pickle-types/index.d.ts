@@ -7,6 +7,7 @@ interface Room {
   pollResultLayout: "A" | "B" | "C";
   pollTriviaLayout: "A" | "B" | "C";
   chatOn: boolean;
+  youtubeEmbedUrl: string;
   chatBanned: string[];
   gifSearchOn: boolean;
 }
@@ -16,6 +17,7 @@ interface Poll {
   question: string;
   choices: PollChoice[];
   trivia: string;
+  thankyouMessage?: string;
 }
 
 interface WherePoll extends Poll {

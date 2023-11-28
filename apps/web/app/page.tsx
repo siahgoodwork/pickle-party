@@ -1,6 +1,7 @@
 "use client";
 import { useSyncedStore } from "@syncedstore/react";
 import { useEffect, useState } from "react";
+import MuxVideo from "@mux/mux-video-react";
 import Chat from "./chat";
 import { PollView } from "./poll";
 import { store, websocketProvider } from "./store";
@@ -95,14 +96,32 @@ export default function Page(): JSX.Element {
         <div className="p-4 grid-cols-4 grid gap-2 grid-rows-4 h-[calc(100vh_-_50px)]">
           <div
             className={`${
-              state.room.chatOn ? "col-span-3" : "col-span-4"
+              state.room.chatOn || state.room.gifSearchOn
+                ? "col-span-3"
+                : "col-span-4"
             } row-span-4`}
             id="video-frame"
           >
             <div className="flex items-center w-full h-full p-2 bg-pickle-green">
-              <div className="relative flex items-center justify-center w-full h-auto border aspect-video text-pickle-beige border-pickle-beige">
-                <div>live video here</div>
-                <PollView userId={userId} />
+              <div className="relative flex items-center justify-center w-full h-full border aspect-video text-pickle-beige border-pickle-beige">
+                <div className="relative w-full aspect-video max-h-[100%]">
+                  {/* <MuxVideo
+										className="w-full aspect-video max-h-[100%] object-contain"
+										playbackId="KC00JDCS9NLiZ8Oh7Z9xCJd71y9PWwkIvNPUZJghVcQA"
+										streamType="on-demand"
+										controls
+										autoPlay
+										muted
+									/>
+									*/}
+                  <iframe
+                    className="w-full aspect-video max-h-[100%] object-contain"
+                    src={state.room.youtubeEmbedUrl || ""}
+                    title="video frame"
+                  />
+
+                  <PollView userId={userId} />
+                </div>
               </div>
             </div>
           </div>
@@ -124,7 +143,11 @@ export default function Page(): JSX.Element {
             false
           )}
           {state.room.gifSearchOn ? (
-            <div className="border border-black rounded row-span-2">
+            <div
+              className={`border border-black rounded ${
+                state.room.chatOn ? "row-span-2" : "row-span-4"
+              }`}
+            >
               <GifSearcher userId={userId} />
             </div>
           ) : (

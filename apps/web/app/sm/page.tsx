@@ -9,6 +9,7 @@ import Headlines from "./headlines";
 import HeadlinePrompts from "./headline-prompts";
 import { ChatAdmin } from "./chat-admin";
 import Gifs from "./gifs";
+import VideoStream from "./video-stream";
 
 const tabClass = cls(
   "ui-selected:text-white ui-selected:bg-black rounded px-2 py-1 ui-not-selected:bg-[transparent] ui-not-selected:text-black"
@@ -47,6 +48,7 @@ export default function Page(): JSX.Element {
           <Tab className={tabClass}>Headline Prompts</Tab>
           <Tab className={tabClass}>Headlines</Tab>
           <Tab className={tabClass}>GIFs</Tab>
+          <Tab className={tabClass}>Video Stream</Tab>
         </Tab.List>
 
         <Tab.Panel>
@@ -71,6 +73,10 @@ export default function Page(): JSX.Element {
 
         <Tab.Panel>
           <Gifs />
+        </Tab.Panel>
+
+        <Tab.Panel>
+          <VideoStream />
         </Tab.Panel>
       </Tab.Group>
     </main>
