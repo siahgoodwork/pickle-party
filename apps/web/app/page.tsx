@@ -1,13 +1,11 @@
 "use client";
 import { useSyncedStore } from "@syncedstore/react";
 import { useEffect, useState } from "react";
-import MuxVideo from "@mux/mux-video-react";
+// import MuxVideo from "@mux/mux-video-react";
 import Chat from "./chat";
 import { PollView } from "./poll";
 import { store, websocketProvider } from "./store";
 import GifSearcher from "./gif-searcher";
-
-// Get the Yjs document and sync automatically using y-webrtc
 
 export interface UserPresence {
   user?: { name: string };
