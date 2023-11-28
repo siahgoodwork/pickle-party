@@ -1,7 +1,7 @@
 import { useSyncedStore } from "@syncedstore/react";
+import { toast } from "react-hot-toast";
 import { useState } from "react";
 import { store } from "../store";
-import toast from "react-hot-toast";
 
 export default function VideoStream(): React.ReactElement {
   const { room } = useSyncedStore(store);

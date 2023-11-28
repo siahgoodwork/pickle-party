@@ -10,9 +10,10 @@ import HeadlinePrompts from "./headline-prompts";
 import { ChatAdmin } from "./chat-admin";
 import Gifs from "./gifs";
 import VideoStream from "./video-stream";
+import NumOnline from "./online";
 
 const tabClass = cls(
-  "ui-selected:text-white ui-selected:bg-black rounded px-2 py-1 ui-not-selected:bg-[transparent] ui-not-selected:text-black"
+  "ui-selected:text-pickle-beige ui-selected:bg-pickle-green rounded px-2 py-1 ui-not-selected:bg-pickle-beige ui-not-selected:text-black ui-selected:border ui-selected:border-pickle-beige"
 );
 
 export default function Page(): JSX.Element {
@@ -34,14 +35,17 @@ export default function Page(): JSX.Element {
         className="w-[30px] h-[30px] rounded-full overflow-hidden block object-contain absolute top-2 right-2"
       />
       <Tab.Group>
-        <Tab.List className="flex items-center p-1 border-b-2 space-x-1 border-b-black">
+        <Tab.List className="flex items-center p-1 bg-black space-x-1 border-b-black">
           <b
             className={`w-3 h-3 border rounded-full ${
-              connected ? "bg-green-500" : "bg-[transparent]"
-            } block border-black`}
-          >
-            {" "}
+              connected ? "bg-pickle-green" : "bg-[transparent]"
+            } block border-pickle-beige`}
+          />
+
+          <b className="w-24 font-mono text-xs font-normal text-pickle-beige">
+            <NumOnline /> online
           </b>
+
           <Tab className={tabClass}>Polls</Tab>
           <Tab className={tabClass}>Poll Results</Tab>
           <Tab className={tabClass}>Chat</Tab>

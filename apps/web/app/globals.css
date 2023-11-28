@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply bg-[#f0efde];
+  @apply bg-pickle-beige;
 }
 
 button {

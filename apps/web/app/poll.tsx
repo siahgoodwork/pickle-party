@@ -108,7 +108,12 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
           </div>
         )
       ) : userHasVotedActivePoll ? (
-        <span className="text-center">Thank you for your response</span>
+        <span className="text-center">
+          {polls[room.activePoll || ""]?.thankyouMessage === undefined ||
+          polls[room.activePoll || ""]?.thankyouMessage?.length === 0
+            ? "Thank you for your response"
+            : polls[room.activePoll || ""]?.thankyouMessage}
+        </span>
       ) : (
         <div
           className={`gap-2 flex ${
