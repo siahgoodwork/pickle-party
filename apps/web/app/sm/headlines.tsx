@@ -106,11 +106,10 @@ export default function Page(): React.ReactElement {
               return (
                 <div key={choice.id}>
                   {choice.text} -{" "}
-                  {/*
-											state.pollResults[selectedPollResult?.id]?.choices[
-											choice.id
-											]?.voters.length
-											*/}
+                  {
+                    state.pollResults[selectedPollResult.id]?.choices[choice.id]
+                      ?.voters.length
+                  }
                 </div>
               );
             })}
@@ -139,7 +138,10 @@ export default function Page(): React.ReactElement {
                 return;
               }
 
-              const _poll = state.polls[selectedPollResult.id];
+              const _poll =
+                selectedPollResult.id === "where-poll"
+                  ? wherePoll
+                  : state.polls[selectedPollResult.id];
 
               if (_poll === undefined) {
                 return;
