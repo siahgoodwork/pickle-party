@@ -156,8 +156,7 @@ export default function Page(): React.ReactElement {
                     question: _poll.question,
                     choices: _poll.choices.map((c) => ({
                       votes:
-                        _poll.choices.find((_c) => _c.id === c.id)?.voters
-                          .length || 0,
+                        selectedPollResult.choices[c.id]?.voters.length || 0, //eslint-disable-line @typescript-eslint/no-unnecessary-condition -- might return undefined object with dynamic key
                       text: c.text,
                     })),
                   },
