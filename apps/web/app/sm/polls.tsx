@@ -140,13 +140,12 @@ export default function Pollmaker(): JSX.Element {
           <label htmlFor="trivia">Thank you message</label>
           <textarea
             className="w-full h-[6rem] p-2 resize-none"
-            id="trivia"
             value={pollInput.thankyouMessage || ""}
             placeholder="Thank you for your response"
             onChange={(e) => {
               setPollInput((a) => {
                 const _a = { ...a };
-                a.thankyouMessage = e.target.value;
+                _a.thankyouMessage = e.target.value;
                 return _a;
               });
             }}
@@ -157,12 +156,11 @@ export default function Pollmaker(): JSX.Element {
           <label htmlFor="tq">Poll Trivia</label>
           <textarea
             className="w-full h-[6rem] p-2 resize-none"
-            id="tq"
             value={pollInput.trivia}
             onChange={(e) => {
               setPollInput((a) => {
                 const _a = { ...a };
-                a.trivia = e.target.value;
+                _a.trivia = e.target.value;
                 return _a;
               });
             }}
