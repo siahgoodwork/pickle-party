@@ -45,12 +45,12 @@ const pollSortFn: (a: Poll | undefined, b: Poll | undefined) => number = (
 export const wherePoll: WherePoll = {
   id: "where-poll",
   choices: [
-    { id: "where-asia", text: "asia" },
-    { id: "where-na", text: "north america" },
-    { id: "where-sa", text: "south america" },
-    { id: "where-africa", text: "africa" },
-    { id: "where-europe", text: "europe" },
-    { id: "where-oceania", text: "oceania" },
+    { id: "where-asia", text: "Asia" },
+    { id: "where-na", text: "North America" },
+    { id: "where-sa", text: "South America" },
+    { id: "where-africa", text: "Africa" },
+    { id: "where-europe", text: "Europe" },
+    { id: "where-oceania", text: "Oceania" },
   ],
   question: "Which part of the world do you come from?",
   trivia: "",

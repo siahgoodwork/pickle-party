@@ -82,21 +82,31 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
             <div
               className={`gap-2 flex flex-col flex-nowrap w-full items-center`}
             >
-              {polls[room.activePoll || ""] === undefined ? (
+              {polls[room.activePoll || ""] === undefined &&
+              room.activePoll !== "where-poll" ? (
                 false
+              ) : room.activePoll === "where-poll" ? (
+                <>
+                  {wherePoll.choices.map((c) => (
+                    <button
+                      type="button"
+                      key={c.id}
+                      className="w-full"
+                      onClick={() => {
+                        sendVote(c.id);
+                      }}
+                    >
+                      {c.text}
+                    </button>
+                  ))}
+                </>
               ) : (
                 <>
                   {polls[room.activePoll || ""]?.choices.map((c) => (
                     <button
                       type="button"
                       key={c.id}
-                      className={`${
-                        room.pollLayout === "A"
-                          ? "w-full"
-                          : room.pollLayout === "B"
-                          ? "w-[20%]"
-                          : "w-[25%]"
-                      }`}
+                      className="w-full"
                       onClick={() => {
                         sendVote(c.id);
                       }}
