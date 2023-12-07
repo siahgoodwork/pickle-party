@@ -6,6 +6,7 @@ import Chat from "./chat";
 import { PollView } from "./poll";
 import { store, websocketProvider } from "./store";
 import GifSearcher from "./gif-searcher";
+import { MemeStream } from "./memestream";
 
 export interface UserPresence {
   user?: { name: string };
@@ -110,42 +111,64 @@ export default function Page(): JSX.Element {
               />
 
               <div className="w-full h-full absolute top-0 left-0 z-[30] overlays">
-                <PollView userId={userId} />
+                {(state.room.showPollView && state.room.pollLayout === "B") ||
+                state.room.showPollTrivia ||
+                state.room.showMemes ? (
+                  <div
+                    className={`grid grid-rows-4 grid-cols-1 w-[20%] h-full z-[40] absolute top-0 bg-white ${
+                      state.room.chatOn || state.room.gifSearchOn
+                        ? "right-[20%]"
+                        : "right-0"
+                    }`}
+                  >
+                    {state.room.showMemes ? (
+                      <MemeStream />
+                    ) : (
+                      <PollView userId={userId} />
+                    )}
+                  </div>
+                ) : (
+                  false
+                )}
+
+                {state.room.chatOn || state.room.gifSearchOn ? (
+                  <div className="grid grid-rows-4 grid-cols-1 w-[20%] h-full z-[40] absolute right-0 top-0 bg-white">
+                    {state.room.chatOn ? (
+                      <div
+                        className={`border border-black rounded ${
+                          state.room.gifSearchOn ? "row-span-2" : "row-span-4"
+                        }`}
+                      >
+                        <Chat
+                          userId={userId}
+                          key={`chat_${
+                            state.room.gifSearchOn
+                              ? "with_chat"
+                              : "without_chat"
+                          }`}
+                        />
+                      </div>
+                    ) : (
+                      false
+                    )}
+                    {state.room.gifSearchOn ? (
+                      <div
+                        className={`border border-black rounded ${
+                          state.room.chatOn ? "row-span-2" : "row-span-4"
+                        }`}
+                      >
+                        <GifSearcher userId={userId} />
+                      </div>
+                    ) : (
+                      false
+                    )}
+                  </div>
+                ) : (
+                  false
+                )}
               </div>
             </div>
           </div>
-
-          {/*
-
-          {state.room.chatOn ? (
-            <div
-              className={`border border-black rounded ${
-                state.room.gifSearchOn ? "row-span-2" : "row-span-4"
-              }`}
-            >
-              <Chat
-                userId={userId}
-                key={`chat_${
-                  state.room.gifSearchOn ? "with_chat" : "without_chat"
-                }`}
-              />
-            </div>
-          ) : (
-            false
-          )}
-          {state.room.gifSearchOn ? (
-            <div
-              className={`border border-black rounded ${
-                state.room.chatOn ? "row-span-2" : "row-span-4"
-              }`}
-            >
-              <GifSearcher userId={userId} />
-            </div>
-          ) : (
-            false
-          )}
-
-					*/}
         </div>
       )}
 

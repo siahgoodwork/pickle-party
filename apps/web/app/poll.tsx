@@ -66,7 +66,7 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
 
   return (
     <div
-      className={`z-4 absolute bg-white text-black p-4 flex flex-col justify-center gap-4 ${
+      className={`z-4 bg-white text-black p-4 flex flex-col justify-center gap-4 ${
         pollLayout === "A"
           ? "left-[0] bottom-[0] top-auto w-[100%] h-auto"
           : pollLayout === "B"

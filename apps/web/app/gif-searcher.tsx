@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import {
   useFloating,
   useHover,
@@ -24,10 +25,11 @@ export default function GifSearcher({
   >();
 
   return (
-    <div className="w-full h-full p-2 grid grid-rows-[1fr_4fr] gap-2">
-      <div className="flex items-center justify-center gap-2">
+    <div className="flex flex-col justify-start w-full h-full p-1 gap-1">
+      <div className="flex items-center justify-center">
         <input
           type="text"
+          className="flex-grow min-w-[50px] border-black border h-8 p-1"
           value={searchTerm}
           disabled={searching}
           onChange={(e) => {
@@ -37,6 +39,7 @@ export default function GifSearcher({
         <button
           type="button"
           disabled={searching}
+          className="h-8 rounded-[0] border-l-0"
           onClick={async () => {
             setSearching(true);
             const r = await fetch("/api/giphy", {
@@ -50,15 +53,15 @@ export default function GifSearcher({
             setGifResults(data);
           }}
         >
-          Search
+          <MagnifyingGlassIcon width={18} />
         </button>
       </div>
       {gifResults === undefined || gifResults.length < 1 ? (
-        <div className="flex items-center justify-center w-full">
+        <div className="flex items-center justify-center w-full h-full">
           {searching ? "Searching" : "No results"}
         </div>
       ) : (
-        <div className="w-full h-full overflow-scroll grid grid-cols-4 no-scroll gap-1">
+        <div className="w-full h-full overflow-scroll grid grid-cols-3 no-scroll gap-1">
           {gifResults.map((result) => (
             <GifResult
               result={result}
@@ -74,6 +77,13 @@ export default function GifSearcher({
           ))}
         </div>
       )}
+      <div className="flex justify-end">
+        <img
+          src="/giphy.png"
+          className="h-auto w-28 max-w-[60%]"
+          alt="powered by giphy"
+        />
+      </div>
     </div>
   );
 }
@@ -122,7 +132,7 @@ function GifResult({
           <div
             ref={refs.setFloating}
             style={floatingStyles}
-            className="w-[240px] p-2 rounded bg-white"
+            className="w-[240px] p-2 rounded bg-white z-[41]"
             {...getFloatingProps()}
           >
             <img

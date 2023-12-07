@@ -7,6 +7,7 @@ interface Room {
   chatOn: boolean;
   showPollView: "poll" | "result" | false;
   showPollTrivia: boolean;
+  showMemes: boolean;
   youtubeEmbedUrl: string;
   chatBanned: string[];
   gifSearchOn: boolean;

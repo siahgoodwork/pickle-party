@@ -17,6 +17,7 @@
     "@syncedstore/core": "^0.6.0",
     "@syncedstore/react": "^0.6.0",
     "classnames": "^2.3.2",
+    "framer-motion": "^10.16.14",
     "nanoid": "^5.0.2",
     "next": "^13.4.19",
     "pickle-types": "workspace:*",

@@ -472,31 +472,31 @@ export default function Pollmaker(): JSX.Element {
               <button
                 type="button"
                 onClick={() => {
-                  room.showPollTrivia = true;
-                  room.pollLayout = "B";
-                }}
-                className={classNames([
-                  "rounded-r-[0]",
-                  room.showPollTrivia
-                    ? "bg-pickle-green hover:bg-pickle-green/80 text-pickle-beige"
-                    : "",
-                ])}
-              >
-                Show Trivia
-              </button>
-              <button
-                type="button"
-                onClick={() => {
                   room.showPollTrivia = false;
                 }}
                 className={classNames([
-                  "rounded-l-[0] border-l-0",
+                  "rounded-r-[0] ",
                   room.showPollTrivia
                     ? ""
                     : "bg-pickle-green hover:bg-pickle-green/80 text-pickle-beige",
                 ])}
               >
                 Hide Trivia
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  room.showPollTrivia = true;
+                  room.pollLayout = "B";
+                }}
+                className={classNames([
+                  "rounded-l-[0] border-l-0",
+                  room.showPollTrivia
+                    ? "bg-pickle-green hover:bg-pickle-green/80 text-pickle-beige"
+                    : "",
+                ])}
+              >
+                Show Trivia
               </button>
             </div>
             <span className="text-xs">
