@@ -60,93 +60,113 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
     [userId, pollResults, room.activePoll]
   );
 
-  if (activePoll === undefined) {
-    return <div />;
-  }
-
   return (
-    <div
-      className={`z-4 bg-white text-black p-4 flex flex-col justify-center gap-4 ${
-        pollLayout === "A"
-          ? "left-[0] bottom-[0] top-auto w-[100%] h-auto"
-          : pollLayout === "B"
-          ? "left-0 top-[66.7%] w-full h-[33.3%]"
-          : "left-[50%] top-[0] w-[50%] h-[50%]"
-      }`}
-    >
-      <h2 className="my-4 text-lg text-center">{activePoll.question}</h2>
-      {room.activePoll === "where-poll" ? (
-        userHasVotedActivePoll ? (
-          <span className="text-center">Thank you for your response</span>
-        ) : (
-          <div className="relative">
-            <img
-              src="/continents.svg"
-              alt="world map"
-              className="block w-full h-auto"
-            />
-            {[
-              { id: "where-asia", text: "asia", pos: { x: 70, y: 30 } },
-              { id: "where-na", text: "north america", pos: { x: 23, y: 15 } },
-              { id: "where-sa", text: "south america", pos: { x: 25, y: 65 } },
-              { id: "where-africa", text: "africa", pos: { x: 53, y: 60 } },
-              { id: "where-europe", text: "europe", pos: { x: 50, y: 20 } },
-              { id: "where-oceania", text: "oceania", pos: { x: 83, y: 75 } },
-            ].map((option) => (
-              <button
-                type="button"
-                onClick={() => {
-                  sendVote(option.id);
-                }}
-                key={option.id}
-                className="absolute translate-x-[-50%] translate-y-[-50%] bg-white rounded-[40px] [&:hover]:opacity-80 [&:hover]:bg-white px-2 text-sm"
-                style={{ top: `${option.pos.y}%`, left: `${option.pos.x}%` }}
-              >
-                {option.text}
-              </button>
-            ))}
-          </div>
-        )
-      ) : userHasVotedActivePoll ? (
-        <span className="text-center">
-          {polls[room.activePoll || ""]?.thankyouMessage === undefined ||
-          polls[room.activePoll || ""]?.thankyouMessage?.length === 0
-            ? "Thank you for your response"
-            : polls[room.activePoll || ""]?.thankyouMessage}
-        </span>
+    <div className="h-full grid-rows-2 grid row-span-4">
+      {activePoll === undefined ? (
+        false
       ) : (
         <div
-          className={`gap-2 flex ${
-            room.pollLayout === "A"
-              ? "flex-col flex-nowrap"
-              : "flex-row flex-wrap justify-center"
+          className={`z-4 bg-white text-black p-4 flex flex-col justify-center gap-4 ${
+            pollLayout === "B" ? "" : ""
           }`}
         >
-          {polls[room.activePoll || ""] === undefined ? (
-            false
+          <h2 className="my-4 text-lg text-center">{activePoll.question}</h2>
+          {room.activePoll === "where-poll" ? (
+            userHasVotedActivePoll ? (
+              <span className="text-center">Thank you for your response</span>
+            ) : (
+              <div className="relative">
+                <img
+                  src="/continents.svg"
+                  alt="world map"
+                  className="block w-full h-auto"
+                />
+                {[
+                  { id: "where-asia", text: "asia", pos: { x: 70, y: 30 } },
+                  {
+                    id: "where-na",
+                    text: "north america",
+                    pos: { x: 23, y: 15 },
+                  },
+                  {
+                    id: "where-sa",
+                    text: "south america",
+                    pos: { x: 25, y: 65 },
+                  },
+                  { id: "where-africa", text: "africa", pos: { x: 53, y: 60 } },
+                  { id: "where-europe", text: "europe", pos: { x: 50, y: 20 } },
+                  {
+                    id: "where-oceania",
+                    text: "oceania",
+                    pos: { x: 83, y: 75 },
+                  },
+                ].map((option) => (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      sendVote(option.id);
+                    }}
+                    key={option.id}
+                    className="absolute translate-x-[-50%] translate-y-[-50%] bg-white rounded-[40px] [&:hover]:opacity-80 [&:hover]:bg-white px-2 text-sm"
+                    style={{
+                      top: `${option.pos.y}%`,
+                      left: `${option.pos.x}%`,
+                    }}
+                  >
+                    {option.text}
+                  </button>
+                ))}
+              </div>
+            )
+          ) : userHasVotedActivePoll ? (
+            <span className="text-center">
+              {polls[room.activePoll || ""]?.thankyouMessage === undefined ||
+              polls[room.activePoll || ""]?.thankyouMessage?.length === 0
+                ? "Thank you for your response"
+                : polls[room.activePoll || ""]?.thankyouMessage}
+            </span>
           ) : (
-            <>
-              {polls[room.activePoll || ""]?.choices.map((c) => (
-                <button
-                  type="button"
-                  key={c.id}
-                  className={`${
-                    room.pollLayout === "A"
-                      ? "w-full"
-                      : room.pollLayout === "B"
-                      ? "w-[20%]"
-                      : "w-[25%]"
-                  }`}
-                  onClick={() => {
-                    sendVote(c.id);
-                  }}
-                >
-                  {c.text}
-                </button>
-              ))}
-            </>
+            <div
+              className={`gap-2 flex ${
+                room.pollLayout === "A"
+                  ? "flex-col flex-nowrap"
+                  : "flex-row flex-wrap justify-center"
+              }`}
+            >
+              {polls[room.activePoll || ""] === undefined ? (
+                false
+              ) : (
+                <>
+                  {polls[room.activePoll || ""]?.choices.map((c) => (
+                    <button
+                      type="button"
+                      key={c.id}
+                      className={`${
+                        room.pollLayout === "A"
+                          ? "w-full"
+                          : room.pollLayout === "B"
+                          ? "w-[20%]"
+                          : "w-[25%]"
+                      }`}
+                      onClick={() => {
+                        sendVote(c.id);
+                      }}
+                    >
+                      {c.text}
+                    </button>
+                  ))}
+                </>
+              )}
+            </div>
           )}
         </div>
+      )}
+      {room.showPollTrivia && room.activePollTrivia !== undefined ? (
+        <div className="flex items-center justify-center p-4 text-center bg-white row-start-2 row-span-1 text-[1.2vw]">
+          {polls[room.activePollTrivia]?.trivia}
+        </div>
+      ) : (
+        false
       )}
     </div>
   );

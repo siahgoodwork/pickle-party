@@ -115,7 +115,7 @@ export default function Page(): JSX.Element {
                 state.room.showPollTrivia ||
                 state.room.showMemes ? (
                   <div
-                    className={`grid grid-rows-4 grid-cols-1 w-[20%] h-full z-[40] absolute top-0 bg-white ${
+                    className={`grid grid-rows-4 grid-cols-1 w-[20%] h-full z-[40] absolute top-0  ${
                       state.room.chatOn || state.room.gifSearchOn
                         ? "right-[20%]"
                         : "right-0"
