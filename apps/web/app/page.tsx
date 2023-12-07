@@ -91,19 +91,10 @@ export default function Page(): JSX.Element {
           </div>
         </div>
       ) : (
-        <div className="p-4 grid-cols-4 grid gap-2 grid-rows-4 h-[calc(100vh_-_50px)]">
-          <div
-            className={`${
-              state.room.chatOn || state.room.gifSearchOn
-                ? "col-span-3"
-                : "col-span-4"
-            } row-span-4`}
-            id="video-frame"
-          >
-            <div className="flex items-center w-full h-full p-2 bg-pickle-green">
-              <div className="relative flex items-center justify-center w-full h-full border aspect-video text-pickle-beige border-pickle-beige">
-                <div className="relative w-full aspect-video max-h-[100%]">
-                  {/* <MuxVideo
+        <div className="relative flex items-center justify-center w-screen h-screen">
+          <div className="video-frame">
+            <div className="relative w-full h-full">
+              {/* <MuxVideo
 										className="w-full aspect-video max-h-[100%] object-contain"
 										playbackId="KC00JDCS9NLiZ8Oh7Z9xCJd71y9PWwkIvNPUZJghVcQA"
 										streamType="on-demand"
@@ -112,17 +103,19 @@ export default function Page(): JSX.Element {
 										muted
 									/>
 									*/}
-                  <iframe
-                    className="w-full aspect-video max-h-[100%] object-contain"
-                    src={state.room.youtubeEmbedUrl || ""}
-                    title="video frame"
-                  />
+              <iframe
+                className="w-full aspect-video max-h-[100%] object-contain"
+                src={state.room.youtubeEmbedUrl || ""}
+                title="video frame"
+              />
 
-                  <PollView userId={userId} />
-                </div>
+              <div className="w-full h-full absolute top-0 left-0 z-[30] overlays">
+                <PollView userId={userId} />
               </div>
             </div>
           </div>
+
+          {/*
 
           {state.room.chatOn ? (
             <div
@@ -151,6 +144,8 @@ export default function Page(): JSX.Element {
           ) : (
             false
           )}
+
+					*/}
         </div>
       )}
 

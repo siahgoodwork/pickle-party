@@ -7,7 +7,7 @@ body {
 }
 
 button {
-  @apply p-1 border border-black rounded hover:bg-black/10 [&:disabled]:opacity-50;
+  @apply p-1 px-2 border border-black rounded hover:bg-black/10 [&:disabled]:opacity-50;
 }
 
 .no-scroll {
@@ -17,4 +17,14 @@ button {
 
 .no-scroll::-webkit-scrollbar {
   display: none;
+}
+
+.video-frame {
+  @apply w-auto h-full aspect-video;
+}
+
+@media screen and (max-aspect-ratio: 16/9) {
+  .video-frame {
+    @apply w-full h-auto;
+  }
 }

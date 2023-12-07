@@ -4,7 +4,6 @@ import cls from "classnames";
 import { useEffect, useState } from "react";
 import { websocketProvider } from "../store";
 import Pollmaker from "./polls";
-import PollResults from "./poll-results";
 import Headlines from "./headlines";
 import HeadlinePrompts from "./headline-prompts";
 import { ChatAdmin } from "./chat-admin";
@@ -47,7 +46,6 @@ export default function Page(): JSX.Element {
           </b>
 
           <Tab className={tabClass}>Polls</Tab>
-          <Tab className={tabClass}>Poll Results</Tab>
           <Tab className={tabClass}>Chat</Tab>
           <Tab className={tabClass}>Headline Prompts</Tab>
           <Tab className={tabClass}>Headlines</Tab>
@@ -57,10 +55,6 @@ export default function Page(): JSX.Element {
 
         <Tab.Panel>
           <Pollmaker />
-        </Tab.Panel>
-
-        <Tab.Panel>
-          <PollResults />
         </Tab.Panel>
 
         <Tab.Panel>

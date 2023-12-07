@@ -4,9 +4,9 @@ interface Room {
   activePollResult: string;
   activePollTrivia: string;
   pollLayout: "A" | "B" | "C";
-  pollResultLayout: "A" | "B" | "C";
-  pollTriviaLayout: "A" | "B" | "C";
   chatOn: boolean;
+  showPollView: "poll" | "result" | false;
+  showPollTrivia: boolean;
   youtubeEmbedUrl: string;
   chatBanned: string[];
   gifSearchOn: boolean;
@@ -18,6 +18,7 @@ interface Poll {
   choices: PollChoice[];
   trivia: string;
   thankyouMessage?: string;
+  order?: number;
 }
 
 interface WherePoll extends Poll {

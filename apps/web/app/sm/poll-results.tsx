@@ -7,48 +7,7 @@ export default function Page(): React.ReactElement {
   return (
     <div className="p-4">
       <h1>Results</h1>
-      <div className="p-2">
-        <h3 className="font-bold">Poll Layout</h3>
-        <button
-          type="button"
-          onClick={() => {
-            room.pollResultLayout = "A";
-          }}
-          className={`${
-            room.pollResultLayout === "A"
-              ? "bg-pickle-green text-pickle-beige"
-              : "bg-[transparent] text-black"
-          }`}
-        >
-          Right
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            room.pollResultLayout = "B";
-          }}
-          className={`${
-            room.pollResultLayout === "B"
-              ? "bg-pickle-green text-pickle-beige"
-              : "bg-[transparent] text-black"
-          }`}
-        >
-          Bottom
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            room.pollResultLayout = "C";
-          }}
-          className={`${
-            room.pollResultLayout === "C"
-              ? "bg-pickle-green text-pickle-beige"
-              : "bg-[transparent] text-black"
-          }`}
-        >
-          Top Right Quarter
-        </button>
-      </div>
+
       {Object.values(pollResults).map((pr) => {
         if (pr === undefined) {
           return false;
