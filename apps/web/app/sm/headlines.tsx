@@ -210,6 +210,23 @@ export default function Page(): React.ReactElement {
         </button>
       </div>
       <div className="col-span-2">
+        <button
+          type="button"
+          onClick={() => {
+            state.room.showTicker = !state.room.showTicker;
+          }}
+        >
+          Turn {state.room.showTicker ? "Off" : "On"} Ticker Tape
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            state.room.showDoubleTicker = !state.room.showDoubleTicker;
+          }}
+        >
+          Turn {state.room.showDoubleTicker ? "Off" : "On"} Double Ticker Tape
+        </button>
         {state.headlines.map((headline, n) => (
           <div
             key={headline.id}

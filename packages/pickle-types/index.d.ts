@@ -8,6 +8,8 @@ interface Room {
   showPollView: "poll" | "result" | false;
   showPollTrivia: boolean;
   showMemes: boolean;
+  showTicker: boolean;
+  showDoubleTicker: boolean;
   youtubeEmbedUrl: string;
   chatBanned: string[];
   gifSearchOn: boolean;

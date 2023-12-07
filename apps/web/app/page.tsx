@@ -7,6 +7,7 @@ import { PollView } from "./poll";
 import { store, websocketProvider } from "./store";
 import GifSearcher from "./gif-searcher";
 import { MemeStream } from "./memestream";
+import Marquee from "react-fast-marquee";
 
 export interface UserPresence {
   user?: { name: string };
@@ -41,6 +42,19 @@ export default function Page(): JSX.Element {
       awareness.off("change", handleChange);
     };
   }, []);
+
+  const showingPanel1 =
+    state.room.chatOn === true || state.room.gifSearchOn === true;
+
+  const showingPanel2 =
+    (state.room.pollLayout === "B" &&
+      ((state.room.showPollView === "poll" &&
+        state.room.activePoll !== undefined) ||
+        (state.room.showPollView === "result" &&
+          state.room.activePollResult !== undefined) ||
+        (state.room.showPollTrivia === true &&
+          state.room.activePollTrivia !== undefined))) ||
+    state.room.showMemes === true;
 
   return (
     <main>
@@ -111,6 +125,79 @@ export default function Page(): JSX.Element {
               />
 
               <div className="w-full h-full absolute top-0 left-0 z-[30] overlays">
+                {state.room.showPollView !== undefined &&
+                state.room.pollLayout === "C" ? (
+                  <div className="absolute top-0 left-0 w-full h-full">
+                    <PollView userId={userId} />
+                  </div>
+                ) : (
+                  false
+                )}
+                {state.room.showDoubleTicker === true &&
+                state.room.showTicker === true ? (
+                  <div
+                    className={`absolute left-0 top-0 ${
+                      showingPanel1 && showingPanel2
+                        ? "w-[60%]"
+                        : showingPanel1 || showingPanel2
+                        ? "w-[80%]"
+                        : "w-full"
+                    }`}
+                  >
+                    <div className="py-2 bg-white">
+                      <Marquee>
+                        {state.headlines
+                          .filter((h) => h.active)
+                          .sort((a, b) => (a.text > b.text ? 1 : -1))
+                          .map((headline) => {
+                            return (
+                              <span
+                                key={headline.id}
+                                className="text-[3vh] px-[3em] block"
+                              >
+                                {headline.text}
+                              </span>
+                            );
+                          })}
+                      </Marquee>
+                    </div>
+                  </div>
+                ) : (
+                  false
+                )}
+                <div
+                  className={`absolute left-0 bottom-0 ${
+                    showingPanel1 && showingPanel2
+                      ? "w-[60%]"
+                      : showingPanel1 || showingPanel2
+                      ? "w-[80%]"
+                      : "w-full"
+                  }`}
+                >
+                  {state.room.showPollView !== undefined &&
+                  state.room.pollLayout === "A" ? (
+                    <PollView userId={userId} />
+                  ) : state.room.showTicker ? (
+                    <div className="py-2 bg-white">
+                      <Marquee>
+                        {state.headlines
+                          .filter((h) => h.active)
+                          .map((headline) => {
+                            return (
+                              <span
+                                key={headline.id}
+                                className="text-[3vh] px-[3em] block"
+                              >
+                                {headline.text}
+                              </span>
+                            );
+                          })}
+                      </Marquee>
+                    </div>
+                  ) : (
+                    false
+                  )}
+                </div>
                 {(state.room.showPollView && state.room.pollLayout === "B") ||
                 state.room.showPollTrivia ||
                 state.room.showMemes ? (
@@ -123,8 +210,10 @@ export default function Page(): JSX.Element {
                   >
                     {state.room.showMemes ? (
                       <MemeStream />
-                    ) : (
+                    ) : state.room.pollLayout === "B" ? (
                       <PollView userId={userId} />
+                    ) : (
+                      false
                     )}
                   </div>
                 ) : (
