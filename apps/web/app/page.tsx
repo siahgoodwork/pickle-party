@@ -124,10 +124,10 @@ export default function Page(): JSX.Element {
                 title="video frame"
               />
 
-              <div className="w-full h-full absolute top-0 left-0 z-[30] overlays">
+              <div className="w-full h-full absolute top-0 left-0 z-[30] overlays pointer-events-none">
                 {state.room.showPollView !== undefined &&
                 state.room.pollLayout === "C" ? (
-                  <div className="absolute top-0 left-0 w-full h-full">
+                  <div className="absolute top-0 left-0 w-full h-full pointer-events-auto">
                     <PollView userId={userId} />
                   </div>
                 ) : (
@@ -136,7 +136,7 @@ export default function Page(): JSX.Element {
                 {state.room.showDoubleTicker === true &&
                 state.room.showTicker === true ? (
                   <div
-                    className={`absolute left-0 top-0 ${
+                    className={`absolute left-0 top-0 pointer-events-auto ${
                       showingPanel1 && showingPanel2
                         ? "w-[60%]"
                         : showingPanel1 || showingPanel2
@@ -166,7 +166,7 @@ export default function Page(): JSX.Element {
                   false
                 )}
                 <div
-                  className={`absolute left-0 bottom-0 ${
+                  className={`absolute left-0 bottom-0 pointer-events-auto ${
                     showingPanel1 && showingPanel2
                       ? "w-[60%]"
                       : showingPanel1 || showingPanel2
@@ -178,7 +178,7 @@ export default function Page(): JSX.Element {
                   state.room.pollLayout === "A" ? (
                     <PollView userId={userId} />
                   ) : state.room.showTicker ? (
-                    <div className="py-2 bg-white">
+                    <div className="py-2 bg-white pointer-events-none">
                       <Marquee>
                         {state.headlines
                           .filter((h) => h.active)
@@ -221,7 +221,7 @@ export default function Page(): JSX.Element {
                 )}
 
                 {state.room.chatOn || state.room.gifSearchOn ? (
-                  <div className="grid grid-rows-4 grid-cols-1 w-[20%] h-full z-[40] absolute right-0 top-0 bg-white">
+                  <div className="grid grid-rows-4 grid-cols-1 w-[20%] h-full z-[40] absolute right-0 top-0 bg-white pointer-events-auto">
                     {state.room.chatOn ? (
                       <div
                         className={`border border-black rounded ${
