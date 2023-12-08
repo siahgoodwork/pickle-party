@@ -3,7 +3,7 @@ import { useState } from "react";
 import classNames from "classnames";
 import { useSyncedStore } from "@syncedstore/react";
 import { nanoid } from "nanoid";
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog } from "@headlessui/react";
 import {
   ArrowDownIcon,
   ArrowUpIcon,
