@@ -357,7 +357,7 @@ export default function Pollmaker(): JSX.Element {
                               type="button"
                               className="text-sm"
                               onClick={() => {
-                                setInsertIndex(n.toString());
+                                setInsertIndex((poll.order || n).toString());
                                 setShowPollInput(true);
                               }}
                             >
