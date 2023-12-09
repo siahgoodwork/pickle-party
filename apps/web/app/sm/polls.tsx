@@ -78,7 +78,27 @@ export default function Pollmaker(): JSX.Element {
         <div className="flex flex-col p-2 gap-4">
           <div className="">
             <h3 className="my-2 font-bold">
-              Polls ({Object.keys(polls).length + 1})
+              Polls ({Object.keys(polls).length + 1}){" "}
+              <button
+                type="button"
+                className="text-xs font-normal"
+                onClick={() => {
+                  Object.values(polls)
+                    .sort(pollSortFn)
+                    .forEach((poll, n) => {
+                      if (poll === undefined) {
+                        return;
+                      }
+                      if (polls[poll.id] === undefined) {
+                        return;
+                      }
+                      // eslint-disable-next-line @typescript-eslint/non-nullable-type-assertion-style -- we have already checked that polls[poll.id] is not undefined
+                      (polls[poll.id] as Poll).order = n;
+                    });
+                }}
+              >
+                Flush Order
+              </button>
             </h3>
 
             <div>
@@ -132,7 +152,7 @@ export default function Pollmaker(): JSX.Element {
                         <div>
                           <h3 className="mb-8 font-bold">
                             <span className="inline-block px-2 mr-2 text-sm font-normal border border-black rounded opacity-50">
-                              {n} - {poll.order}
+                              {poll.order}
                             </span>
                             {poll.question}
                           </h3>
