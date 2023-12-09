@@ -132,7 +132,7 @@ export default function Pollmaker(): JSX.Element {
                         <div>
                           <h3 className="mb-8 font-bold">
                             <span className="inline-block px-2 mr-2 text-sm font-normal border border-black rounded opacity-50">
-                              {n}
+                              {n} - {poll.order}
                             </span>
                             {poll.question}
                           </h3>
