@@ -61,6 +61,9 @@ export default function Pollmaker(): JSX.Element {
   const { polls, room, pollResults } = useSyncedStore(store);
   const [showPollInput, setShowPollInput] = useState(false);
   const [searchInput, setSearchInput] = useState("");
+  const [insertIndex, setInsertIndex] = useState(
+    (Object.keys(polls).length - 1).toString()
+  );
   const [pollInput, setPollInput] = useState<Poll>({
     id: "",
     question: "",
@@ -127,7 +130,12 @@ export default function Pollmaker(): JSX.Element {
                     >
                       <div className="grid grid-cols-[3fr_1fr]">
                         <div>
-                          <h3 className="mb-8 font-bold">{poll.question}</h3>
+                          <h3 className="mb-8 font-bold">
+                            <span className="inline-block px-2 mr-2 text-sm font-normal border border-black rounded opacity-50">
+                              {n}
+                            </span>
+                            {poll.question}
+                          </h3>
 
                           <div className="grid-cols-[3fr_2fr] gap-4 grid">
                             <div>
@@ -345,6 +353,16 @@ export default function Pollmaker(): JSX.Element {
                                 ? "Unset active poll result"
                                 : "Set active poll result"}
                             </button>
+                            <button
+                              type="button"
+                              className="text-sm"
+                              onClick={() => {
+                                setInsertIndex(n.toString());
+                                setShowPollInput(true);
+                              }}
+                            >
+                              Insert poll below
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -513,7 +531,7 @@ export default function Pollmaker(): JSX.Element {
         }}
       >
         <Dialog.Panel>
-          <div className="fixed top-0 left-0 w-screen h-screen pointer-events-none backdrop-blur-sm" />
+          <div className="fixed top-0 left-0 w-screen h-screen bg-black opacity-25 pointer-events-none" />
           <div className="w-[40%] h-screen fixed top-0 right-0 bg-white overflow-y-scroll no-scroll">
             <div className="flex flex-col m-2 border border-black rounded gap-2">
               <div className="flex flex-col p-2 border-b gap-2 border-b-black">
@@ -534,6 +552,20 @@ export default function Pollmaker(): JSX.Element {
                   }}
                 />
               </div>
+              {pollInput.id === "" && (
+                <div className="p-2 border-b border-black">
+                  <h3>Insert After</h3>
+                  <input
+                    id="insert_after"
+                    name="insert_after"
+                    value={insertIndex}
+                    onChange={(e) => {
+                      setInsertIndex(e.target.value);
+                    }}
+                  />
+                </div>
+              )}
+
               <div className="p-2 border-b border-black">
                 <div className="flex items-center gap-4">
                   <h3>Choices</h3>
@@ -661,13 +693,27 @@ export default function Pollmaker(): JSX.Element {
                   onClick={() => {
                     if (pollInput.id === "") {
                       //create new poll
+                      const newOrder =
+                        parseInt(insertIndex) + 1 || Object.keys(polls).length;
+
+                      Object.keys(polls).forEach((key) => {
+                        const poll = polls[key];
+                        if (
+                          poll?.order !== undefined &&
+                          poll.order >= newOrder
+                        ) {
+                          poll.order = poll.order + 1;
+                        }
+                      });
+
                       const newId = nanoid();
                       const newPoll: Poll = {
                         ...pollInput,
                         id: newId,
-                        order: Object.keys(polls).length,
+                        order: newOrder,
                       };
                       polls[newId] = newPoll;
+                      setInsertIndex((a) => (parseInt(a) + 1).toString());
                     } else {
                       // update the poll
 
