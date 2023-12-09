@@ -694,29 +694,30 @@ export default function Pollmaker(): JSX.Element {
                     if (pollInput.id === "") {
                       //create new poll
                       const newOrder =
-                        parseInt(insertIndex) + 1 || Object.keys(polls).length;
-
-                      Object.keys(polls).forEach((key) => {
-                        const poll = polls[key];
-                        if (
-                          poll?.order !== undefined &&
-                          poll.order >= newOrder
-                        ) {
-                          poll.order = poll.order + 1;
-                        }
-                      });
+                        parseInt(insertIndex) || Object.keys(polls).length;
 
                       const newId = nanoid();
                       const newPoll: Poll = {
                         ...pollInput,
                         id: newId,
-                        order: newOrder,
+                        order: newOrder + 0.1,
                       };
                       polls[newId] = newPoll;
-                      setInsertIndex((a) => (parseInt(a) + 1).toString());
+
+                      Object.values(polls)
+                        .sort(pollSortFn)
+                        .forEach((poll, n) => {
+                          if (poll === undefined) {
+                            return;
+                          }
+                          if (polls[poll.id] === undefined) {
+                            return;
+                          }
+                          // eslint-disable-next-line @typescript-eslint/non-nullable-type-assertion-style -- we have already checked that polls[poll.id] is not undefined
+                          (polls[poll.id] as Poll).order = n;
+                        });
                     } else {
                       // update the poll
-
                       polls[pollInput.id] = pollInput;
                     }
 
