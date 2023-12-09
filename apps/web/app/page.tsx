@@ -202,7 +202,7 @@ export default function Page(): JSX.Element {
                 state.room.showPollTrivia ||
                 state.room.showMemes ? (
                   <div
-                    className={`grid grid-rows-4 grid-cols-1 w-[20%] h-full z-[40] absolute top-0  ${
+                    className={`grid grid-rows-4 grid-cols-1 w-[20%] h-full z-[40] absolute top-0  pointer-events-auto ${
                       state.room.chatOn || state.room.gifSearchOn
                         ? "right-[20%]"
                         : "right-0"
