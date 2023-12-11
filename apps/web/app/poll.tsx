@@ -291,7 +291,7 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                 ? "flex flex-col justify-center bg-[#f6ff65]/80 leading-[1]"
                 : room.pollLayout === "D"
                 ? "w-[22.91%] h-[55%] top-[22.5%] left-[38.54%] absolute bg-[#f6ff65]/80 flex flex-col justify-center"
-                : "w-[20.83%] h-[50.92%] top-[18.52%] left-[20.83%] absolute bg-[#f6ff65]/80 flex flex-col justify-center"
+                : "w-[21.35%] h-[50.92%] top-[18.52%] left-[20.83%] absolute bg-[#f6ff65]/80 flex flex-col justify-center"
             }
           >
             <h2 className="p-4 pt-8 text-[1.3vw] leading-[1.05] poll-heading-gradient">
@@ -376,7 +376,7 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
             {polls[room.activePollTrivia]?.trivia}
           </div>
         ) : room.pollLayout === "E" ? (
-          <div className="flex items-center justify-center p-4 text-center bg-[#b3f5b2]/80 row-start-2 row-span-1 text-[1.2vw] top-[30.55%] left-[58.33%] w-[20.83%] h-[50.92%] absolute">
+          <div className="flex items-center justify-center p-4 text-center bg-[#b3f5b2]/80 row-start-2 row-span-1 text-[1.2vw] top-[30.55%] left-[58.33%] w-[21.35%] h-[50.92%] absolute">
             {polls[room.activePollTrivia]?.trivia}
           </div>
         ) : (
