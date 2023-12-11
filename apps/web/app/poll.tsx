@@ -86,7 +86,7 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
           false
         ) : (
           <div
-            className={`flex flex-col justify-center p-4 text-black bg-white z-4 gap-4 ${
+            className={`flex flex-col justify-center p-4 text-black z-4 gap-4  bg-[#f6ff65]/80 ${
               room.pollLayout === "C"
                 ? "h-full"
                 : room.pollLayout === "D"
@@ -108,13 +108,13 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                 </span>
               </>
             ) : (
-              <div className="flex flex-col items-center w-full gap-2 flex-nowrap">
+              <div className="flex flex-col items-center justify-start w-full h-full gap-2 flex-nowrap">
                 {polls[room.activePoll || ""] === undefined &&
                 room.activePoll !== "where-poll" ? (
                   false
                 ) : room.activePoll === "where-poll" ? (
                   <>
-                    <h2 className="my-4 text-lg text-center">
+                    <h2 className="my-4 text-lg text-center leading-[1.15]">
                       {activePoll.question}
                     </h2>
                     <div
@@ -132,7 +132,7 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                             room.pollLayout === "B" || room.pollLayout === "D"
                               ? "w-full"
                               : "w-[30%]"
-                          }`}
+                          } border-0 hover:bg-white/10`}
                           onClick={() => {
                             sendVote(c.id);
                           }}
@@ -144,7 +144,7 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                   </>
                 ) : (
                   <>
-                    <h2 className="my-4 text-lg text-center">
+                    <h2 className="my-4 text-lg text-center leading-[1.15]">
                       {activePoll.question}
                     </h2>
                     <div
@@ -162,7 +162,7 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                             room.pollLayout === "B" || room.pollLayout === "D"
                               ? "w-full"
                               : "w-[20%]"
-                          }`}
+                          } border-0 hover:bg-white/10`}
                           onClick={() => {
                             sendVote(c.id);
                           }}
@@ -180,7 +180,7 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
       ) : room.showPollView === "result" && showingPollResults !== undefined ? (
         room.activePollResult === "where-poll" ? (
           room.pollLayout === "C" ? (
-            <div className="relative flex items-center w-full h-full p-12 bg-white">
+            <div className="relative flex items-center w-full h-full p-12 bg-[#f6ff65]/80">
               <div className="w-full relative top-[8%]">
                 <img
                   src="/continents.svg"
@@ -230,7 +230,7 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
             false
           )
         ) : room.pollLayout === "B" && prPoll !== undefined ? (
-          <div className="flex flex-col justify-center bg-white">
+          <div className="flex flex-col justify-center bg-[#f6ff65]/80">
             {Object.values(prPoll.choices).map((c) => {
               const resultChoice = showingPollResults.choices[c.id];
 
@@ -303,7 +303,7 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
           </div>
         ) : prPoll !== undefined ? (
           <div
-            className={`flex flex-wrap justify-center items-center p-4 bg-white ${
+            className={`flex flex-wrap justify-center items-center p-4 bg-[#f6ff65]/50 ${
               room.pollLayout === "C" ? "h-full" : "h-auto"
             }`}
           >
