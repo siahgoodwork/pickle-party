@@ -143,7 +143,7 @@ export default function Page(): JSX.Element {
                 {state.room.showDoubleTicker === true &&
                 state.room.showTicker === true ? (
                   <div
-                    className={`absolute left-0 top-[1.38%] pl-[0.78%] pointer-events-auto ${
+                    className={`absolute left-0 top-[1.38%] pl-[0.78%] pointer-events-auto leading-[1] ${
                       showingPanel1 && showingPanel2
                         ? "w-[60%]"
                         : showingPanel1 || showingPanel2
@@ -151,7 +151,10 @@ export default function Page(): JSX.Element {
                         : "w-full"
                     }`}
                   >
-                    <div className="py-1 pointer-events-none bg-gradient-to-r from-[#e961fe] to-[#f9fb7f] to-[45%]">
+                    <div className="py-1 pointer-events-none bg-gradient-to-r from-[#e7587e] to-[#f9fb7f] to-[45%] flex">
+                      <div className="font-bebas text-[3.5vh] mx-1 border border-[4px] px-1 border-black bg-white">
+                        Pickled&nbsp;News
+                      </div>
                       <Marquee>
                         {state.headlines
                           .filter((h) => h.active)
@@ -160,7 +163,7 @@ export default function Page(): JSX.Element {
                             return (
                               <span
                                 key={headline.id}
-                                className="text-[3vh] px-[1em] block font-bebas"
+                                className="text-[4vh] px-[1em] block font-bebas"
                               >
                                 {headline.text}
                               </span>
@@ -185,7 +188,10 @@ export default function Page(): JSX.Element {
                   state.room.pollLayout === "A" ? (
                     <PollView userId={userId} />
                   ) : state.room.showTicker ? (
-                    <div className="py-1 pointer-events-none bg-gradient-to-r from-[#e961fe] to-[#f9fb7f] to-[45%]">
+                    <div className="py-1 pointer-events-none bg-gradient-to-r from-[#e7587e] to-[#f9fb7f] to-[45%] flex">
+                      <div className="font-bebas text-[3.5vh] mx-1 border border-[4px] px-1 border-black bg-white">
+                        Pickled&nbsp;News
+                      </div>
                       <Marquee>
                         {state.headlines
                           .filter((h) => h.active)
@@ -193,7 +199,7 @@ export default function Page(): JSX.Element {
                             return (
                               <span
                                 key={headline.id}
-                                className="text-[3vh] px-[1em] block font-bebas"
+                                className="text-[4vh] px-[1em] block font-bebas"
                               >
                                 {headline.text}
                               </span>
