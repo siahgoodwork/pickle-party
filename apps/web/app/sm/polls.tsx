@@ -205,7 +205,6 @@ export default function Pollmaker(): JSX.Element {
                                   );
                                 })}
                               </ul>
-                              {hasPollResult ? "true" : "false"}
                               {hasPollResult ? (
                                 <button
                                   type="button"
