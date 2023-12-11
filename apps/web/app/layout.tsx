@@ -13,6 +13,14 @@ export default function RootLayout({
 }): JSX.Element {
   return (
     <html lang="en">
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+
+        @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+				`,
+        }}
+      />
       <body>
         <Toaster />
         {children}

@@ -148,7 +148,7 @@ export default function Page(): JSX.Element {
                         : "w-full"
                     }`}
                   >
-                    <div className="py-2 pointer-events-none bg-gradient-to-r from-[#e961fe] to-[#f9fb7f] to-[45%]">
+                    <div className="py-1 pointer-events-none bg-gradient-to-r from-[#e961fe] to-[#f9fb7f] to-[45%]">
                       <Marquee>
                         {state.headlines
                           .filter((h) => h.active)
@@ -157,7 +157,7 @@ export default function Page(): JSX.Element {
                             return (
                               <span
                                 key={headline.id}
-                                className="text-[3vh] px-[3em] block"
+                                className="text-[3vh] px-[1em] block font-bebas"
                               >
                                 {headline.text}
                               </span>
@@ -182,7 +182,7 @@ export default function Page(): JSX.Element {
                   state.room.pollLayout === "A" ? (
                     <PollView userId={userId} />
                   ) : state.room.showTicker ? (
-                    <div className="py-2 pointer-events-none bg-gradient-to-r from-[#e961fe] to-[#f9fb7f] to-[45%]">
+                    <div className="py-1 pointer-events-none bg-gradient-to-r from-[#e961fe] to-[#f9fb7f] to-[45%]">
                       <Marquee>
                         {state.headlines
                           .filter((h) => h.active)
@@ -190,7 +190,7 @@ export default function Page(): JSX.Element {
                             return (
                               <span
                                 key={headline.id}
-                                className="text-[3vh] px-[3em] block"
+                                className="text-[3vh] px-[1em] block font-bebas"
                               >
                                 {headline.text}
                               </span>

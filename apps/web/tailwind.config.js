@@ -34,6 +34,7 @@ module.exports = {
       fontFamily: {
         vcr: ["VCR", "monospace"],
         alt: ["Alt_Mono", "monospace"],
+        bebas: ["Bebas Neue", "sans-serif"],
       },
     },
   },
