@@ -47,14 +47,13 @@ export default function Page(): JSX.Element {
     state.room.chatOn === true || state.room.gifSearchOn === true;
 
   const showingPanel2 =
-    (state.room.pollLayout === "B" &&
-      ((state.room.showPollView === "poll" &&
-        state.room.activePoll !== undefined) ||
-        (state.room.showPollView === "result" &&
-          state.room.activePollResult !== undefined) ||
-        (state.room.showPollTrivia === true &&
-          state.room.activePollTrivia !== undefined))) ||
-    state.room.showMemes === true;
+    state.room.pollLayout === "B" &&
+    ((state.room.showPollView === "poll" &&
+      state.room.activePoll !== undefined) ||
+      (state.room.showPollView === "result" &&
+        state.room.activePollResult !== undefined) ||
+      (state.room.showPollTrivia === true &&
+        state.room.activePollTrivia !== undefined));
 
   return (
     <main className="font-vcr">
@@ -203,9 +202,20 @@ export default function Page(): JSX.Element {
                     false
                   )}
                 </div>
+                <div
+                  className={`absolute left-0 bottom-[1.38%] h-[23%] pl-[0.78%] pointer-events-auto ${
+                    showingPanel1 && showingPanel2
+                      ? "w-[60%]"
+                      : showingPanel1 || showingPanel2
+                      ? "w-[80%]"
+                      : "w-full"
+                  }`}
+                >
+                  {state.room.showMemes ? <MemeStream /> : false}
+                </div>
+
                 {(state.room.showPollView && state.room.pollLayout === "B") ||
-                state.room.showPollTrivia ||
-                state.room.showMemes ? (
+                state.room.showPollTrivia ? (
                   <div
                     className={`grid grid-rows-4 grid-cols-1 w-[20%] h-full z-[40] absolute top-0  pointer-events-auto ${
                       state.room.chatOn || state.room.gifSearchOn
@@ -213,9 +223,7 @@ export default function Page(): JSX.Element {
                         : "right-0"
                     }`}
                   >
-                    {state.room.showMemes ? (
-                      <MemeStream />
-                    ) : state.room.pollLayout === "B" ? (
+                    {state.room.pollLayout === "B" ? (
                       <PollView userId={userId} />
                     ) : (
                       false
