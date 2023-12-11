@@ -186,7 +186,7 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
       ) : room.showPollView === "result" && showingPollResults !== undefined ? (
         room.activePollResult === "where-poll" ? (
           room.pollLayout === "C" ? (
-            <div className="relative flex items-center w-full h-full p-12 bg-[#f6ff65]/80">
+            <div className="relative flex items-center w-full h-full p-12">
               <div className="w-full relative top-[8%]">
                 <img
                   src="/continents.svg"
