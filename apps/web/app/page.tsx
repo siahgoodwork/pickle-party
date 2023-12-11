@@ -141,7 +141,7 @@ export default function Page(): JSX.Element {
                 {state.room.showDoubleTicker === true &&
                 state.room.showTicker === true ? (
                   <div
-                    className={`absolute left-0 top-0 pointer-events-auto ${
+                    className={`absolute left-0 top-[1.38%] pl-[0.78%] pointer-events-auto ${
                       showingPanel1 && showingPanel2
                         ? "w-[60%]"
                         : showingPanel1 || showingPanel2
@@ -149,7 +149,7 @@ export default function Page(): JSX.Element {
                         : "w-full"
                     }`}
                   >
-                    <div className="py-2 bg-white">
+                    <div className="py-2 pointer-events-none bg-gradient-to-r from-[#e961fe] to-[#f9fb7f] to-[45%]">
                       <Marquee>
                         {state.headlines
                           .filter((h) => h.active)
@@ -171,7 +171,7 @@ export default function Page(): JSX.Element {
                   false
                 )}
                 <div
-                  className={`absolute left-0 bottom-0 pointer-events-auto ${
+                  className={`absolute left-0 bottom-[1.38%] pl-[0.78%] pointer-events-auto ${
                     showingPanel1 && showingPanel2
                       ? "w-[60%]"
                       : showingPanel1 || showingPanel2
@@ -183,7 +183,7 @@ export default function Page(): JSX.Element {
                   state.room.pollLayout === "A" ? (
                     <PollView userId={userId} />
                   ) : state.room.showTicker ? (
-                    <div className="py-2 bg-white pointer-events-none">
+                    <div className="py-2 pointer-events-none bg-gradient-to-r from-[#e961fe] to-[#f9fb7f] to-[45%]">
                       <Marquee>
                         {state.headlines
                           .filter((h) => h.active)
@@ -226,7 +226,7 @@ export default function Page(): JSX.Element {
                 )}
 
                 {state.room.chatOn || state.room.gifSearchOn ? (
-                  <div className="grid grid-rows-4 gap-[15px] grid-cols-1 w-[18.43%] h-[97.22%] z-[40] absolute right-[0.781%] top-[1.38%] pointer-events-auto">
+                  <div className="grid grid-rows-4 gap-[1.4%] grid-cols-1 w-[18.43%] h-[97.22%] z-[40] absolute right-[0.781%] top-[1.38%] pointer-events-auto">
                     {state.room.chatOn ? (
                       <div
                         className={`${
@@ -247,7 +247,7 @@ export default function Page(): JSX.Element {
                     )}
                     {state.room.gifSearchOn ? (
                       <div
-                        className={`border border-black rounded ${
+                        className={`${
                           state.room.chatOn ? "row-span-2" : "row-span-4"
                         }`}
                       >

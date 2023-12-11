@@ -25,11 +25,12 @@ export default function GifSearcher({
   >();
 
   return (
-    <div className="flex flex-col justify-start w-full h-full p-1 gap-1">
+    <div className="flex flex-col justify-start w-full h-full p-1 gap-1 bg-[#f6ff65]">
       <div className="flex items-center justify-center">
         <input
           type="text"
-          className="flex-grow min-w-[50px] border-black border h-8 p-1"
+          className="flex-grow min-w-[50px] h-8 p-1 pl-2"
+          placeholder="search for a gif"
           value={searchTerm}
           disabled={searching}
           onChange={(e) => {
@@ -39,7 +40,7 @@ export default function GifSearcher({
         <button
           type="button"
           disabled={searching}
-          className="h-8 rounded-[0] border-l-0"
+          className="h-8 rounded-[0] bg-white border-0"
           onClick={async () => {
             setSearching(true);
             const r = await fetch("/api/giphy", {
