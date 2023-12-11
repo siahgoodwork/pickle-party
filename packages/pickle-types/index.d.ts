@@ -3,7 +3,7 @@ interface Room {
   activePoll: string;
   activePollResult: string;
   activePollTrivia: string;
-  pollLayout: "A" | "B" | "C";
+  pollLayout: "A" | "B" | "C" | "D" | "E";
   chatOn: boolean;
   showPollView: "poll" | "result" | false;
   showPollTrivia: boolean;

@@ -85,7 +85,11 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
         activePoll === undefined ? (
           false
         ) : (
-          <div className="flex flex-col justify-center p-4 text-black bg-white z-4 gap-4">
+          <div
+            className={`flex flex-col justify-center p-4 text-black bg-white z-4 gap-4 ${
+              room.pollLayout === "C" ? "h-full" : ""
+            }`}
+          >
             {userHasVotedActivePoll ? (
               <>
                 <h2 className="my-4 text-lg text-center">

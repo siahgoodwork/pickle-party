@@ -494,13 +494,41 @@ export default function Pollmaker(): JSX.Element {
                   room.pollLayout = "C";
                 }}
                 className={classNames([
-                  "rounded-l-[0]",
+                  "rounded-[0] border-l",
                   room.pollLayout === "C"
                     ? "bg-pickle-green hover:bg-pickle-green/80 text-pickle-beige"
                     : "",
                 ])}
               >
                 Fullscreen
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  room.pollLayout = "D";
+                }}
+                className={classNames([
+                  "rounded-[0] border-x-0",
+                  room.pollLayout === "D"
+                    ? "bg-pickle-green hover:bg-pickle-green/80 text-pickle-beige"
+                    : "",
+                ])}
+              >
+                Center
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  room.pollLayout = "E";
+                }}
+                className={classNames([
+                  "rounded-l-[0]",
+                  room.pollLayout === "E"
+                    ? "bg-pickle-green hover:bg-pickle-green/80 text-pickle-beige"
+                    : "",
+                ])}
+              >
+                Ctr + Right
               </button>
             </div>
           </div>
