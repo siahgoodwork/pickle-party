@@ -514,7 +514,7 @@ export default function Pollmaker(): JSX.Element {
                     : "",
                 ])}
               >
-                Center
+                Ctr + Right
               </button>
               <button
                 type="button"
@@ -528,7 +528,7 @@ export default function Pollmaker(): JSX.Element {
                     : "",
                 ])}
               >
-                Ctr + Right
+                Center
               </button>
             </div>
           </div>
@@ -553,7 +553,6 @@ export default function Pollmaker(): JSX.Element {
                 type="button"
                 onClick={() => {
                   room.showPollTrivia = true;
-                  room.pollLayout = "B";
                 }}
                 className={classNames([
                   "rounded-l-[0] border-l-0",
@@ -566,8 +565,8 @@ export default function Pollmaker(): JSX.Element {
               </button>
             </div>
             <span className="text-xs">
-              Turning poll trivia on always sets &ldquo;Poll layout&rdquo; to
-              &ldquo;Right&rdquo;
+              Trivia is not visible for layouts &quot;Bottom&quot; or
+              &quot;Fullscreen&quot;
             </span>
           </div>
         </div>

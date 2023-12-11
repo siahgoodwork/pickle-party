@@ -125,8 +125,10 @@ export default function Page(): JSX.Element {
               />
 
               <div className="w-full h-full absolute top-0 left-0 z-[30] overlays pointer-events-none">
-                {state.room.showPollView !== undefined &&
-                state.room.pollLayout === "C" ? (
+                {(state.room.showPollView !== undefined &&
+                  state.room.pollLayout === "C") ||
+                state.room.pollLayout === "D" ||
+                state.room.pollLayout === "E" ? (
                   <div className="absolute top-0 left-0 w-full h-full pointer-events-auto">
                     <PollView userId={userId} />
                   </div>
