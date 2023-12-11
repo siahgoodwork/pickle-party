@@ -2,12 +2,12 @@
 import { useSyncedStore } from "@syncedstore/react";
 import { useEffect, useState } from "react";
 // import MuxVideo from "@mux/mux-video-react";
+import Marquee from "react-fast-marquee";
 import Chat from "./chat";
 import { PollView } from "./poll";
 import { store, websocketProvider } from "./store";
 import GifSearcher from "./gif-searcher";
 import { MemeStream } from "./memestream";
-import Marquee from "react-fast-marquee";
 
 export interface UserPresence {
   user?: { name: string };
@@ -57,6 +57,9 @@ export default function Page(): JSX.Element {
 
   return (
     <main className="font-vcr">
+      <link rel="preload" as="image" href="/continents.svg" />
+      <link rel="preload" as="image" href="/iceland.jpg" />
+
       {onboarding ? (
         <div
           className="w-full h-[100vh] relative"

@@ -86,7 +86,7 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
           false
         ) : (
           <div
-            className={`flex flex-col justify-center p-4 text-black z-4 gap-4  bg-[#f6ff65]/80 ${
+            className={`flex flex-col justify-center text-black z-4 gap-4  bg-[#f6ff65]/80 ${
               room.pollLayout === "C"
                 ? "h-full"
                 : room.pollLayout === "D"
@@ -116,13 +116,13 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                   false
                 ) : room.activePoll === "where-poll" ? (
                   <>
-                    <h2 className="my-4 text-lg text-center leading-[1.15]">
+                    <h2 className="p-4 pt-12 text-lg leading-[1.15] poll-heading-gradient">
                       {activePoll.question}
                     </h2>
                     <div
                       className={`flex w-full gap-2 ${
                         room.pollLayout === "B" || room.pollLayout === "D"
-                          ? "flex-col flex-nowrap"
+                          ? "flex-col flex-nowrap justify-center flex-grow"
                           : "justify-center flex-wrap"
                       }`}
                     >
@@ -186,7 +186,13 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
       ) : room.showPollView === "result" && showingPollResults !== undefined ? (
         room.activePollResult === "where-poll" ? (
           room.pollLayout === "C" ? (
-            <div className="relative flex items-center w-full h-full p-12">
+            <div
+              className="relative flex items-center w-full h-full p-12"
+              style={{
+                backgroundImage: "url(/iceland.jpg)",
+                backgroundSize: "cover",
+              }}
+            >
               <div className="w-full relative top-[8%]">
                 <img
                   src="/continents.svg"

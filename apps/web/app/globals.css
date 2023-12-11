@@ -68,3 +68,11 @@ button {
     @apply w-full h-auto;
   }
 }
+
+.poll-heading-gradient {
+  background: linear-gradient(
+    39deg,
+    rgba(254, 82, 248, 1) 62%,
+    rgba(254, 82, 248, 0) 100%
+  );
+}

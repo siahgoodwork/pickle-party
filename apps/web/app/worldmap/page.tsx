@@ -25,7 +25,13 @@ export default function Page(): React.ReactElement {
       style={{ backgroundImage: "url(/bg.jpg)", backgroundSize: "cover" }}
     >
       <div className="absolute video-frame left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]">
-        <div className="relative flex items-center w-full h-full p-12 bg-[#f6ff65]/80">
+        <div
+          className="relative flex items-center w-full h-full p-12"
+          style={{
+            backgroundImage: "url(/iceland.jpg)",
+            backgroundSize: "cover",
+          }}
+        >
           <div className="w-full relative top-[8%]">
             <img
               src="/continents.svg"
