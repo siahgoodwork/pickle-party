@@ -86,8 +86,10 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
           false
         ) : (
           <div
-            className={`flex flex-col justify-center text-black z-4 gap-4  bg-[#f6ff65]/80 ${
-              room.pollLayout === "C"
+            className={`flex flex-col justify-center text-black z-4 gap-2 bg-[#f6ff65]/90 ${
+              room.pollLayout === "A"
+                ? "p-4"
+                : room.pollLayout === "C"
                 ? "h-full"
                 : room.pollLayout === "D"
                 ? "w-[22.91%] h-[55%] top-[22.5%] left-[38.54%] absolute"
@@ -98,10 +100,24 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
           >
             {userHasVotedActivePoll ? (
               <>
-                <h2 className="my-4 text-lg text-center">
-                  {activePoll.question}
-                </h2>
-                <span className="text-center">
+                {room.pollLayout === "A" || room.pollLayout === "C" ? (
+                  <h2 className="p-4 text-[1.7vw] leading-[1.1] m-0 text-[#fe52f8] text-center">
+                    {activePoll.question}
+                  </h2>
+                ) : (
+                  <h2 className="p-4 pt-8 text-[1.5vw] leading-[1.15] poll-heading-gradient">
+                    {activePoll.question}
+                  </h2>
+                )}
+                <span
+                  className={`text-[1.35vw] items-center flex text-center justify-center ${
+                    room.pollLayout === "B" ||
+                    room.pollLayout === "D" ||
+                    room.pollLayout === "E"
+                      ? "flex-grow"
+                      : ""
+                  }`}
+                >
                   {polls[room.activePoll || ""]?.thankyouMessage ===
                     undefined ||
                   polls[room.activePoll || ""]?.thankyouMessage?.length === 0
@@ -110,24 +126,34 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                 </span>
               </>
             ) : (
-              <div className="flex flex-col items-center justify-start w-full h-full gap-2 flex-nowrap">
+              <div
+                className={`flex flex-col items-center justify-start w-full h-full gap-2 flex-nowrap ${
+                  room.pollLayout === "A"
+                    ? "p-4"
+                    : room.pollLayout === "C"
+                    ? "justify-center"
+                    : ""
+                }`}
+              >
                 {polls[room.activePoll || ""] === undefined &&
                 room.activePoll !== "where-poll" ? (
                   false
                 ) : room.activePoll === "where-poll" ? (
                   <>
-                    {room.pollLayout === "A" ? (
-                      <h2 className="p-4 text-lg leading-[1.15] text-[#fe52f8]">
+                    {room.pollLayout === "A" || room.pollLayout === "C" ? (
+                      <h2 className="p-4 text-[1.7vw] leading-[1.1] m-0 text-[#fe52f8]">
                         {activePoll.question}
                       </h2>
                     ) : (
-                      <h2 className="p-4 pt-12 text-lg leading-[1.15] poll-heading-gradient">
+                      <h2 className="p-4 pt-8 text-[1.5vw] leading-[1.15] poll-heading-gradient">
                         {activePoll.question}
                       </h2>
                     )}
                     <div
                       className={`flex w-full gap-2 ${
-                        room.pollLayout === "B" || room.pollLayout === "D"
+                        room.pollLayout === "B" ||
+                        room.pollLayout === "D" ||
+                        room.pollLayout === "E"
                           ? "flex-col flex-nowrap justify-center flex-grow"
                           : "justify-center flex-wrap"
                       }`}
@@ -141,8 +167,8 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                             room.pollLayout === "D" ||
                             room.pollLayout === "E"
                               ? "w-full"
-                              : "w-[30%]"
-                          } border-0 hover:bg-white/10`}
+                              : "w-auto px-4"
+                          } border-0 hover:bg-white/40 text-[1.3vw] leading-[1] py-1`}
                           onClick={() => {
                             sendVote(c.id);
                           }}
@@ -154,13 +180,21 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                   </>
                 ) : (
                   <>
-                    <h2 className="my-4 text-lg text-center leading-[1.15]">
-                      {activePoll.question}
-                    </h2>
+                    {room.pollLayout === "A" || room.pollLayout === "C" ? (
+                      <h2 className="p-4 text-[1.7vw] leading-[1.1] m-0 text-[#fe52f8]">
+                        {activePoll.question}
+                      </h2>
+                    ) : (
+                      <h2 className="p-4 pt-8 text-[1.5vw] leading-[1.15] poll-heading-gradient">
+                        {activePoll.question}
+                      </h2>
+                    )}
                     <div
                       className={`flex w-full gap-2 ${
-                        room.pollLayout === "B" || room.pollLayout === "D"
-                          ? "flex-col"
+                        room.pollLayout === "B" ||
+                        room.pollLayout === "D" ||
+                        room.pollLayout === "E"
+                          ? "flex-col flex-nowrap justify-center flex-grow"
                           : "justify-center flex-wrap"
                       }`}
                     >
@@ -247,105 +281,84 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
           ) : (
             false
           )
-        ) : room.pollLayout === "B" && prPoll !== undefined ? (
-          <div className="flex flex-col justify-center bg-[#f6ff65]/80">
-            {Object.values(prPoll.choices).map((c) => {
-              const resultChoice = showingPollResults.choices[c.id];
+        ) : (room.pollLayout === "B" ||
+            room.pollLayout === "D" ||
+            room.pollLayout === "E") &&
+          prPoll !== undefined ? (
+          <div
+            className={
+              room.pollLayout === "B"
+                ? "flex flex-col justify-center bg-[#f6ff65]/80 leading-[1]"
+                : room.pollLayout === "D"
+                ? "w-[22.91%] h-[55%] top-[22.5%] left-[38.54%] absolute bg-[#f6ff65]/80 flex flex-col justify-center"
+                : "w-[20.83%] h-[50.92%] top-[18.52%] left-[20.83%] absolute bg-[#f6ff65]/80 flex flex-col justify-center"
+            }
+          >
+            <h2 className="p-4 pt-8 text-[1.3vw] leading-[1.05] poll-heading-gradient">
+              {prPoll.question}
+            </h2>
+            <div className="flex flex-col justify-center flex-grow">
+              {Object.values(prPoll.choices).map((c) => {
+                const resultChoice = showingPollResults.choices[c.id];
 
-              return (
-                <div
-                  key={c.id}
-                  className="flex items-center justify-start gap-[1vw]"
-                >
-                  <span className="text-[1.3vw] w-[40%] text-right">
-                    {(
-                      ((resultChoice?.voters.length || 0) / totalVotes) * //eslint-disable-line @typescript-eslint/no-unnecessary-condition -- some choices might not be populated yet
-                      100
-                    ).toFixed(0)}
-                    %
-                  </span>
-                  <span className="text-[1.3vw]">
-                    {prPoll.choices.find((_c) => _c.id === c.id)?.text}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        ) : room.pollLayout === "D" && prPoll !== undefined ? (
-          <div className="w-[22.91%] h-[55%] top-[22.5%] left-[38.54%] absolute bg-[#f6ff65]/80 flex flex-col justify-center">
-            {Object.values(prPoll.choices).map((c) => {
-              const resultChoice = showingPollResults.choices[c.id];
-
-              return (
-                <div
-                  key={c.id}
-                  className="flex items-center justify-start gap-[1vw]"
-                >
-                  <span className="text-[1.3vw] w-[40%] text-right">
-                    {(
-                      ((resultChoice?.voters.length || 0) / totalVotes) * //eslint-disable-line @typescript-eslint/no-unnecessary-condition -- some choices might not be populated yet
-                      100
-                    ).toFixed(0)}
-                    %
-                  </span>
-                  <span className="text-[1.3vw]">
-                    {prPoll.choices.find((_c) => _c.id === c.id)?.text}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        ) : room.pollLayout === "E" && prPoll !== undefined ? (
-          <div className="w-[20.83%] h-[50.92%] top-[18.52%] left-[20.83%] absolute bg-[#f6ff65]/80 flex flex-col justify-center">
-            {Object.values(prPoll.choices).map((c) => {
-              const resultChoice = showingPollResults.choices[c.id];
-
-              return (
-                <div
-                  key={c.id}
-                  className="flex items-center justify-start gap-[1vw]"
-                >
-                  <span className="text-[1.3vw] w-[40%] text-right">
-                    {(
-                      ((resultChoice?.voters.length || 0) / totalVotes) * //eslint-disable-line @typescript-eslint/no-unnecessary-condition -- some choices might not be populated yet
-                      100
-                    ).toFixed(0)}
-                    %
-                  </span>
-                  <span className="text-[1.3vw]">
-                    {prPoll.choices.find((_c) => _c.id === c.id)?.text}
-                  </span>
-                </div>
-              );
-            })}
+                return (
+                  <div
+                    key={c.id}
+                    className="flex flex-col items-start justify-center p-4"
+                  >
+                    <span className="text-[1.3vw] text-right">
+                      {(
+                        ((resultChoice?.voters.length || 0) / totalVotes) * //eslint-disable-line @typescript-eslint/no-unnecessary-condition -- some choices might not be populated yet
+                        100
+                      ).toFixed(0)}
+                      %
+                    </span>
+                    <span className="text-[1.2vw]">
+                      {prPoll.choices.find((_c) => _c.id === c.id)?.text}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         ) : prPoll !== undefined ? (
           <div
-            className={`flex flex-wrap justify-center items-center p-4 bg-[#f6ff65]/50 ${
+            className={`flex flex-col justify-center items-center p-4 bg-[#f6ff65]/90 ${
               room.pollLayout === "C" ? "h-full" : "h-auto"
             }`}
           >
-            {Object.values(prPoll.choices).map((c) => {
-              const resultChoice = showingPollResults.choices[c.id];
+            <h2 className="p-4 text-[1.7vw] leading-[1.1] m-0 text-[#fe52f8] text-center">
+              {prPoll.question}
+            </h2>
+            <div
+              className={
+                room.pollLayout === "A"
+                  ? "flex gap-12 flex-wrap"
+                  : "flex flex-col gap-2"
+              }
+            >
+              {Object.values(prPoll.choices).map((c) => {
+                const resultChoice = showingPollResults.choices[c.id];
 
-              return (
-                <div
-                  key={c.id}
-                  className="flex items-center justify-start gap-[1vw] w-[25%]"
-                >
-                  <span className="text-[1.3vw] w-[40%] text-right">
-                    {(
-                      ((resultChoice?.voters.length || 0) / totalVotes) * //eslint-disable-line @typescript-eslint/no-unnecessary-condition -- some choices might not be populated yet
-                      100
-                    ).toFixed(0)}
-                    %
-                  </span>
-                  <span className="text-[1.3vw]">
-                    {prPoll.choices.find((_c) => _c.id === c.id)?.text}
-                  </span>
-                </div>
-              );
-            })}
+                return (
+                  <div
+                    key={c.id}
+                    className="flex items-center justify-start gap-[1vw] w-auto"
+                  >
+                    <span className="text-[1.5vw]">
+                      {(
+                        ((resultChoice?.voters.length || 0) / totalVotes) * //eslint-disable-line @typescript-eslint/no-unnecessary-condition -- some choices might not be populated yet
+                        100
+                      ).toFixed(0)}
+                      %
+                    </span>
+                    <span className="text-[1.3vw]">
+                      {prPoll.choices.find((_c) => _c.id === c.id)?.text}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         ) : (
           false
