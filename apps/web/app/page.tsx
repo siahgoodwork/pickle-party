@@ -203,7 +203,7 @@ export default function Page(): JSX.Element {
                   )}
                 </div>
                 <div
-                  className={`absolute left-0 bottom-[1.38%] h-[23%] pl-[0.78%] pointer-events-auto ${
+                  className={`absolute pointer-events-none left-0 bottom-[1.38%] h-[23%] pl-[0.78%] ${
                     showingPanel1 && showingPanel2
                       ? "w-[60%]"
                       : showingPanel1 || showingPanel2
