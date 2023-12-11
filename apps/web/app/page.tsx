@@ -148,7 +148,7 @@ export default function Page(): JSX.Element {
                         ? "w-[60%]"
                         : showingPanel1 || showingPanel2
                         ? "w-[80%]"
-                        : "w-full"
+                        : "w-full pr-[0.78%]"
                     }`}
                   >
                     <div className="py-1 pointer-events-none bg-gradient-to-r from-[#e7587e] to-[#f9fb7f] to-[45%] flex">
@@ -181,7 +181,7 @@ export default function Page(): JSX.Element {
                       ? "w-[60%]"
                       : showingPanel1 || showingPanel2
                       ? "w-[80%]"
-                      : "w-full"
+                      : "w-full pr-[0.78%]"
                   }`}
                 >
                   {state.room.showPollView !== undefined &&

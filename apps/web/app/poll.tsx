@@ -86,15 +86,15 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
           false
         ) : (
           <div
-            className={`flex flex-col justify-center text-black z-4 gap-2 bg-[#f6ff65]/90 ${
+            className={`flex flex-col justify-center text-black z-4 gap-2 ${
               room.pollLayout === "A"
-                ? "p-4"
+                ? "p-4 bg-[#f6ff65]/90"
                 : room.pollLayout === "C"
-                ? "h-full"
+                ? "h-full bg-[transparent]"
                 : room.pollLayout === "D"
-                ? "w-[22.91%] h-[55%] top-[22.5%] left-[38.54%] absolute"
+                ? "w-[22.91%] h-[55%] top-[22.5%] left-[38.54%] absolute  bg-[#f6ff65]/90"
                 : room.pollLayout === "E"
-                ? "w-[22.91%] h-[55%] top-[18.51%] left-[20.83%] absolute"
+                ? "w-[22.91%] h-[55%] top-[18.51%] left-[20.83%] absolute  bg-[#f6ff65]/90"
                 : ""
             }`}
           >
@@ -323,8 +323,10 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
           </div>
         ) : prPoll !== undefined ? (
           <div
-            className={`flex flex-col justify-center items-center p-4 bg-[#f6ff65]/90 ${
-              room.pollLayout === "C" ? "h-full" : "h-auto"
+            className={`flex flex-col justify-center items-center p-4 ${
+              room.pollLayout === "C"
+                ? "h-full bg-transparent"
+                : "h-auto bg-[#f6ff65]/90"
             }`}
           >
             <h2 className="p-4 text-[1.7vw] leading-[1.1] m-0 text-[#fe52f8] text-center">
