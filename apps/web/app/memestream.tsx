@@ -18,10 +18,10 @@ export function MemeStream(): React.ReactElement {
             .map((gif) => (
               <motion.div
                 key={gif.url}
-                animate={{ maxWidth: "220px" }}
-                exit={{ maxWidth: 0 }}
+                animate={{ width: "11.3vw" }}
+                exit={{ width: "0vw" }}
                 transition={{ duration: 0.8 }}
-                className="ml-2"
+                className="ml-2 aspect-square"
               >
                 <img
                   src={gif.url}

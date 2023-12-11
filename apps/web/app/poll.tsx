@@ -116,9 +116,15 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                   false
                 ) : room.activePoll === "where-poll" ? (
                   <>
-                    <h2 className="p-4 pt-12 text-lg leading-[1.15] poll-heading-gradient">
-                      {activePoll.question}
-                    </h2>
+                    {room.pollLayout === "A" ? (
+                      <h2 className="p-4 text-lg leading-[1.15] text-[#fe52f8]">
+                        {activePoll.question}
+                      </h2>
+                    ) : (
+                      <h2 className="p-4 pt-12 text-lg leading-[1.15] poll-heading-gradient">
+                        {activePoll.question}
+                      </h2>
+                    )}
                     <div
                       className={`flex w-full gap-2 ${
                         room.pollLayout === "B" || room.pollLayout === "D"
