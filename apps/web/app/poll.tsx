@@ -91,6 +91,8 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                 ? "h-full"
                 : room.pollLayout === "D"
                 ? "w-[22.91%] h-[55%] top-[22.5%] left-[38.54%] absolute"
+                : room.pollLayout === "E"
+                ? "w-[22.91%] h-[55%] top-[18.51%] left-[20.83%] absolute"
                 : ""
             }`}
           >
@@ -129,7 +131,9 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                           type="button"
                           key={c.id}
                           className={`${
-                            room.pollLayout === "B" || room.pollLayout === "D"
+                            room.pollLayout === "B" ||
+                            room.pollLayout === "D" ||
+                            room.pollLayout === "E"
                               ? "w-full"
                               : "w-[30%]"
                           } border-0 hover:bg-white/10`}
@@ -159,7 +163,9 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                           type="button"
                           key={c.id}
                           className={`${
-                            room.pollLayout === "B" || room.pollLayout === "D"
+                            room.pollLayout === "B" ||
+                            room.pollLayout === "D" ||
+                            room.pollLayout === "E"
                               ? "w-full"
                               : "w-[20%]"
                           } border-0 hover:bg-white/10`}
