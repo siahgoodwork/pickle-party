@@ -94,7 +94,7 @@ export default function Page({ userId }: { userId: string }): ReactElement {
         return;
       }
       const cHeight = container.offsetHeight;
-      const targetHeight = `${cHeight * 0.8 - 43}px`;
+      const targetHeight = `${cHeight * 0.85 - 43}px`;
       msgDiv.style.height = targetHeight;
     };
     window.addEventListener("resize", handleResize);
@@ -115,7 +115,7 @@ export default function Page({ userId }: { userId: string }): ReactElement {
       {room.chatOn === true ? (
         <div className="h-full" id="chat-container">
           <div
-            className="w-full aspect-[3.6] flex items-center justify-start overflow-hidden"
+            className="w-full h-[15%] flex items-center justify-start overflow-hidden"
             style={{
               backgroundImage: "url(/chat-heading.jpg)",
               backgroundSize: "cover",
