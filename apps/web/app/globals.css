@@ -43,7 +43,7 @@
 }
 
 body {
-  @apply bg-pickle-beige font-alt;
+  @apply font-alt;
 }
 
 button {

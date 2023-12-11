@@ -215,7 +215,7 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                 ].map((option) => (
                   <span
                     key={option.id}
-                    className="absolute translate-x-[-50%] shadow translate-y-[-50%] bg-white rounded-[10px] [&:hover]:opacity-80 [&:hover]:bg-white px-2 text-[2vh] border-[#00f0ff] border-[2px] text-[#5d49d6]"
+                    className="absolute translate-x-[-50%] shadow translate-y-[-50%] bg-white rounded-[10px] [&:hover]:opacity-80 [&:hover]:bg-white px-2 text-[2vh] border-[#00f0ff] border-[2px] text-[#5d49d6] font-vcr"
                     style={{
                       top: `${option.pos.y}%`,
                       left: `${option.pos.x}%`,
