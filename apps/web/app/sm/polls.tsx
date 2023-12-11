@@ -124,9 +124,12 @@ export default function Pollmaker(): JSX.Element {
                 .map((pollId: string, n: number, _polls: string[]) => {
                   const poll =
                     pollId === "wherePoll" ? wherePoll : polls[pollId];
+
                   const hasPollResult =
                     poll === undefined
                       ? false
+                      : pollId === "wherePoll"
+                      ? pollResults["where-poll"] !== undefined
                       : pollResults[pollId] !== undefined;
 
                   if (poll === undefined) {
@@ -202,6 +205,7 @@ export default function Pollmaker(): JSX.Element {
                                   );
                                 })}
                               </ul>
+                              {hasPollResult ? "true" : "false"}
                               {hasPollResult ? (
                                 <button
                                   type="button"
