@@ -94,7 +94,7 @@ export default function Page({ userId }: { userId: string }): ReactElement {
         return;
       }
       const cHeight = container.offsetHeight;
-      const targetHeight = `${cHeight - 75}px`;
+      const targetHeight = `${cHeight * 0.8 - 43}px`;
       msgDiv.style.height = targetHeight;
     };
     window.addEventListener("resize", handleResize);
@@ -108,51 +108,65 @@ export default function Page({ userId }: { userId: string }): ReactElement {
   ]);
 
   return (
-    <div className="w-full h-full">
+    <div
+      className="w-full h-full"
+      style={{ backgroundImage: "url(/chat-bg.jpg)", backgroundSize: "cover" }}
+    >
       {room.chatOn === true ? (
         <div className="h-full" id="chat-container">
-          <h1 className="p-2 text-xs text-white uppercase bg-black">
-            Pickle Messenger ({userPresences.length} online)
-          </h1>
+          <div
+            className="w-full aspect-[3.6] flex items-center justify-start overflow-hidden"
+            style={{
+              backgroundImage: "url(/chat-heading.jpg)",
+              backgroundSize: "cover",
+            }}
+          >
+            <h1 className="p-2 leading-[1.2]">
+              Pickle Messenger
+              <br />({userPresences.length} online)
+            </h1>
+          </div>
           <div id="chat" className="flex flex-col-reverse">
-            <div className="flex flex-shrink-0 w-full p-1 border-t border-black height-24 gap-2">
-              <input
-                type="text"
-                value={chatInput}
-                className="flex-grow min-w-0 px-2"
-                onKeyUp={(e) => {
-                  if (e.key === "Enter") {
+            <div className="flex-shrink-0 w-full p-1 height-24">
+              <div className="flex items-center m-1 bg-white gap-0">
+                <input
+                  type="text"
+                  value={chatInput}
+                  className="flex-grow min-w-0 px-2"
+                  onKeyUp={(e) => {
+                    if (e.key === "Enter") {
+                      sendMessage({
+                        message: chatInput,
+                        id: nanoid(),
+                        sender: userId,
+                        timestamp: new Date().toISOString(),
+                      });
+                    }
+                  }}
+                  onChange={(e) => {
+                    setChatInput(e.target.value);
+                  }}
+                />
+                |
+                <button
+                  type="button"
+                  className="border-0 "
+                  onClick={() => {
                     sendMessage({
                       message: chatInput,
                       id: nanoid(),
                       sender: userId,
                       timestamp: new Date().toISOString(),
                     });
-                  }
-                }}
-                onChange={(e) => {
-                  setChatInput(e.target.value);
-                }}
-              />
-
-              <button
-                type="button"
-                className="w-40px"
-                onClick={() => {
-                  sendMessage({
-                    message: chatInput,
-                    id: nanoid(),
-                    sender: userId,
-                    timestamp: new Date().toISOString(),
-                  });
-                }}
-              >
-                Send
-              </button>
+                  }}
+                >
+                  Send
+                </button>
+              </div>
             </div>
 
             <div
-              className="px-2 py-4 overflow-scroll bg-white messages no-scroll"
+              className="px-2 py-4 overflow-scroll messages no-scroll"
               //key="chat-message"
               id="chatMessages"
             >
@@ -175,7 +189,7 @@ export default function Page({ userId }: { userId: string }): ReactElement {
 											`}
                   >
                     <label
-                      className={`p-1 text-sm pointer-events-none sender flex-shrink-0 w-[5em] truncate text-black/50 ${
+                      className={`p-1 text-sm pointer-events-none sender flex-shrink-0 w-[5em] truncate text-black/90 text-xs ${
                         (chatArr[n - 1] as ChatMessage | undefined) !==
                           undefined && chatArr[n - 1].sender === msg.sender
                           ? "opacity-0 md:h-auto h-[0] md:overflow-hidden"
@@ -185,10 +199,8 @@ export default function Page({ userId }: { userId: string }): ReactElement {
                       {msg.sender}
                     </label>
                     <span
-                      className={`flex-grow p-1 px-2 border-pickle-green/20 border rounded ${
-                        msg.sender === userId
-                          ? "bg-pickle-beige/50"
-                          : "bg-pickle-beige/10"
+                      className={`flex-grow p-1 px-2 text-sm ${
+                        msg.sender === userId ? "bg-[#31e4ee]" : "bg-white"
                       }`}
                     >
                       {msg.message}

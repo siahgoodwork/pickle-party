@@ -31,6 +31,10 @@ module.exports = {
         "pickle-green": "#52822c",
         "pickle-purple": "#5f2771",
       },
+      fontFamily: {
+        vcr: ["VCR", "monospace"],
+        alt: ["Alt_Mono", "monospace"],
+      },
     },
   },
   plugins: [require("@headlessui/tailwindcss")],

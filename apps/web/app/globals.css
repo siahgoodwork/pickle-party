@@ -2,8 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "VCR";
+  src:
+    url("../public/VCROSDMono.woff2") format("woff2"),
+    url("../public/VCROSDMono.woff") format("woff");
+  font-weight: regular;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Alt_Mono";
+  src:
+    url("../public/AltMono-Bold.woff2") format("woff2"),
+    url("../public/AltMono-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Alt_Mono";
+  src:
+    url("../public/AltMono-Regular.woff2") format("woff2"),
+    url("../public/AltMono-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Alt_Mono";
+  src:
+    url("../public/AltMono-Light.woff2") format("woff2"),
+    url("../public/AltMono-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
 body {
-  @apply bg-pickle-beige;
+  @apply bg-pickle-beige font-alt;
 }
 
 button {

@@ -57,11 +57,11 @@ export default function Page(): JSX.Element {
     state.room.showMemes === true;
 
   return (
-    <main>
+    <main className="font-vcr">
       {onboarding ? (
         <div
           className="w-full h-[100vh] relative"
-          style={{ backgroundImage: "url(/bg.jpg)", backgroundSize: "400px" }}
+          style={{ backgroundImage: "url(/bg.jpg)", backgroundSize: "cover" }}
         >
           <div className="bg-pickle-beige absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] p-4 flex flex-col gap-2">
             <h1 className="text-lg font-bold text-center text-pickle-purple">
@@ -106,7 +106,10 @@ export default function Page(): JSX.Element {
           </div>
         </div>
       ) : (
-        <div className="relative flex items-center justify-center w-screen h-screen">
+        <div
+          className="relative flex items-center justify-center w-screen h-screen"
+          style={{ backgroundImage: "url(/bg.jpg)", backgroundSize: "cover" }}
+        >
           <div className="video-frame">
             <div className="relative w-full h-full">
               {/* <MuxVideo
@@ -223,10 +226,10 @@ export default function Page(): JSX.Element {
                 )}
 
                 {state.room.chatOn || state.room.gifSearchOn ? (
-                  <div className="grid grid-rows-4 grid-cols-1 w-[20%] h-full z-[40] absolute right-0 top-0 bg-white pointer-events-auto">
+                  <div className="grid grid-rows-4 gap-[15px] grid-cols-1 w-[18.43%] h-[97.22%] z-[40] absolute right-[0.781%] top-[1.38%] pointer-events-auto">
                     {state.room.chatOn ? (
                       <div
-                        className={`border border-black rounded ${
+                        className={`${
                           state.room.gifSearchOn ? "row-span-2" : "row-span-4"
                         }`}
                       >
