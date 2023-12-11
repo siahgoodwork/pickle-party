@@ -176,7 +176,7 @@ export default function Page(): JSX.Element {
                   false
                 )}
                 <div
-                  className={`absolute left-0 bottom-[1.38%] pl-[0.78%] pointer-events-auto ${
+                  className={`absolute left-0 bottom-[1.38%] pl-[0.78%] pointer-events-auto leading-[1] ${
                     showingPanel1 && showingPanel2
                       ? "w-[60%]"
                       : showingPanel1 || showingPanel2
