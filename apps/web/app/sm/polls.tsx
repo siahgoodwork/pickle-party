@@ -99,6 +99,18 @@ export default function Pollmaker(): JSX.Element {
               >
                 Flush Order
               </button>
+              <button
+                type="button"
+                className="text-xs font-normal"
+                onClick={() => {
+                  Object.keys(pollResults).forEach((key) => {
+                    //eslint-disable-next-line -- this exists
+                    delete pollResults[key];
+                  });
+                }}
+              >
+                Reset All Poll Results
+              </button>
             </h3>
 
             <div>
@@ -115,10 +127,10 @@ export default function Pollmaker(): JSX.Element {
 
             <div className="overflow-y-scroll h-[calc(100vh_-_160px)] border border-black">
               {[
+                "wherePoll",
                 ...Object.values(polls)
                   .sort(pollSortFn)
                   .map((p) => p?.id),
-                "wherePoll",
               ]
                 .filter((a) => a !== undefined)
                 .map((pollId: string, n: number, _polls: string[]) => {
@@ -319,6 +331,28 @@ export default function Pollmaker(): JSX.Element {
                             </button>
                           </div>
                           <div className="flex flex-col items-end gap-2">
+                            {poll.id !== room.activePollTrivia ? (
+                              <button
+                                className="text-sm"
+                                type="button"
+                                onClick={() => {
+                                  room.activePollTrivia = poll.id;
+                                }}
+                              >
+                                Set active poll trivia
+                              </button>
+                            ) : (
+                              <button
+                                className="text-sm bg-pickle-green text-pickle-beige hover:bg-pickle-green/90"
+                                type="button"
+                                onClick={() => {
+                                  room.activePollTrivia = undefined;
+                                }}
+                              >
+                                {" "}
+                                Unset active show trivia
+                              </button>
+                            )}
                             <button
                               onClick={() => {
                                 room.activePoll =
@@ -335,28 +369,7 @@ export default function Pollmaker(): JSX.Element {
                                 ? "Unset active poll"
                                 : "Set active vote"}
                             </button>
-                            {poll.id !== room.activePollTrivia ? (
-                              <button
-                                className="text-sm"
-                                type="button"
-                                onClick={() => {
-                                  room.activePollTrivia = poll.id;
-                                }}
-                              >
-                                Active poll trivia
-                              </button>
-                            ) : (
-                              <button
-                                className="text-sm bg-pickle-green text-pickle-beige hover:bg-pickle-green/90"
-                                type="button"
-                                onClick={() => {
-                                  room.activePollTrivia = undefined;
-                                }}
-                              >
-                                {" "}
-                                Unset active show trivia
-                              </button>
-                            )}
+
                             <button
                               type="button"
                               className={`text-sm ${
@@ -483,7 +496,7 @@ export default function Pollmaker(): JSX.Element {
                   room.pollLayout = "B";
                 }}
                 className={classNames([
-                  "rounded-[0] border-x-0",
+                  "rounded-[0] border-x-0 hidden",
                   room.pollLayout === "B"
                     ? "bg-pickle-green hover:bg-pickle-green/80 text-pickle-beige"
                     : "",
@@ -497,7 +510,7 @@ export default function Pollmaker(): JSX.Element {
                   room.pollLayout = "C";
                 }}
                 className={classNames([
-                  "rounded-[0] border-l",
+                  "rounded-[0] border-l-0",
                   room.pollLayout === "C"
                     ? "bg-pickle-green hover:bg-pickle-green/80 text-pickle-beige"
                     : "",
