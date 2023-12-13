@@ -131,12 +131,12 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
               </>
             ) : (
               <div
-                className={`flex flex-col items-center justify-start w-full h-full gap-2 flex-nowrap ${
+                className={`flex flex-col justify-start w-full h-full gap-2 flex-nowrap ${
                   room.pollLayout === "A"
-                    ? "p-4"
+                    ? "p-4 items-start"
                     : room.pollLayout === "C"
-                    ? "justify-center"
-                    : ""
+                    ? "justify-center items-center"
+                    : "items-center "
                 }`}
               >
                 {polls[room.activePoll || ""] === undefined &&
@@ -144,7 +144,11 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                   false
                 ) : room.activePoll === "where-poll" ? (
                   <>
-                    {room.pollLayout === "A" || room.pollLayout === "C" ? (
+                    {room.pollLayout === "A" ? (
+                      <h2 className="p-4 text-[1.7vw] leading-[1.1] m-0 text-[#fe52f8] text-left">
+                        {activePoll.question}
+                      </h2>
+                    ) : room.pollLayout === "C" ? (
                       <h2 className="p-4 text-[1.7vw] leading-[1.1] m-0 text-[#fe52f8]">
                         {activePoll.question}
                       </h2>
@@ -159,6 +163,8 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                         room.pollLayout === "D" ||
                         room.pollLayout === "E"
                           ? "flex-col flex-nowrap justify-center flex-grow"
+                          : room.pollLayout === "A"
+                          ? "justify-start"
                           : "justify-center flex-wrap"
                       }`}
                     >
@@ -186,7 +192,11 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                   </>
                 ) : (
                   <>
-                    {room.pollLayout === "A" || room.pollLayout === "C" ? (
+                    {room.pollLayout === "A" ? (
+                      <h2 className="p-4 text-[1.7vw] leading-[1.1] m-0 text-[#fe52f8] text-left">
+                        {activePoll.question}
+                      </h2>
+                    ) : room.pollLayout === "C" ? (
                       <h2 className="p-4 text-[1.7vw] leading-[1.1] m-0 text-[#fe52f8]">
                         {activePoll.question}
                       </h2>
@@ -201,6 +211,8 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                         room.pollLayout === "D" ||
                         room.pollLayout === "E"
                           ? "flex-col flex-nowrap justify-center flex-grow"
+                          : room.pollLayout === "A"
+                          ? "justify-start"
                           : "justify-center flex-wrap"
                       }`}
                     >
