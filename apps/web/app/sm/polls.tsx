@@ -1,5 +1,5 @@
 import type { Poll, WherePoll } from "pickle-types";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import { useSyncedStore } from "@syncedstore/react";
 import { nanoid } from "nanoid";
@@ -59,6 +59,7 @@ export const wherePoll: WherePoll = {
 
 export default function Pollmaker(): JSX.Element {
   const { polls, room, pollResults } = useSyncedStore(store);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const [showPollInput, setShowPollInput] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [insertIndex, setInsertIndex] = useState(
@@ -71,6 +72,30 @@ export default function Pollmaker(): JSX.Element {
     trivia: "",
     thankyouMessage: "",
   });
+
+  useEffect(() => {
+    if (scrollRef.current === null) {
+      return;
+    }
+
+    const scrollContainer = scrollRef.current;
+
+    const scrollHandler: () => void = () => {
+      const scrollPos = scrollContainer.scrollTop;
+      localStorage.setItem("poll-scroll", scrollPos.toString());
+    };
+
+    const prevScroll = localStorage.getItem("poll-scroll");
+    if (prevScroll !== null && !isNaN(parseInt(prevScroll))) {
+      scrollContainer.scrollTo({ top: parseInt(prevScroll) });
+    }
+
+    scrollContainer.addEventListener("scrollend", scrollHandler);
+
+    return () => {
+      scrollContainer.removeEventListener("scrollend", scrollHandler);
+    };
+  }, []);
 
   return (
     <>
@@ -125,7 +150,10 @@ export default function Pollmaker(): JSX.Element {
               />
             </div>
 
-            <div className="overflow-y-scroll h-[calc(100vh_-_160px)] border border-black">
+            <div
+              className="overflow-y-scroll h-[calc(100vh_-_160px)] border border-black"
+              ref={scrollRef}
+            >
               {[
                 "wherePoll",
                 ...Object.values(polls)
