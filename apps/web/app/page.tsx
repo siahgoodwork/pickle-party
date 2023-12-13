@@ -3,7 +3,8 @@ import { useSyncedStore } from "@syncedstore/react";
 import { useEffect, useState } from "react";
 // import MuxVideo from "@mux/mux-video-react";
 import Marquee from "react-fast-marquee";
-import Chat from "./chat";
+import BadWords from "bad-words";
+import Chat, { additionalFilterWords } from "./chat";
 import { PollView } from "./poll";
 import { store, websocketProvider } from "./store";
 import GifSearcher from "./gif-searcher";
@@ -12,6 +13,9 @@ import { MemeStream } from "./memestream";
 export interface UserPresence {
   user?: { name: string };
 }
+
+const filter = new BadWords();
+filter.addWords(...additionalFilterWords);
 
 export default function Page(): JSX.Element {
   const state = useSyncedStore(store);
@@ -82,16 +86,21 @@ export default function Page(): JSX.Element {
             />
             {userPresences.map((c) => c.user?.name).includes(userId) ? (
               <span className="text-sm text-center">
-                Someone is already using this name{" "}
+                Someone is already using this name
               </span>
             ) : !/^[a-zA-Z]+$/.test(userId) ? (
               <span className="text-sm text-center">alphabets only</span>
+            ) : filter.isProfane(userId) ? (
+              <span className="text-sm text-center">
+                Please choose a different user name
+              </span>
             ) : null}
             <button
               type="button"
               disabled={
                 !/^[a-zA-Z]+$/.test(userId) ||
-                userPresences.map((c) => c.user?.name).includes(userId)
+                userPresences.map((c) => c.user?.name).includes(userId) ||
+                filter.isProfane(userId)
               }
               onClick={() => {
                 if (userPresences.map((c) => c.user?.name).includes(userId)) {

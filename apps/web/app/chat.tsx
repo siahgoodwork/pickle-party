@@ -5,8 +5,13 @@ import { nanoid } from "nanoid";
 import type { ReactElement } from "react";
 import { useState, useCallback, useEffect } from "react";
 import type { ChatMessage } from "pickle-types";
-import { store, websocketProvider } from "./store";
+import BadWords from "bad-words";
 import type { UserPresence } from "./page";
+import { store, websocketProvider } from "./store";
+
+export const additionalFilterWords = ["fuckface"];
+const filter = new BadWords();
+filter.addWords(...additionalFilterWords);
 
 export default function Page({ userId }: { userId: string }): ReactElement {
   const [chatInput, setChatInput] = useState("");
@@ -203,7 +208,7 @@ export default function Page({ userId }: { userId: string }): ReactElement {
                         msg.sender === userId ? "bg-[#31e4ee]" : "bg-white"
                       }`}
                     >
-                      {msg.message}
+                      {filter.clean(msg.message)}
                     </span>
                   </div>
                 ))}

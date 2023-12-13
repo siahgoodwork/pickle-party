@@ -16,6 +16,8 @@
     "@mux/mux-video-react": "^0.8.0",
     "@syncedstore/core": "^0.6.0",
     "@syncedstore/react": "^0.6.0",
+    "@types/bad-words": "^3.0.3",
+    "bad-words": "^3.0.4",
     "classnames": "^2.3.2",
     "framer-motion": "^10.16.14",
     "nanoid": "^5.0.2",
