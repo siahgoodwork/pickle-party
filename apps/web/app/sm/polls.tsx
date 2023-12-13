@@ -266,7 +266,9 @@ export default function Pollmaker(): JSX.Element {
                             </div>
                             <div>
                               <h4 className="text-xs uppercase mt">Trivia</h4>
-                              <p>{poll.trivia}</p>
+                              <p className="whitespace-pre-line">
+                                {poll.trivia}
+                              </p>
                             </div>
                           </div>
                         </div>

@@ -88,7 +88,7 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
           <div
             className={`flex flex-col justify-center text-black z-4 gap-2  pointer-events-auto ${
               room.pollLayout === "A"
-                ? "p-4 bg-[#f6ff65]/90"
+                ? "p-4 bg-[#D8FECC]/90"
                 : room.pollLayout === "C"
                 ? "h-full bg-[transparent]"
                 : room.pollLayout === "D"
@@ -110,11 +110,15 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                   </h2>
                 )}
                 <span
-                  className={`text-[1.35vw] items-center flex text-center justify-center ${
+                  className={`text-[1.35vw] items-center flex text-center justify-center mx-4 ${
                     room.pollLayout === "B" ||
                     room.pollLayout === "D" ||
                     room.pollLayout === "E"
                       ? "flex-grow"
+                      : room.pollLayout === "A"
+                      ? "text-[#FE52F8]"
+                      : room.pollLayout === "C"
+                      ? "text-[#fe52f8]"
                       : ""
                   }`}
                 >
@@ -166,9 +170,11 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                             room.pollLayout === "B" ||
                             room.pollLayout === "D" ||
                             room.pollLayout === "E"
-                              ? "w-full"
-                              : "w-auto px-4"
-                          } border-0 hover:bg-white/40 text-[1.3vw] leading-[1] py-1`}
+                              ? "w-auto bg-white rounded text-black mx-8 border-black border border-2 hover:bg-white/90"
+                              : room.pollLayout === "A"
+                              ? "inline-block bg-white rounded text-black mx-2 border-black border border-2 hover:bg-white/90"
+                              : "w-[20%] bg-[#FE52F8] text-black hover:bg-[#fe52f8]/90"
+                          } text-[1.3vw] leading-[1] py-1`}
                           onClick={() => {
                             sendVote(c.id);
                           }}
@@ -206,9 +212,11 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                             room.pollLayout === "B" ||
                             room.pollLayout === "D" ||
                             room.pollLayout === "E"
-                              ? "w-full"
-                              : "w-[20%]"
-                          } border-0 hover:bg-white/10`}
+                              ? "w-auto bg-white rounded text-black mx-8 border-black border border-2 hover:bg-white/90"
+                              : room.pollLayout === "A"
+                              ? "inline-block bg-white rounded text-black mx-2 border-black border border-2 hover:bg-white/90"
+                              : "w-[20%] bg-[#FE52F8] text-black hover:bg-[#fe52f8]/90"
+                          }`}
                           onClick={() => {
                             sendVote(c.id);
                           }}
@@ -326,6 +334,8 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
             className={`flex flex-col justify-center items-center p-4 ${
               room.pollLayout === "C"
                 ? "h-full bg-transparent"
+                : room.pollLayout === "A"
+                ? "bg-[#d8fecc]/90"
                 : "h-auto bg-[#f6ff65]/90"
             }`}
           >
@@ -336,6 +346,8 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
               className={
                 room.pollLayout === "A"
                   ? "flex gap-12 flex-wrap"
+                  : room.pollLayout === "C"
+                  ? " text-[#fe52f8]"
                   : "flex flex-col gap-2"
               }
             >
@@ -370,15 +382,15 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
       )}
       {room.showPollTrivia && room.activePollTrivia !== undefined ? (
         room.pollLayout === "B" ? (
-          <div className="flex items-center justify-center p-4 text-center bg-[#b3f5b2]/80 row-start-2 row-span-1 text-[1.0vw] leading-[1.1]">
+          <div className="flex items-center justify-start p-4 text-left bg-[#b3f5b2]/80 row-start-2 row-span-1 text-[1.0vw] leading-[1.1]">
             {polls[room.activePollTrivia]?.trivia}
           </div>
         ) : room.pollLayout === "D" ? (
-          <div className="flex items-center justify-center p-4 text-center bg-[#b3f5b2]/80 row-start-2 row-span-1 text-[1.0vw] top-[0] left-[68.23%] w-[21.35%] h-[50.75%] absolute leading-[1.10]">
+          <div className="flex items-center justify-start p-4 text-left bg-[#b3f5b2]/80 row-start-2 row-span-1 text-[1.0vw] top-[0] left-[68.23%] w-[21.35%] h-[50.75%] absolute leading-[1.10]">
             {polls[room.activePollTrivia]?.trivia}
           </div>
         ) : room.pollLayout === "E" ? (
-          <div className="flex items-center justify-center p-4 text-center bg-[#b3f5b2]/80 row-start-2 row-span-1 text-[1.0vw] top-[30.55%] left-[58.33%] w-[21.35%] h-[50.92%] absolute leading-[1.1]">
+          <div className="flex items-center justify-start p-4 text-left bg-[#b3f5b2]/80 row-start-2 row-span-1 text-[1.0vw] top-[30.55%] left-[58.33%] w-[21.35%] h-[50.92%] absolute leading-[1.1]">
             {polls[room.activePollTrivia]?.trivia}
           </div>
         ) : (
