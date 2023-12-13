@@ -86,7 +86,7 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
           false
         ) : (
           <div
-            className={`flex flex-col justify-center text-black z-4 gap-2 ${
+            className={`flex flex-col justify-center text-black z-4 gap-2  pointer-events-auto ${
               room.pollLayout === "A"
                 ? "p-4 bg-[#f6ff65]/90"
                 : room.pollLayout === "C"
@@ -145,12 +145,12 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                         {activePoll.question}
                       </h2>
                     ) : (
-                      <h2 className="p-4 pt-8 text-[1.5vw] leading-[1.15] poll-heading-gradient">
+                      <h2 className="p-4 pt-8 text-[1.5vw] leading-[1.15] w-full poll-heading-gradient">
                         {activePoll.question}
                       </h2>
                     )}
                     <div
-                      className={`flex w-full gap-2 ${
+                      className={`flex w-full gap-2 pointer-events-auto ${
                         room.pollLayout === "B" ||
                         room.pollLayout === "D" ||
                         room.pollLayout === "E"
@@ -185,7 +185,7 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                         {activePoll.question}
                       </h2>
                     ) : (
-                      <h2 className="p-4 pt-8 text-[1.5vw] leading-[1.15] poll-heading-gradient">
+                      <h2 className="p-4 pt-8 text-[1.5vw] leading-[1.15] w-full poll-heading-gradient">
                         {activePoll.question}
                       </h2>
                     )}

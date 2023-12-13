@@ -134,9 +134,7 @@ export default function Page(): JSX.Element {
                   state.room.pollLayout === "C") ||
                 state.room.pollLayout === "D" ||
                 state.room.pollLayout === "E" ? (
-                  <div className="absolute top-0 left-0 w-full h-full pointer-events-auto">
-                    <PollView userId={userId} />
-                  </div>
+                  <PollView userId={userId} />
                 ) : (
                   false
                 )}
