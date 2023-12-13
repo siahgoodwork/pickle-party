@@ -279,10 +279,7 @@ export default function Pollmaker(): JSX.Element {
                               <>
                                 <button
                                   type="button"
-                                  disabled={
-                                    room.activePoll === poll.id ||
-                                    poll.id === "where-poll"
-                                  }
+                                  disabled={poll.id === "where-poll"}
                                   className="text-sm"
                                   onClick={() => {
                                     setShowPollInput(true);
@@ -300,10 +297,7 @@ export default function Pollmaker(): JSX.Element {
                                 <button
                                   type="button"
                                   className="text-sm"
-                                  disabled={
-                                    room.activePoll === poll.id ||
-                                    poll.id === "where-poll"
-                                  }
+                                  disabled={poll.id === "where-poll"}
                                   onClick={() => {
                                     // eslint-disable-next-line @typescript-eslint/no-dynamic-delete -- this poll will definitely exist
                                     delete polls[poll.id];
@@ -316,20 +310,22 @@ export default function Pollmaker(): JSX.Element {
                             <button
                               type="button"
                               className="text-sm"
-                              disabled={n === 0}
+                              disabled={n <= 1 || poll.id === "where-poll"}
                               onClick={() => {
                                 Object.values(polls)
                                   .sort(pollSortFn)
-                                  .map((a, nn) => ({ ...a, order: nn }))
                                   .forEach((_p) => {
+                                    if (_p === undefined) {
+                                      return;
+                                    }
                                     const pollRef = polls[_p.id || ""];
                                     if (pollRef === undefined) {
                                       return;
                                     }
-                                    if (_p.order === n) {
+                                    if (_p.order === n - 1) {
+                                      pollRef.order = n - 2;
+                                    } else if (_p.order === n - 2) {
                                       pollRef.order = n - 1;
-                                    } else if (_p.order === n - 1) {
-                                      pollRef.order = n;
                                     }
                                   });
                               }}
@@ -339,22 +335,25 @@ export default function Pollmaker(): JSX.Element {
                             <button
                               type="button"
                               className="text-sm"
-                              disabled={n === _polls.length - 1}
+                              disabled={
+                                n === _polls.length - 1 ||
+                                poll.id === "where-poll"
+                              }
                               onClick={() => {
-                                Object.values(polls)
-                                  .sort(pollSortFn)
-                                  .map((a, nn) => ({ ...a, order: nn }))
-                                  .forEach((_p) => {
-                                    const pollRef = polls[_p.id || ""];
-                                    if (pollRef === undefined) {
-                                      return;
-                                    }
-                                    if (_p.order === n) {
-                                      pollRef.order = n + 1;
-                                    } else if (_p.order === n + 1) {
-                                      pollRef.order = n;
-                                    }
-                                  });
+                                Object.values(polls).forEach((_p) => {
+                                  if (_p === undefined) {
+                                    return;
+                                  }
+                                  const pollRef = polls[_p.id || ""];
+                                  if (pollRef === undefined) {
+                                    return;
+                                  }
+                                  if (_p.order === n) {
+                                    pollRef.order = n - 1;
+                                  } else if (_p.order === n - 1) {
+                                    pollRef.order = n;
+                                  }
+                                });
                               }}
                             >
                               <ArrowDownIcon width={18} />

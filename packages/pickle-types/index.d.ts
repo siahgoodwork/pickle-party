@@ -22,6 +22,7 @@ interface Poll {
   trivia: string;
   thankyouMessage?: string;
   order?: number;
+  group?: "A" | "B" | "C" | "D" | "E";
 }
 
 interface WherePoll extends Poll {
