@@ -189,7 +189,7 @@ export default function Page({ userId }: { userId: string }): ReactElement {
 											`}
                   >
                     <label
-                      className={`p-1 text-sm pointer-events-none sender flex-shrink-0 w-[5em] truncate text-black/90 text-xs ${
+                      className={`p-1 text-sm pointer-events-none sender flex-shrink-0 w-[4em] truncate text-black/90 text-xs ${
                         (chatArr[n - 1] as ChatMessage | undefined) !==
                           undefined && chatArr[n - 1].sender === msg.sender
                           ? "opacity-0 md:h-auto h-[0] md:overflow-hidden"
