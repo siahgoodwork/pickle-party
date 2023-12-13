@@ -394,15 +394,15 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
       )}
       {room.showPollTrivia && room.activePollTrivia !== undefined ? (
         room.pollLayout === "B" ? (
-          <div className="flex items-center justify-start p-4 text-left bg-[#b3f5b2]/80 row-start-2 row-span-1 text-[1.0vw] leading-[1.1]">
+          <div className="flex items-center justify-start p-4 text-left bg-[#b3f5b2]/80 row-start-2 row-span-1 text-[1.0vw] leading-[1.1] whitespace-pre-line">
             {polls[room.activePollTrivia]?.trivia}
           </div>
         ) : room.pollLayout === "D" ? (
-          <div className="flex items-center justify-start p-4 text-left bg-[#b3f5b2]/80 row-start-2 row-span-1 text-[1.0vw] top-[0] left-[68.23%] w-[21.35%] h-[50.75%] absolute leading-[1.10]">
+          <div className="flex items-center justify-start p-4 text-left bg-[#b3f5b2]/80 row-start-2 row-span-1 text-[1.0vw] top-[0] left-[68.23%] w-[21.35%] h-[50.75%] absolute leading-[1.10] whitespace-pre-line">
             {polls[room.activePollTrivia]?.trivia}
           </div>
         ) : room.pollLayout === "E" ? (
-          <div className="flex items-center justify-start p-4 text-left bg-[#b3f5b2]/80 row-start-2 row-span-1 text-[1.0vw] top-[30.55%] left-[58.33%] w-[21.35%] h-[50.92%] absolute leading-[1.1]">
+          <div className="flex items-center justify-start p-4 text-left bg-[#b3f5b2]/80 row-start-2 row-span-1 text-[1.0vw] top-[30.55%] left-[58.33%] w-[21.35%] h-[50.92%] absolute leading-[1.1] whitespace-pre-line">
             {polls[room.activePollTrivia]?.trivia}
           </div>
         ) : (
