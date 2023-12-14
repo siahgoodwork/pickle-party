@@ -1,8 +1,9 @@
 import { useSyncedStore } from "@syncedstore/react";
 import classNames from "classnames";
 import { nanoid } from "nanoid";
+import { Combobox } from "@headlessui/react";
 import type { HeadlinePrompt } from "pickle-types";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { store } from "../store";
 
 export default function Page(): React.ReactElement {
@@ -18,6 +19,32 @@ export default function Page(): React.ReactElement {
   const [chatCatPrompt, setChatCatPrompt] = useState<string>(
     state.otherPrompts.chatCategory || ""
   );
+
+  const [selectedPollResults, setSelectedPollResults] = useState<string[]>([]);
+  const [pollSearch, setPollSearch] = useState("");
+  const pollResultsData = useMemo(() => {
+    return selectedPollResults
+      .map((id) => {
+        const poll = state.polls[id];
+        const pr = state.pollResults[id];
+        if (poll === undefined || pr === undefined) {
+          return false;
+        }
+        const topResultId = Object.values(pr.choices).sort(
+          (a, b) => a.voters.length - b.voters.length
+        )[0].id;
+        return {
+          id: poll.id,
+          question: poll.question,
+          topResult: poll.choices.find((c) => c.id === topResultId)?.text || "",
+        };
+      })
+      .filter((a) => a !== false) as {
+      id: string;
+      question: string;
+      topResult: string;
+    }[];
+  }, [selectedPollResults, state.polls, state.pollResults]);
 
   return (
     <div className="p-4 grid grid-cols-2 gap-4">
@@ -43,9 +70,73 @@ export default function Page(): React.ReactElement {
               </button>
             )}
 
-            <pre className="text-sm font-normal">
-              &lt;10 poll results here&gt;
-            </pre>
+            <div>
+              <h3 className="text-sm font-bold">Selected poll results</h3>
+              {pollResultsData.map((prd) => (
+                <div
+                  key={prd.id}
+                  className="relative pr-8 mb-1 border border-black border-bottom"
+                >
+                  <button
+                    type="button"
+                    className="absolute text-xs right-1 top-1"
+                    onClick={() => {
+                      setSelectedPollResults((pr) =>
+                        pr.filter((_pr) => _pr !== prd.id)
+                      );
+                    }}
+                  >
+                    &times;
+                  </button>
+                  <span className="text-sm">{prd.topResult}</span>
+                  <br />
+                  <span className="text-xs opacity-30">{prd.question}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="relative">
+              <Combobox
+                value={selectedPollResults}
+                onChange={(value) => {
+                  setSelectedPollResults(value);
+                  setPollSearch("");
+                }}
+                multiple
+              >
+                <Combobox.Input
+                  onChange={(event) => {
+                    setPollSearch(event.target.value);
+                  }}
+                  displayValue={(id: string) => state.polls[id]?.question || ""}
+                  placeholder="search for poll"
+                  className="w-full p-1 border border-black"
+                />
+                <div>
+                  <Combobox.Options className="absolute top-[100%] bg-white p-1 border border-black w-full max-h-[20vh] overflow-y-scroll shadow-lg">
+                    {Object.values(state.polls)
+                      .filter(
+                        (p) =>
+                          p?.question.includes(pollSearch) &&
+                          !selectedPollResults.includes(p.id)
+                      )
+                      .map((pr) =>
+                        pr === undefined ? (
+                          false
+                        ) : (
+                          <Combobox.Option
+                            key={pr.id}
+                            value={pr.id}
+                            className="border-b cursor-pointer border-black/10 hover:bg-black/10"
+                          >
+                            {state.polls[pr.id]?.question}
+                          </Combobox.Option>
+                        )
+                      )}
+                  </Combobox.Options>
+                </div>
+              </Combobox>
+            </div>
           </div>
         </div>
 
