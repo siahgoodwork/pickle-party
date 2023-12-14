@@ -55,6 +55,7 @@ export const wherePoll: WherePoll = {
   question: "Which part of the world do you come from?",
   trivia: "",
   order: -2000,
+  group: "A",
 };
 
 export default function Pollmaker(): JSX.Element {
@@ -123,6 +124,24 @@ export default function Pollmaker(): JSX.Element {
                 }}
               >
                 Flush Order
+              </button>
+              <button
+                type="button"
+                className="text-xs font-normal"
+                onClick={() => {
+                  Object.values(polls).forEach((poll) => {
+                    if (poll === undefined) {
+                      return;
+                    }
+                    if (polls[poll.id] === undefined) {
+                      return;
+                    }
+                    // eslint-disable-next-line @typescript-eslint/non-nullable-type-assertion-style -- we have already checked that polls[poll.id] is not undefined
+                    (polls[poll.id] as Poll).group = "A";
+                  });
+                }}
+              >
+                Override Poll Groups
               </button>
               <button
                 type="button"
@@ -360,15 +379,25 @@ export default function Pollmaker(): JSX.Element {
                             </button>
                           </div>
                           <div className="flex flex-col items-end gap-2">
-                            {poll.id !== room.activePollTrivia ? (
+                            {poll.id !== room.activePoll ? (
                               <button
                                 className="text-sm"
                                 type="button"
                                 onClick={() => {
                                   room.activePollTrivia = poll.id;
+                                  room.activePoll = poll.id;
+                                  room.activePollResult = poll.id;
+                                  room.pollLayout =
+                                    (poll.group as
+                                      | "A"
+                                      | "B"
+                                      | "C"
+                                      | "D"
+                                      | "E"
+                                      | undefined) || "A";
                                 }}
                               >
-                                Set active poll trivia
+                                Set active poll
                               </button>
                             ) : (
                               <button
@@ -376,58 +405,69 @@ export default function Pollmaker(): JSX.Element {
                                 type="button"
                                 onClick={() => {
                                   room.activePollTrivia = undefined;
+                                  room.activePoll = undefined;
+                                  room.activePollResult = undefined;
                                 }}
                               >
                                 {" "}
-                                Unset active show trivia
+                                Unset active poll
                               </button>
                             )}
-                            <button
-                              onClick={() => {
-                                room.activePoll =
-                                  room.activePoll === poll.id ? "" : poll.id;
-                              }}
-                              type="button"
-                              className={`text-sm ${
-                                room.activePoll === poll.id
-                                  ? "bg-pickle-green text-pickle-beige hover:bg-pickle-green/90"
-                                  : ""
-                              }`}
-                            >
-                              {room.activePoll === poll.id
-                                ? "Unset active poll"
-                                : "Set active vote"}
-                            </button>
 
-                            <button
-                              type="button"
-                              className={`text-sm ${
-                                room.activePollResult === poll.id
-                                  ? "bg-pickle-green text-pickle-beige hover:bg-pickle-green/90"
-                                  : ""
-                              }`}
-                              onClick={() => {
-                                if (room.activePollResult === poll.id) {
-                                  room.activePollResult = undefined;
-                                } else {
-                                  room.activePollResult = poll.id;
-                                }
-                              }}
-                            >
-                              {room.activePollResult === poll.id
-                                ? "Unset active poll result"
-                                : "Set active poll result"}
-                            </button>
                             <button
                               type="button"
                               className="text-sm"
                               onClick={() => {
-                                setInsertIndex((poll.order || n).toString());
+                                setInsertIndex(
+                                  poll.id === "where-poll"
+                                    ? "0"
+                                    : (poll.order
+                                        ? poll.order - 2
+                                        : n
+                                      ).toString()
+                                );
                                 setShowPollInput(true);
                               }}
                             >
                               Insert poll below
                             </button>
+
+                            <div
+                              className={`p-1 border border-black rounded-lg grid poll-group gap-1 grid-cols-2 grid-rows-2 ${
+                                poll.id === "where-poll"
+                                  ? "pointer-events-none opacity-30"
+                                  : ""
+                              }`}
+                            >
+                              {(
+                                [
+                                  { group: "A", label: "Btm" },
+                                  { group: "C", label: "Full" },
+                                  { group: "D", label: "Ctr+Rgt" },
+                                  { group: "E", label: "Ctr" },
+                                ] as {
+                                  group: "A" | "B" | "C" | "D" | "E";
+                                  label: string;
+                                }[]
+                              ).map((group) => (
+                                <button
+                                  key={group.group}
+                                  type="button"
+                                  onClick={() => {
+                                    //eslint-disable-next-line -- this will exist for sure
+                                    (polls[poll.id] as Poll).group =
+                                      group.group;
+                                  }}
+                                  className={`text-xs ${
+                                    poll.group === group.group
+                                      ? "bg-gray-500 text-pickle-beige hover:bg-gray-500/90"
+                                      : ""
+                                  }`}
+                                >
+                                  {group.label}
+                                </button>
+                              ))}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -465,6 +505,7 @@ export default function Pollmaker(): JSX.Element {
                 type="button"
                 onClick={() => {
                   room.showPollView = false;
+                  room.showPollTrivia = false;
                 }}
                 className={classNames([
                   "rounded-r-[0]",

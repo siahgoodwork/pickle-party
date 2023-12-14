@@ -133,7 +133,7 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
               <div
                 className={`flex flex-col justify-start w-full h-full gap-2 flex-nowrap ${
                   room.pollLayout === "A"
-                    ? "p-4 items-start"
+                    ? "p-4 items-center"
                     : room.pollLayout === "C"
                     ? "justify-center items-center"
                     : "items-center "
@@ -145,7 +145,7 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                 ) : room.activePoll === "where-poll" ? (
                   <>
                     {room.pollLayout === "A" ? (
-                      <h2 className="p-4 text-[1.7vw] leading-[1.1] m-0 text-[#fe52f8] text-left">
+                      <h2 className="p-4 text-[1.7vw] leading-[1.1] m-0 text-[#fe52f8] text-center">
                         {activePoll.question}
                       </h2>
                     ) : room.pollLayout === "C" ? (
@@ -164,7 +164,7 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                         room.pollLayout === "E"
                           ? "flex-col flex-nowrap justify-center flex-grow"
                           : room.pollLayout === "A"
-                          ? "justify-start"
+                          ? "justify-center"
                           : "justify-center flex-wrap"
                       }`}
                     >
@@ -193,7 +193,7 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                 ) : (
                   <>
                     {room.pollLayout === "A" ? (
-                      <h2 className="p-4 text-[1.7vw] leading-[1.1] m-0 text-[#fe52f8] text-left">
+                      <h2 className="p-4 text-[1.7vw] leading-[1.1] m-0 text-[#fe52f8] text-center">
                         {activePoll.question}
                       </h2>
                     ) : room.pollLayout === "C" ? (
@@ -212,7 +212,7 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                         room.pollLayout === "E"
                           ? "flex-col flex-nowrap justify-center flex-grow"
                           : room.pollLayout === "A"
-                          ? "justify-start"
+                          ? "justify-center"
                           : "justify-center flex-wrap"
                       }`}
                     >
@@ -245,62 +245,58 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
         )
       ) : room.showPollView === "result" && showingPollResults !== undefined ? (
         room.activePollResult === "where-poll" ? (
-          room.pollLayout === "C" ? (
-            <div
-              className="relative flex items-center w-full h-full p-12"
-              style={{
-                backgroundImage: "url(/iceland.jpg)",
-                backgroundSize: "cover",
-              }}
-            >
-              <div className="w-full relative top-[8%]">
-                <img
-                  src="/continents.svg"
-                  alt="world map"
-                  className="block w-full h-auto"
-                />
-                {[
-                  { id: "where-asia", text: "Asia", pos: { x: 70, y: 30 } },
-                  {
-                    id: "where-na",
-                    text: "North America",
-                    pos: { x: 23, y: 15 },
-                  },
-                  {
-                    id: "where-sa",
-                    text: "South America",
-                    pos: { x: 25, y: 65 },
-                  },
-                  { id: "where-africa", text: "Africa", pos: { x: 53, y: 60 } },
-                  { id: "where-europe", text: "Europe", pos: { x: 50, y: 20 } },
-                  {
-                    id: "where-oceania",
-                    text: "Oceania",
-                    pos: { x: 80, y: 75 },
-                  },
-                ].map((option) => (
-                  <span
-                    key={option.id}
-                    className="absolute translate-x-[-50%] shadow translate-y-[-50%] bg-white rounded-[10px] [&:hover]:opacity-80 [&:hover]:bg-white px-2 text-[2vh] border-[#00f0ff] border-[2px] text-[#5d49d6] font-vcr"
-                    style={{
-                      top: `${option.pos.y}%`,
-                      left: `${option.pos.x}%`,
-                    }}
-                  >
-                    {(
-                      ((showingPollResults.choices[option.id]?.voters.length || //eslint-disable-line @typescript-eslint/no-unnecessary-condition -- some choices might not be populated yet
-                        0) /
-                        totalVotes) *
-                      100
-                    ).toFixed(0)}
-                    % {option.text}
-                  </span>
-                ))}
-              </div>
+          <div
+            className="relative flex items-center w-full h-full p-12"
+            style={{
+              backgroundImage: "url(/iceland.jpg)",
+              backgroundSize: "cover",
+            }}
+          >
+            <div className="w-full relative top-[8%]">
+              <img
+                src="/continents.svg"
+                alt="world map"
+                className="block w-full h-auto"
+              />
+              {[
+                { id: "where-asia", text: "Asia", pos: { x: 70, y: 30 } },
+                {
+                  id: "where-na",
+                  text: "North America",
+                  pos: { x: 23, y: 15 },
+                },
+                {
+                  id: "where-sa",
+                  text: "South America",
+                  pos: { x: 25, y: 65 },
+                },
+                { id: "where-africa", text: "Africa", pos: { x: 53, y: 60 } },
+                { id: "where-europe", text: "Europe", pos: { x: 50, y: 20 } },
+                {
+                  id: "where-oceania",
+                  text: "Oceania",
+                  pos: { x: 80, y: 75 },
+                },
+              ].map((option) => (
+                <span
+                  key={option.id}
+                  className="absolute translate-x-[-50%] shadow translate-y-[-50%] bg-white rounded-[10px] [&:hover]:opacity-80 [&:hover]:bg-white px-2 text-[2vh] border-[#00f0ff] border-[2px] text-[#5d49d6] font-vcr"
+                  style={{
+                    top: `${option.pos.y}%`,
+                    left: `${option.pos.x}%`,
+                  }}
+                >
+                  {(
+                    ((showingPollResults.choices[option.id]?.voters.length || //eslint-disable-line @typescript-eslint/no-unnecessary-condition -- some choices might not be populated yet
+                      0) /
+                      totalVotes) *
+                    100
+                  ).toFixed(0)}
+                  % {option.text}
+                </span>
+              ))}
             </div>
-          ) : (
-            false
-          )
+          </div>
         ) : (room.pollLayout === "B" ||
             room.pollLayout === "D" ||
             room.pollLayout === "E") &&
