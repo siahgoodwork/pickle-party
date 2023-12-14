@@ -19,6 +19,10 @@ export const store = syncedStore<{
   pollResults: Record<string, PollResult>;
   headlines: Headline[];
   headlinePrompts: HeadlinePrompt[];
+  otherPrompts: {
+    chatCategory?: string;
+    pollHeadlines?: string;
+  };
   chat: ChatMessage[];
   gifSubmissions: GifSubmission[];
   gifFeedItems: GifFeedItem[];
@@ -32,6 +36,7 @@ export const store = syncedStore<{
   gifSubmissions: [],
   gifFeedItems: [],
   chat: [],
+  otherPrompts: {},
 });
 
 // Create a document that syncs automatically using Y-websocket

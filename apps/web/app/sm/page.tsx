@@ -47,7 +47,7 @@ export default function Page(): JSX.Element {
 
           <Tab className={tabClass}>Polls</Tab>
           <Tab className={tabClass}>Chat</Tab>
-          <Tab className={tabClass}>Headline Prompts</Tab>
+          <Tab className={tabClass}>GPT Prompts</Tab>
           <Tab className={tabClass}>Headlines</Tab>
           <Tab className={tabClass}>GIFs</Tab>
           <Tab className={tabClass}>Show</Tab>

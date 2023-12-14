@@ -74,7 +74,7 @@ export default function VideoStream(): React.ReactElement {
       </div>
 
       <div className="p-2">
-        <h2 className="my-2 font-bold">Now Online</h2>
+        <h2 className="my-2 font-bold">Now Online ({userPresences.length})</h2>
         <ul className="grid grid-cols-4">
           {userPresences
             .sort((a, b) =>

@@ -30,19 +30,24 @@ const store = syncedStore<{
   pollResults: Record<string, PollResult>;
   headlines: Headline[];
   headlinePrompts: HeadlinePrompt[];
+  otherPrompts: {
+    chatCategory?: string;
+    pollHeadlines?: string;
+  };
   chat: ChatMessage[];
-  room: Partial<Room>;
   gifSubmissions: GifSubmission[];
   gifFeedItems: GifFeedItem[];
+  room: Partial<Room>;
 }>({
   room: {},
   polls: {},
   pollResults: {},
   headlines: [],
   headlinePrompts: [],
-  chat: [],
   gifSubmissions: [],
   gifFeedItems: [],
+  chat: [],
+  otherPrompts: {},
 });
 
 const doc = getYjsDoc(store);

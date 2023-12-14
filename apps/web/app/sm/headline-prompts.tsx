@@ -12,10 +12,70 @@ export default function Page(): React.ReactElement {
     prompt: "",
   });
 
+  const [pollHeadlinePrompt, setPollHeadlinePrompt] = useState<string>(
+    state.otherPrompts.pollHeadlines || ""
+  );
+  const [chatCatPrompt, setChatCatPrompt] = useState<string>(
+    state.otherPrompts.chatCategory || ""
+  );
+
   return (
-    <div className="p-4 grid grid-cols-2">
+    <div className="p-4 grid grid-cols-2 gap-4">
+      <div className="flex flex-col p-2 gap-4">
+        <div>
+          <h1 className="font-bold">10 Poll Result Headlines</h1>
+          <div>
+            <textarea
+              className="w-full border border-black bg-white h-[7rem]"
+              value={pollHeadlinePrompt}
+              onChange={(e) => {
+                setPollHeadlinePrompt(e.target.value);
+              }}
+            />
+            {pollHeadlinePrompt !== state.otherPrompts.pollHeadlines && (
+              <button
+                type="button"
+                onClick={() => {
+                  state.otherPrompts.pollHeadlines = pollHeadlinePrompt;
+                }}
+              >
+                Save
+              </button>
+            )}
+
+            <pre className="text-sm font-normal">
+              &lt;10 poll results here&gt;
+            </pre>
+          </div>
+        </div>
+
+        <div>
+          <h1 className="font-bold">Categorise chat prompt</h1>
+          <div>
+            <textarea
+              className="w-full border border-black bg-white h-[7rem]"
+              value={chatCatPrompt}
+              onChange={(e) => {
+                setChatCatPrompt(e.target.value);
+              }}
+            />
+            {chatCatPrompt !== state.otherPrompts.chatCategory && (
+              <button
+                type="button"
+                onClick={() => {
+                  state.otherPrompts.chatCategory = chatCatPrompt;
+                }}
+              >
+                Save
+              </button>
+            )}
+
+            <pre className="text-sm font-normal">&lt;chat goes here&gt;</pre>
+          </div>
+        </div>
+      </div>
       <div className="p-2">
-        <h1>Headline Prompts</h1>
+        <h1 className="font-bold">Headline Prompts</h1>
 
         <h2 className="mt-8 mb-4 text-lg">
           <span className="text-gray-600">

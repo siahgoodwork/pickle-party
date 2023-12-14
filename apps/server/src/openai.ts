@@ -66,14 +66,6 @@ You are a personality test API. Read users input and return one personality that
 	"content": "<ul><li>Maintaining traditional values or beliefs</li><li>Following family customs or the customs of a religion</li><li>Valuing the traditional practices of one’s culture</li></ul>"
 	},
 	{
-	"title": "Conformity Rules",
-	"content": "<ul><li>Believing one should always do what people in authority say</li><li>Following rules even when no one is watching</li><li>Obeying all the laws</li></ul>"
-	},
-	{
-	"title": "Conformity Interpersonal",
-	"content": "<ul><li>Avoiding to upset other people</li><li>Thinking it is important never to be annoying to anyone</li><li>Always trying to be tactful and avoid irritating people.</li></ul>"
-	},
-	{
 	"title": "Humility",
 	"content": "<ul><li>Trying not to draw attention to oneself</li><li>Being humble</li><li>Being satisfied with what one has and not to ask for more</li></ul>"
 	},
