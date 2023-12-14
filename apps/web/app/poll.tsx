@@ -228,7 +228,7 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                               : room.pollLayout === "A"
                               ? "inline-block bg-white rounded text-black mx-2 border-black border border-2 hover:bg-white/90"
                               : "w-[20%] bg-[#FE52F8] text-black hover:bg-[#fe52f8]/90"
-                          }`}
+                          } text-[1.3vw] leading-[1] py-1`}
                           onClick={() => {
                             sendVote(c.id);
                           }}
