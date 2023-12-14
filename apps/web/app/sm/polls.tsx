@@ -387,14 +387,8 @@ export default function Pollmaker(): JSX.Element {
                                   room.activePollTrivia = poll.id;
                                   room.activePoll = poll.id;
                                   room.activePollResult = poll.id;
-                                  room.pollLayout =
-                                    (poll.group as
-                                      | "A"
-                                      | "B"
-                                      | "C"
-                                      | "D"
-                                      | "E"
-                                      | undefined) || "A";
+                                  // eslint-disable-next-line -- type is ok, incorrect lint error here
+                                  room.pollLayout = poll.group || "A";
                                 }}
                               >
                                 Set active poll
