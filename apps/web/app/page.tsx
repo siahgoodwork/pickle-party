@@ -226,7 +226,10 @@ export default function Page(): JSX.Element {
                   {state.room.showPollView !== undefined &&
                   state.room.pollLayout === "A" ? (
                     <PollView userId={userId} />
-                  ) : state.room.showTicker ? (
+                  ) : (
+                    false
+                  )}
+                  {state.room.showTicker ? (
                     <div className="py-1 pointer-events-none bg-gradient-to-r from-[#e7587e] to-[#f9fb7f] to-[45%] flex">
                       <div className="font-bebas text-[3.5vh] mx-1 border border-[4px] px-1 border-black bg-white">
                         Pickled&nbsp;News
