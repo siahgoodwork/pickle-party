@@ -25,7 +25,7 @@ import { YArray } from "yjs/dist/src/internals";
 
 config();
 
-const store = syncedStore<{
+export const store = syncedStore<{
   polls: Record<string, Poll>;
   pollResults: Record<string, PollResult>;
   headlines: Headline[];

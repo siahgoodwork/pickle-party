@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { store } from "../store";
 
 export function ChatAdmin(): JSX.Element {
-  const { chat, room } = useSyncedStore(store);
+  const { chat, room, otherPrompts } = useSyncedStore(store);
 
   const [thinkingCategory, setThinkingCategory] = useState<boolean>(false);
   const [imaginingPickle, setImaginingPickle] = useState<boolean>(false);
@@ -232,6 +232,7 @@ export function ChatAdmin(): JSX.Element {
                 },
                 body: JSON.stringify({
                   conversation: chatStr,
+                  prompt: otherPrompts.chatCategory || "",
                 }),
               });
 
