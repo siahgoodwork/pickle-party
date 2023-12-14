@@ -1,9 +1,10 @@
 "use client";
 import { useSyncedStore } from "@syncedstore/react";
-import { useEffect, useState } from "react";
-// import MuxVideo from "@mux/mux-video-react";
+import { useEffect, useRef, useState } from "react";
 import Marquee from "react-fast-marquee";
 import BadWords from "bad-words";
+import MuxPlayer from "@mux/mux-player-react";
+import type { MuxPlayerRefAttributes } from "@mux/mux-player-react";
 import Chat, { additionalFilterWords } from "./chat";
 import { PollView } from "./poll";
 import { store, websocketProvider } from "./store";
@@ -22,8 +23,10 @@ export default function Page(): JSX.Element {
   const [connected, setConnected] = useState(false);
 
   const [userId, setUserId] = useState<string>("");
+  const [pwInput, setPwInput] = useState("");
   const [onboarding, setOnboarding] = useState(true);
   const [userPresences, setUserPresences] = useState<UserPresence[]>([]);
+  const muxPlayerRef = useRef<MuxPlayerRefAttributes>(null);
 
   useEffect(() => {
     const awareness = websocketProvider.awareness;
@@ -76,7 +79,7 @@ export default function Page(): JSX.Element {
             <input
               type="text"
               id="userid_input"
-              className="block p-2 text-lg text-center border border-black"
+              className="block p-2 text-lg text-center border border-black w-full max-w-[20em]"
               value={userId}
               onChange={(e) => {
                 setUserId(e.target.value);
@@ -88,19 +91,39 @@ export default function Page(): JSX.Element {
               <span className="text-sm text-center">
                 Someone is already using this name
               </span>
-            ) : !/^[a-zA-Z]+$/.test(userId) ? (
+            ) : !/^[a-zA-Z]+$/.test(userId) && userId !== "" ? (
               <span className="text-sm text-center">alphabets only</span>
             ) : filter.isProfane(userId) ? (
               <span className="text-sm text-center">
                 Please choose a different user name
               </span>
             ) : null}
+
+            <input
+              type="text"
+              id="userid_input"
+              className="block p-2 text-lg text-center border border-black w-full max-w-[20em]"
+              value={pwInput}
+              onChange={(e) => {
+                setPwInput(e.target.value);
+              }}
+              placeholder="Password"
+              data-1p-ignore
+            />
+
+            {pwInput !== state.room.password && pwInput !== "" ? (
+              <span className="text-sm text-center">Incorrect password</span>
+            ) : (
+              ""
+            )}
+
             <button
               type="button"
               disabled={
                 !/^[a-zA-Z]+$/.test(userId) ||
                 userPresences.map((c) => c.user?.name).includes(userId) ||
-                filter.isProfane(userId)
+                filter.isProfane(userId) ||
+                pwInput !== state.room.password
               }
               onClick={() => {
                 if (userPresences.map((c) => c.user?.name).includes(userId)) {
@@ -123,20 +146,29 @@ export default function Page(): JSX.Element {
         >
           <div className="video-frame">
             <div className="relative w-full h-full">
-              {/* <MuxVideo
-										className="w-full aspect-video max-h-[100%] object-contain"
-										playbackId="KC00JDCS9NLiZ8Oh7Z9xCJd71y9PWwkIvNPUZJghVcQA"
-										streamType="on-demand"
-										controls
-										autoPlay
-										muted
-									/>
-									*/}
-              <iframe
+              <MuxPlayer
+                ref={muxPlayerRef}
+                onPause={async () => {
+                  if (muxPlayerRef.current === null) {
+                    return;
+                  }
+                  await muxPlayerRef.current.play();
+                }}
                 className="w-full aspect-video max-h-[100%] object-contain"
-                src={state.room.youtubeEmbedUrl || ""}
-                title="video frame"
+                playbackId="P01a5q3V00UL02Q00R01X71lmiyWIlAJBmKqzA900qytgFW02c"
+                streamType="on-demand"
+                nohotkeys
+                accentColor="#EB5FF1"
+                disablePictureInPicture
+                autoPlay
               />
+              {/*
+										<iframe
+											className="w-full aspect-video max-h-[100%] object-contain"
+											src={state.room.youtubeEmbedUrl || ""}
+											title="video frame"
+										/>
+										*/}
 
               <div className="w-full h-full absolute top-0 left-0 z-[30] overlays pointer-events-none">
                 {(state.room.showPollView !== undefined &&

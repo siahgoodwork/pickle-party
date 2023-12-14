@@ -76,3 +76,16 @@ button {
     rgba(254, 82, 248, 0) 100%
   );
 }
+
+mux-player {
+  --time-range: none;
+  --time-display: none;
+  --seek-live-button: none;
+  --seek-backward-button: none;
+  --seek-forward-button: none;
+  --playback-rate-button: none;
+  --airplay-button: none;
+  --pip-button: none;
+  --fullscreen-button: none;
+  --time-range: none;
+}

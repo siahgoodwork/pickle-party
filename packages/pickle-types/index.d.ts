@@ -1,6 +1,7 @@
 import { JSONValue } from "@syncedstore/core";
 interface Room {
   activePoll: string;
+  password: string;
   activePollResult: string;
   activePollTrivia: string;
   pollLayout: "A" | "B" | "C" | "D" | "E";

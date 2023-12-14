@@ -13,6 +13,7 @@
     "@headlessui/react": "^1.7.17",
     "@headlessui/tailwindcss": "^0.2.0",
     "@heroicons/react": "^2.0.18",
+    "@mux/mux-player-react": "^2.3.0",
     "@mux/mux-video-react": "^0.8.0",
     "@syncedstore/core": "^0.6.0",
     "@syncedstore/react": "^0.6.0",

@@ -27,7 +27,7 @@ export default function Page(): JSX.Element {
   }, []);
 
   return (
-    <main className="bg-pickle-beige">
+    <main className="min-h-screen bg-pickle-beige">
       <img
         src="/pickle.gif"
         alt="Pickle gif"
@@ -50,7 +50,7 @@ export default function Page(): JSX.Element {
           <Tab className={tabClass}>Headline Prompts</Tab>
           <Tab className={tabClass}>Headlines</Tab>
           <Tab className={tabClass}>GIFs</Tab>
-          <Tab className={tabClass}>Video Stream</Tab>
+          <Tab className={tabClass}>Show</Tab>
         </Tab.List>
 
         <Tab.Panel>
