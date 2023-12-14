@@ -94,7 +94,7 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                 : room.pollLayout === "D"
                 ? "w-[22.91%] h-[55%] top-[22.5%] left-[38.54%] absolute  bg-[#f6ff65]/90"
                 : room.pollLayout === "E"
-                ? "w-[22.91%] h-[55%] top-[18.51%] left-[20.83%] absolute  bg-[#f6ff65]/90"
+                ? "w-[21.35%] h-[50.92%] top-[18.51%] left-[20.83%] absolute  bg-[#f6ff65]/90"
                 : ""
             }`}
           >
