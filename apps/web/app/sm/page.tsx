@@ -10,7 +10,7 @@ import { ChatAdmin } from "./chat-admin";
 import Gifs from "./gifs";
 import VideoStream from "./video-stream";
 import NumOnline from "./online";
-import TenHeadlines from "./ten-headlines";
+// import TenHeadlines from "./ten-headlines";
 
 const tabClass = cls(
   "ui-selected:text-pickle-beige ui-selected:bg-pickle-green rounded px-2 py-1 ui-not-selected:bg-pickle-beige ui-not-selected:text-black ui-selected:border ui-selected:border-pickle-beige"

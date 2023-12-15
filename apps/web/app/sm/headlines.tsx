@@ -1,11 +1,11 @@
 import { useSyncedStore } from "@syncedstore/react";
 import { nanoid } from "nanoid";
 import classNames from "classnames";
+import { toast } from "react-hot-toast";
 import type { HeadlinePrompt, PollResult } from "pickle-types";
 import { useMemo, useState } from "react";
 import { store } from "../store";
 import { wherePoll } from "./polls";
-import toast from "react-hot-toast";
 
 interface ChatResponse {
   ok: boolean;
@@ -308,8 +308,11 @@ export default function Page(): React.ReactElement {
                 const dataObj: ChatResponse =
                   (await data.json()) as ChatResponse;
 
-                if (dataObj.ok && dataObj.chatResponse.length > 0) {
-                  setHeadlineInput(dataObj.chatResponse[0].message.content);
+                if (
+                  dataObj.ok &&
+                  dataObj.chatResponse.message.content.length > 0
+                ) {
+                  setHeadlineInput(dataObj.chatResponse.message.content);
                 } else {
                   throw Error("Failed to generate headline");
                 }
