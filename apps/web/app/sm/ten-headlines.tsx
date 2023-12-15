@@ -95,9 +95,8 @@ export default function TenHeadlines(): React.ReactElement {
         {generatingHeadline ? "generating..." : "Generate"}
       </button>
       <ul>
-        {tenHeadlines.map((hl) => (
-          <li key={hl}>{hl}</li>
-        ))}
+        {Array.isArray(tenHeadlines) &&
+          tenHeadlines.map((hl) => <li key={hl}>{hl}</li>)}
       </ul>
     </div>
   );
