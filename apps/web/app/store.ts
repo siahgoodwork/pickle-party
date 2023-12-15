@@ -27,6 +27,10 @@ export const store = syncedStore<{
   gifSubmissions: GifSubmission[];
   gifFeedItems: GifFeedItem[];
   room: Partial<Room>;
+
+  // jian hong's 10 GPT headlines from 10 polls
+  selectedPollResultsForHeadlines: string[];
+  tenHeadlines: string[];
 }>({
   room: {},
   polls: {},
@@ -37,6 +41,8 @@ export const store = syncedStore<{
   gifFeedItems: [],
   chat: [],
   otherPrompts: {},
+  selectedPollResultsForHeadlines: [],
+  tenHeadlines: [],
 });
 
 // Create a document that syncs automatically using Y-websocket

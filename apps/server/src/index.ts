@@ -38,6 +38,10 @@ export const store = syncedStore<{
   gifSubmissions: GifSubmission[];
   gifFeedItems: GifFeedItem[];
   room: Partial<Room>;
+
+  // jian hong's 10 GPT headlines from 10 polls
+  selectedPollResultsForHeadlines: string[];
+  tenHeadlines: string[];
 }>({
   room: {},
   polls: {},
@@ -48,6 +52,8 @@ export const store = syncedStore<{
   gifFeedItems: [],
   chat: [],
   otherPrompts: {},
+  selectedPollResultsForHeadlines: [],
+  tenHeadlines: [],
 });
 
 const doc = getYjsDoc(store);
@@ -75,6 +81,7 @@ app.use(bodyParser.json());
 app.post("/chat/categorise-conversation", chatCategoriseConversation);
 app.post("/chat/imagine-pickle", chatImaginePickle);
 app.post("/chat/headline", chatGenerateHeadlineFromPoll);
+app.post("/chat/general", chatGeneralPrompt);
 
 app.get("/room", (_req, res) => {
   const room = doc.getMap("room");

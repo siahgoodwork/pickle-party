@@ -48,6 +48,7 @@ export default function Page(): React.ReactElement {
           value={promptInput.prompt}
           className="p-2 border border-black w-[40em] h-[5em] no-resize"
         />
+        <br />
 
         <button
           type="button"
@@ -113,169 +114,181 @@ export default function Page(): React.ReactElement {
         ))}
       </div>
 
-      <div className="p-2">
-        <select
-          onChange={(e) => {
-            setSelectedHeadlinePrompt(
-              state.headlinePrompts.find((p) => p.id === e.target.value)
-            );
-          }}
-          className="w-full p-2 overflow-hidden bg-white border border-black"
-          value={
-            selectedHeadlinePrompt !== undefined
-              ? selectedHeadlinePrompt.id
-              : undefined
-          }
-        >
-          <option value=""> </option>
-          {state.headlinePrompts.map((hpr) => {
-            return (
-              <option key={hpr.id} value={hpr.id}>
-                {state.headlinePrompts.find((p) => p.id === hpr.id)?.prompt}
-              </option>
-            );
-          })}
-        </select>
-        {state.headlinePrompts.findIndex(
-          (p) => p.id === selectedHeadlinePrompt?.id
-        ) > -1 ? (
+      <div className="p-3 m-8 border border-black col-span-2 grid grid-cols-2">
+        <div className="col-span-2">
+          <h2 className="font-bold">Ticker headline generation prompts</h2>
+        </div>
+        <div className="p-2">
           <div>
-            <h2 className="mt-8 mb-4 text-lg">
-              <span className="text-gray-600">A news headline</span>{" "}
-              <span className="text-black">
-                {selectedHeadlinePrompt?.prompt}
-              </span>
-            </h2>
-          </div>
-        ) : null}
-      </div>
-      <div className="p-2">
-        <select
-          onChange={(e) => {
-            setSelectedPollResult(state.pollResults[e.target.value]);
-          }}
-          className="p-2 bg-white border border-black"
-          value={
-            selectedPollResult !== undefined ? selectedPollResult.id : undefined
-          }
-        >
-          <option value=""> </option>
-          {Object.values(state.pollResults).map((result) => {
-            if (result === undefined) {
-              return false;
-            }
-
-            const id = result.id;
-            const pollQuestion =
-              id === "where-poll"
-                ? wherePoll.question
-                : state.polls[id]?.question;
-
-            if (pollQuestion === undefined) {
-              return false;
-            }
-
-            return (
-              <option key={id} value={id}>
-                {pollQuestion}
-              </option>
-            );
-          })}
-        </select>
-        {selectedPollResult === undefined ? (
-          false
-        ) : selectedPollResult.id === "where-poll" ? (
-          <div>
-            {Object.values(selectedPollResult.choices).map((choice) => (
-              <div key={choice.id}>
-                {choice.id} - {choice.voters.length}
+            <select
+              onChange={(e) => {
+                setSelectedHeadlinePrompt(
+                  state.headlinePrompts.find((p) => p.id === e.target.value)
+                );
+              }}
+              className="w-full p-2 overflow-hidden bg-white border border-black"
+              value={
+                selectedHeadlinePrompt !== undefined
+                  ? selectedHeadlinePrompt.id
+                  : undefined
+              }
+            >
+              <option value=""> </option>
+              {state.headlinePrompts.map((hpr) => {
+                return (
+                  <option key={hpr.id} value={hpr.id}>
+                    {state.headlinePrompts.find((p) => p.id === hpr.id)?.prompt}
+                  </option>
+                );
+              })}
+            </select>
+            {state.headlinePrompts.findIndex(
+              (p) => p.id === selectedHeadlinePrompt?.id
+            ) > -1 ? (
+              <div>
+                <h2 className="mt-8 mb-4 text-lg">
+                  <span className="text-gray-600">A news headline</span>{" "}
+                  <span className="text-black">
+                    {selectedHeadlinePrompt?.prompt}
+                  </span>
+                </h2>
               </div>
-            ))}
+            ) : null}
           </div>
-        ) : state.polls[selectedPollResult.id || ""] ? (
-          <div className="mt-8">
-            {state.polls[selectedPollResult.id]?.choices.map((choice) => {
+        </div>
+        <div className="p-2">
+          <select
+            onChange={(e) => {
+              setSelectedPollResult(state.pollResults[e.target.value]);
+            }}
+            className="p-2 bg-white border border-black"
+            value={
+              selectedPollResult !== undefined
+                ? selectedPollResult.id
+                : undefined
+            }
+          >
+            <option value=""> </option>
+            {Object.values(state.pollResults).map((result) => {
+              if (result === undefined) {
+                return false;
+              }
+
+              const id = result.id;
+              const pollQuestion =
+                id === "where-poll"
+                  ? wherePoll.question
+                  : state.polls[id]?.question;
+
+              if (pollQuestion === undefined) {
+                return false;
+              }
+
               return (
-                <div key={choice.id}>
-                  {choice.text} -{" "}
-                  {
-                    state.pollResults[selectedPollResult.id]?.choices[choice.id]
-                      ?.voters.length
-                  }
-                </div>
+                <option key={id} value={id}>
+                  {pollQuestion}
+                </option>
               );
             })}
-          </div>
-        ) : (
-          false
-        )}
-      </div>
-      <div className="text-center col-span-2">
-        <button
-          type="button"
-          className="px-2 text-xl"
-          disabled={
-            generatingHeadline ||
-            selectedPollResult === undefined ||
-            selectedHeadlinePrompt === undefined
-          }
-          onClick={async () => {
-            setGeneratingHeadline(true);
-            try {
-              if (selectedHeadlinePrompt === undefined) {
-                return;
-              }
+          </select>
+          {selectedPollResult === undefined ? (
+            false
+          ) : selectedPollResult.id === "where-poll" ? (
+            <div>
+              {Object.values(selectedPollResult.choices).map((choice) => (
+                <div key={choice.id}>
+                  {choice.id} - {choice.voters.length}
+                </div>
+              ))}
+            </div>
+          ) : state.polls[selectedPollResult.id || ""] ? (
+            <div className="mt-8">
+              {state.polls[selectedPollResult.id]?.choices.map((choice) => {
+                return (
+                  <div key={choice.id}>
+                    {choice.text} -{" "}
+                    {
+                      state.pollResults[selectedPollResult.id]?.choices[
+                        choice.id
+                      ]?.voters.length
+                    }
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            false
+          )}
+        </div>
 
-              if (selectedPollResult === undefined) {
-                return;
-              }
-
-              const _poll =
-                selectedPollResult.id === "where-poll"
-                  ? wherePoll
-                  : state.polls[selectedPollResult.id];
-
-              if (_poll === undefined) {
-                return;
-              }
-
-              const data = await fetch("/api/poll-headline", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  headlinePrompt: selectedHeadlinePrompt.prompt,
-                  pollResult: {
-                    question: _poll.question,
-                    choices: _poll.choices.map((c) => ({
-                      votes:
-                        selectedPollResult.choices[c.id]?.voters.length || 0, //eslint-disable-line @typescript-eslint/no-unnecessary-condition -- might return undefined object with dynamic key
-                      text: c.text,
-                    })),
-                  },
-                }),
-              });
-
-              const dataObj: ChatResponse = (await data.json()) as ChatResponse;
-
-              if (dataObj.ok && dataObj.chatResponse.length > 0) {
-                setHeadlineInput(dataObj.chatResponse[0].message.content);
-              } else {
-                throw Error("Failed to generate headline");
-              }
-              setGeneratingHeadline(false);
-            } catch (err) {
-              /* eslint no-console: 0 -- log error */
-              console.error(err);
-              /* eslint no-alert: 0 -- log error */
-              alert("An error has occurred, try again.");
-              setGeneratingHeadline(false);
+        <div className="text-center col-span-2">
+          <button
+            type="button"
+            className="px-2 text-xl"
+            disabled={
+              generatingHeadline ||
+              selectedPollResult === undefined ||
+              selectedHeadlinePrompt === undefined
             }
-          }}
-        >
-          {generatingHeadline ? "Generating..." : "Make the headline"}
-        </button>
+            onClick={async () => {
+              setGeneratingHeadline(true);
+              try {
+                if (selectedHeadlinePrompt === undefined) {
+                  return;
+                }
+
+                if (selectedPollResult === undefined) {
+                  return;
+                }
+
+                const _poll =
+                  selectedPollResult.id === "where-poll"
+                    ? wherePoll
+                    : state.polls[selectedPollResult.id];
+
+                if (_poll === undefined) {
+                  return;
+                }
+
+                const data = await fetch("/api/poll-headline", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    headlinePrompt: selectedHeadlinePrompt.prompt,
+                    pollResult: {
+                      question: _poll.question,
+                      choices: _poll.choices.map((c) => ({
+                        votes:
+                          selectedPollResult.choices[c.id]?.voters.length || 0, //eslint-disable-line @typescript-eslint/no-unnecessary-condition -- might return undefined object with dynamic key
+                        text: c.text,
+                      })),
+                    },
+                  }),
+                });
+
+                const dataObj: ChatResponse =
+                  (await data.json()) as ChatResponse;
+
+                if (dataObj.ok && dataObj.chatResponse.length > 0) {
+                  setHeadlineInput(dataObj.chatResponse[0].message.content);
+                } else {
+                  throw Error("Failed to generate headline");
+                }
+                setGeneratingHeadline(false);
+              } catch (err) {
+                /* eslint no-console: 0 -- log error */
+                console.error(err);
+                /* eslint no-alert: 0 -- log error */
+                alert("An error has occurred, try again.");
+                setGeneratingHeadline(false);
+              }
+            }}
+          >
+            {generatingHeadline ? "Generating..." : "Make the headline"}
+          </button>
+        </div>
       </div>
 
       <div className="col-span-2">

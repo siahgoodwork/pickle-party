@@ -1,6 +1,6 @@
 import { useSyncedStore } from "@syncedstore/react";
 import { Combobox } from "@headlessui/react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { store } from "../store";
 
 export default function Page(): React.ReactElement {
@@ -13,23 +13,29 @@ export default function Page(): React.ReactElement {
     state.otherPrompts.chatCategory || ""
   );
 
-  const [selectedPollResults, setSelectedPollResults] = useState<string[]>([]);
+  const [selectedPollResults, setSelectedPollResults] = useState<string[]>(
+    state.selectedPollResultsForHeadlines
+  );
   const [pollSearch, setPollSearch] = useState("");
   const pollResultsData = useMemo(() => {
     return selectedPollResults
       .map((id) => {
         const poll = state.polls[id];
         const pr = state.pollResults[id];
-        if (poll === undefined || pr === undefined) {
+        if (poll === undefined) {
           return false;
         }
-        const topResultId = Object.values(pr.choices).sort(
-          (a, b) => b.voters.length - a.voters.length
-        )[0].id;
+        const topResultId =
+          pr === undefined
+            ? undefined
+            : Object.values(pr.choices).sort(
+                (a, b) => b.voters.length - a.voters.length
+              )[0].id;
         return {
           id: poll.id,
           question: poll.question,
-          topResult: poll.choices.find((c) => c.id === topResultId)?.text || "",
+          topResult:
+            poll.choices.find((c) => c.id === topResultId)?.text || "-",
         };
       })
       .filter((a) => a !== false) as {
@@ -77,6 +83,10 @@ export default function Page(): React.ReactElement {
                       setSelectedPollResults((pr) =>
                         pr.filter((_pr) => _pr !== prd.id)
                       );
+                      const n = state.selectedPollResultsForHeadlines.findIndex(
+                        (_prd) => _prd === prd.id
+                      );
+                      state.selectedPollResultsForHeadlines.splice(n, 1);
                     }}
                   >
                     &times;
@@ -92,6 +102,14 @@ export default function Page(): React.ReactElement {
               <Combobox
                 value={selectedPollResults}
                 onChange={(value) => {
+                  const notIn = value.filter(
+                    (v) => !state.selectedPollResultsForHeadlines.includes(v)
+                  );
+                  state.selectedPollResultsForHeadlines.splice(
+                    state.selectedPollResultsForHeadlines.length - 1,
+                    0,
+                    ...notIn
+                  );
                   setSelectedPollResults(value);
                   setPollSearch("");
                 }}

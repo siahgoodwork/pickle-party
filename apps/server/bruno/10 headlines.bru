@@ -1,0 +1,27 @@
+meta {
+  name: 10 headlines
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{HOSTNAME}}/chat/general
+  body: json
+  auth: none
+}
+
+body:json {
+  { "prompt" : "Using the following 10 words or phrases, generate 10 sensational tabloid news headlines that are short and punchy about food, housing, water and climate crisis with each of them: \
+  \
+  1. Achar\
+  2. Pickles in Mc Donalds’ cheeseburger\
+  3. Your favorite uncle hangout - void deck\
+  4. Harry Potter wannabe\
+  5. With Daddy’s wealth\
+  6. Alive, but pretty damn useless\
+  7. With daddy’s wealth\
+  8. 30 by 30\
+  9. Sriracha\
+  10. Dip your crispy pork into the sweet and sour sauce\
+  Return the results as a JSON array of 10 strings." }
+}
