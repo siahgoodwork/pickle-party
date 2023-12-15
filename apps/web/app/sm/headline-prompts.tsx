@@ -1,6 +1,6 @@
 import { useSyncedStore } from "@syncedstore/react";
 import { Combobox } from "@headlessui/react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { store } from "../store";
 
 export default function Page(): React.ReactElement {
