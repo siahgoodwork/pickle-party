@@ -50,7 +50,7 @@ export default function Page(): JSX.Element {
           <Tab className={tabClass}>Chat</Tab>
           <Tab className={tabClass}>GPT Prompts</Tab>
           <Tab className={tabClass}>Ticker Tape</Tab>
-          <Tab className={tabClass}>Headlines</Tab>
+          {/* <Tab className={tabClass}>Headlines</Tab> */}
           <Tab className={tabClass}>GIFs</Tab>
           <Tab className={tabClass}>Show</Tab>
         </Tab.List>
@@ -71,9 +71,11 @@ export default function Page(): JSX.Element {
           <Headlines />
         </Tab.Panel>
 
-        <Tab.Panel>
-          <TenHeadlines />
-        </Tab.Panel>
+        {/*
+					<Tab.Panel>
+						<TenHeadlines />
+					</Tab.Panel>
+					*/}
 
         <Tab.Panel>
           <Gifs />

@@ -2,23 +2,60 @@ import { useSyncedStore } from "@syncedstore/react";
 import { nanoid } from "nanoid";
 import classNames from "classnames";
 import type { HeadlinePrompt, PollResult } from "pickle-types";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { store } from "../store";
 import { wherePoll } from "./polls";
+import toast from "react-hot-toast";
 
 interface ChatResponse {
   ok: boolean;
-  chatResponse: { message: { role: string; content: string } }[];
+  chatResponse: { message: { role: string; content: string } };
+  //chatResponse: { message: { role: string; content: string } }[];
 }
 
 export default function Page(): React.ReactElement {
   const state = useSyncedStore(store);
+  const {
+    polls,
+    pollResults,
+    selectedPollResultsForHeadlines,
+    otherPrompts,
+    tenHeadlines,
+  } = state;
 
   const [selectedPollResult, setSelectedPollResult] = useState<PollResult>();
   const [selectedHeadlinePrompt, setSelectedHeadlinePrompt] =
     useState<HeadlinePrompt>();
   const [generatingHeadline, setGeneratingHeadline] = useState(false);
   const [headlineInput, setHeadlineInput] = useState("");
+
+  const pollResultsData = useMemo(() => {
+    return selectedPollResultsForHeadlines
+      .map((id) => {
+        const poll = polls[id];
+        const pr = pollResults[id];
+        if (poll === undefined) {
+          return false;
+        }
+        const topResultId =
+          pr === undefined
+            ? undefined
+            : Object.values(pr.choices).sort(
+                (a, b) => b.voters.length - a.voters.length
+              )[0].id;
+        return {
+          id: poll.id,
+          question: poll.question,
+          topResult:
+            poll.choices.find((c) => c.id === topResultId)?.text || "-",
+        };
+      })
+      .filter((a) => a !== false) as {
+      id: string;
+      question: string;
+      topResult: string;
+    }[];
+  }, [selectedPollResultsForHeadlines, polls, pollResults]);
 
   const [promptInput, setPromptInput] = useState<HeadlinePrompt>({
     id: "",
@@ -27,7 +64,7 @@ export default function Page(): React.ReactElement {
 
   return (
     <div className="p-4 grid grid-cols-2 gap-4">
-      <div className="p-2 col-span-2">
+      <div className="hidden p-2 col-span-2">
         <h1 className="font-bold">Headline Prompts</h1>
 
         <h2 className="mt-8 mb-4 text-lg">
@@ -114,7 +151,7 @@ export default function Page(): React.ReactElement {
         ))}
       </div>
 
-      <div className="p-3 m-8 border border-black col-span-2 grid grid-cols-2">
+      <div className="hidden p-3 m-8 border border-black col-span-2 grid grid-cols-2">
         <div className="col-span-2">
           <h2 className="font-bold">Ticker headline generation prompts</h2>
         </div>
@@ -292,6 +329,84 @@ export default function Page(): React.ReactElement {
       </div>
 
       <div className="col-span-2">
+        <div className="p-2">
+          <div className="p-2 border border-black">
+            <button
+              type="button"
+              onClick={async () => {
+                setGeneratingHeadline(true);
+                try {
+                  if (otherPrompts.pollHeadlines === "") {
+                    return;
+                  }
+
+                  const r = await fetch("/api/ten-headlines", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      pollResults: pollResultsData.map((prd) => prd.topResult),
+                      prompt: otherPrompts.pollHeadlines,
+                    }),
+                  });
+                  const dataObj = (await r.json()) as ChatResponse;
+
+                  if (dataObj.ok && dataObj.chatResponse.message.content) {
+                    setGeneratingHeadline(false);
+                    const contentObj = JSON.parse(
+                      dataObj.chatResponse.message.content
+                    ) as { headlines?: string[] };
+
+                    if (
+                      contentObj.headlines &&
+                      contentObj.headlines.length > 0
+                    ) {
+                      tenHeadlines.splice(
+                        0,
+                        tenHeadlines.length,
+                        ...contentObj.headlines
+                      );
+                    }
+                  } else {
+                    throw Error("Failed to generate headline");
+                  }
+                } catch (err) {
+                  /* eslint no-console: 0 -- log error */
+                  console.error(err);
+                  /* eslint no-alert: 0 -- log error */
+                  alert("An error has occurred, try again.");
+                  setGeneratingHeadline(false);
+                }
+              }}
+            >
+              {generatingHeadline ? "generating..." : "Generate"}
+            </button>
+            <ul className="p-2">
+              {Array.isArray(tenHeadlines) &&
+                tenHeadlines.map((hl) => (
+                  <li key={hl}>
+                    {hl}{" "}
+                    <button
+                      type="button"
+                      className="text-sm"
+                      onClick={() => {
+                        state.headlines.push({
+                          id: nanoid(),
+                          active: false,
+                          text: hl,
+                        });
+                        toast("added to ticker tape headlines");
+                      }}
+                    >
+                      Add to ticker
+                    </button>
+                  </li>
+                ))}
+            </ul>
+          </div>
+        </div>
+
         <textarea
           value={headlineInput}
           onChange={(e) => {
@@ -314,6 +429,7 @@ export default function Page(): React.ReactElement {
           Save headline
         </button>
       </div>
+
       <div className="col-span-2">
         <button
           type="button"
