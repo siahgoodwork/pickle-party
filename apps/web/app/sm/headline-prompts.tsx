@@ -13,6 +13,10 @@ export default function Page(): React.ReactElement {
     state.otherPrompts.chatCategory || ""
   );
 
+  const [imaginePicklePrompt, setImaginePicklePrompt] = useState(
+    state.otherPrompts.imaginePickle || ""
+  );
+
   const [selectedPollResults, setSelectedPollResults] = useState<string[]>(
     state.selectedPollResultsForHeadlines
   );
@@ -173,6 +177,29 @@ export default function Page(): React.ReactElement {
           )}
 
           <pre className="text-sm font-normal">&lt;chat goes here&gt;</pre>
+        </div>
+
+        <div className="mt-4">
+          <h1 className="font-bold">Imagine Pickle prompt</h1>
+          <div>
+            <textarea
+              className="w-full border border-black bg-white h-[7rem]"
+              value={imaginePicklePrompt}
+              onChange={(e) => {
+                setImaginePicklePrompt(e.target.value);
+              }}
+            />
+            {imaginePicklePrompt !== state.otherPrompts.imaginePickle && (
+              <button
+                type="button"
+                onClick={() => {
+                  state.otherPrompts.imaginePickle = imaginePicklePrompt;
+                }}
+              >
+                Save
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

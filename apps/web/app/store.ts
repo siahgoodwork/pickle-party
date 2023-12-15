@@ -22,6 +22,7 @@ export const store = syncedStore<{
   otherPrompts: {
     chatCategory?: string;
     pollHeadlines?: string;
+    imaginePickle?: string;
   };
   chat: ChatMessage[];
   gifSubmissions: GifSubmission[];

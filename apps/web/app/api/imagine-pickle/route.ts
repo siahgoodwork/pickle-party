@@ -11,9 +11,10 @@ interface ChatResponse {
 export async function POST(
   req: NextRequest
 ): Promise<ReturnType<typeof NextResponse.json>> {
-  const { conversation, category } = (await req.json()) as {
+  const { conversation, category, prompt } = (await req.json()) as {
     conversation: string;
     category: string;
+    prompt: string;
   };
 
   try {
@@ -27,6 +28,7 @@ export async function POST(
         body: JSON.stringify({
           conversation,
           category,
+          prompt,
         }),
       }
     );

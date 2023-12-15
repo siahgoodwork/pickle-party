@@ -304,6 +304,7 @@ export function ChatAdmin(): JSX.Element {
                       conversation: chatStr,
                       category: categoriseResult.title,
                       description: categoriseResult.content,
+                      prompt: otherPrompts.imaginePickle,
                     }),
                   });
 

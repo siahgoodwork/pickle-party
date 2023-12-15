@@ -112,90 +112,14 @@ Your return format should be a JSON, and the keys are title, content, and reason
 
 const chatImaginePickle: RequestHandler = async (req, res) => {
   try {
-    const { conversation, category, description } = req.body;
+    const { conversation, category, description, prompt } = req.body;
 
     const chatRes = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
         {
           role: "system",
-          content: `
-Here's a list of food items: 
-- Cucumbers (Pickles)
-- Carrots
-- Radishes
-- Onions
-- Garlic
-- plastic bag
-- cars
-- Green Beans
-- Cauliflower
-- Bell Peppers
-- Eggs
-- Herring (Matjes)
-- Mango
-- Lemons
-- Watermelon Rind
-- Cherries
-- Apples
-- Pears
-- Ginger
-- Turnips
-- Pineapple
-- Peaches
-- Tomatoes
-- Zucchini
-- Cabbage
-- Brussels Sprouts
-- Okra
-- Figs
-- Plums
-- Swiss Chard Stems
-- Snap Peas
-- Radish Greens
-- Artichokes
-- Shrimp
-- Lime
-- Strawberries
-- Avocado
-- Green Tomatillos
-- Papaya
-- Blueberries
-- Rhubarb
-- Cranberries
-- Pumpkin
-- Escarole
-- Capers
-- Tofu
-- Cheese (e.g., Feta)
-- Hot Peppers
-- Turkey
-- Chicken Feet (in some Asian cuisines)
-
-Here are some known pickling methods: 
-1 Brine Fermentation
-2 Vinegar Pickling
-3 Quick Pickling
-4 Lacto-Fermentation
-5 Canning
-6 Refrigerator Pickles
-7 Dry Salt Pickling
-8 Preserving in Alcohol (e.g., Pickled Cherries in Brandy)
-9 Oil Pickling
-10 Soy Sauce Pickling
-11 Pressure Canning
-12 Water Bath Canning
-13 Freezer Pickling
-14 Kimchi Fermentation
-15 Pickling in Wine
-16 Honey Pickling
-17 Pickling in Fruit Juice (e.g., Apple Cider)
-18 Fermenting with Kombucha
-19 Spiced Pickling
-20 Pickling in Fish Sauce
-
-For a group of people, whose personality type is provided, take inspiration from their conversation and suggest a pickle dish using a pickling method and a food item above that best matches them. Give a creative name for the pickle dish. 
-					`,
+          content: prompt,
         },
         {
           role: "user",
