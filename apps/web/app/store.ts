@@ -11,6 +11,7 @@ import type {
   ChatMessage,
   GifSubmission,
   GifFeedItem,
+  ChatOutput,
 } from "pickle-types";
 
 // Create your SyncedStore store
@@ -25,6 +26,7 @@ export const store = syncedStore<{
     imaginePickle?: string;
   };
   chat: ChatMessage[];
+  chatOutput: Partial<ChatOutput>;
   gifSubmissions: GifSubmission[];
   gifFeedItems: GifFeedItem[];
   room: Partial<Room>;
@@ -41,6 +43,7 @@ export const store = syncedStore<{
   gifSubmissions: [],
   gifFeedItems: [],
   chat: [],
+  chatOutput: {},
   otherPrompts: {},
   selectedPollResultsForHeadlines: [],
   tenHeadlines: [],

@@ -1,12 +1,24 @@
 import { useSyncedStore } from "@syncedstore/react";
 import { useEffect, useState } from "react";
+import { put, type PutBlobResult } from "@vercel/blob";
+import { upload } from "@vercel/blob/client";
+import { useDropzone } from "react-dropzone";
 import { store } from "../store";
+import toast from "react-hot-toast";
 
 export function ChatAdmin(): JSX.Element {
-  const { chat, room, otherPrompts } = useSyncedStore(store);
+  const { chat, room, otherPrompts, chatOutput } = useSyncedStore(store);
 
   const [thinkingCategory, setThinkingCategory] = useState<boolean>(false);
   const [imaginingPickle, setImaginingPickle] = useState<boolean>(false);
+
+  const [chatOutputTitle, setChatOutputTitle] = useState(
+    chatOutput.heading || ""
+  );
+  const [chatOutputBody, setChatOutputBody] = useState(chatOutput.body || "");
+  const [chatOutputImage, setChatOutputImage] = useState(
+    chatOutput.imageUrl || ""
+  );
 
   const [categoriseResult, setCategoriseResult] = useState<{
     title: string;
@@ -208,135 +220,291 @@ export function ChatAdmin(): JSX.Element {
         </div>
       </div>
 
-      <div className="p-2 mx-2 border border-black">
-        <h2>Categorise chat</h2>
+      <div className="p-2 mx-2 border border-black grid gap-4 grid-cols-2">
+        <div>
+          <h2>Categorise chat</h2>
+          <button
+            type="button"
+            disabled={thinkingCategory}
+            onClick={async () => {
+              setThinkingCategory(true);
+              const chatStr = _chat
+                .sort(
+                  (a, b) =>
+                    new Date(a.timestamp).getTime() -
+                    new Date(b.timestamp).getTime()
+                )
+                .map((c) => `${c.timestamp} - ${c.sender} : ${c.message}\r\n`)
+                .join("");
+
+              try {
+                const req = await fetch("/api/categorise-conversation", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    conversation: chatStr,
+                    prompt: otherPrompts.chatCategory || "",
+                  }),
+                });
+
+                const res = (await req.json()) as {
+                  ok: boolean;
+                  chatResponse?: {
+                    index: 0;
+                    message: { role: string; content: string };
+                  };
+                };
+
+                if (res.ok) {
+                  const payload = JSON.parse(
+                    res.chatResponse?.message.content || ""
+                  ) as {
+                    title: string;
+                    content: string;
+                    reason: string;
+                  };
+                  setCategoriseResult(payload);
+                } else {
+                  throw Error("Error getting response from GPT");
+                }
+                setThinkingCategory(false);
+              } catch (err) {
+                /* eslint no-console: ["error", { allow: ["warn", "error"] }] -- warn user here */
+                console.warn(err);
+                /*eslint no-alert: "off" -- allow for now */
+                alert("failed to get response from GPT. Try again.");
+                setThinkingCategory(false);
+              }
+            }}
+          >
+            {thinkingCategory ? "Thinking..." : "Go"}
+          </button>
+          {categoriseResult !== undefined && (
+            <div>
+              Type: {categoriseResult.title}
+              <br />
+              Reason: {categoriseResult.reason}
+              <br />
+              Content:{" "}
+              <div
+                className="[&>ul]:list-disc [&>ul]:list-inside"
+                dangerouslySetInnerHTML={{ __html: categoriseResult.content }}
+              />
+              <hr className="my-8 border-t border-black bg-none" />
+              <button
+                type="button"
+                onClick={async () => {
+                  setImaginingPickle(true);
+
+                  const chatStr = _chat
+                    .sort(
+                      (a, b) =>
+                        new Date(a.timestamp).getTime() -
+                        new Date(b.timestamp).getTime()
+                    )
+                    .map((c) => `${c.timestamp} - ${c.sender} : ${c.message}`)
+                    .join("  ");
+
+                  try {
+                    const req = await fetch("/api/imagine-pickle", {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        conversation: chatStr,
+                        category: categoriseResult.title,
+                        description: categoriseResult.content,
+                        prompt: otherPrompts.imaginePickle,
+                      }),
+                    });
+
+                    const res = (await req.json()) as {
+                      ok: boolean;
+                      chatResponse?: {
+                        index: number;
+                        message: { role: string; content: string };
+                      };
+                    };
+
+                    if (res.ok) {
+                      setPickleResult(res.chatResponse?.message.content || "");
+                      setImaginingPickle(false);
+                    } else {
+                      throw Error("Error getting response from GPT");
+                    }
+                  } catch (err) {
+                    /* eslint no-console: ["error", { allow: ["warn", "error"] }] -- warn user here */
+                    console.warn(err);
+                    /*eslint no-alert: "off" -- allow for now */
+                    alert("failed to get response from GPT. Try again.");
+                    setImaginingPickle(false);
+                  }
+                }}
+                disabled={imaginingPickle}
+              >
+                {imaginingPickle ? "thinking..." : "Imagine A Pickle"}
+              </button>
+              <p>{pickleResult}</p>
+            </div>
+          )}
+        </div>
+
+        <div className="p-4 border border-l border-black min-h-[60vh]">
+          <h2 className="font-bold">Output</h2>
+          <div className="grid grid-cols-[10em_auto] gap-2">
+            <span>Title</span>
+            <input
+              type="text"
+              className="p-1"
+              value={chatOutputTitle}
+              onChange={(e) => {
+                setChatOutputTitle(e.target.value);
+              }}
+            />
+            <span>Body</span>
+            <textarea
+              className="p-1 h-[5em]"
+              value={chatOutputBody}
+              onChange={(e) => {
+                setChatOutputBody(e.target.value);
+              }}
+            />
+
+            <div className="col-span-2">
+              {chatOutputBody !== chatOutput.body ||
+              chatOutputTitle !== chatOutput.heading ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    chatOutput.heading = chatOutputTitle;
+                    chatOutput.body = chatOutputBody;
+                  }}
+                >
+                  Save Title & Text
+                </button>
+              ) : (
+                false
+              )}
+            </div>
+            <span>Image</span>
+
+            <Dropzone
+              updateImageUrl={(url) => {
+                setChatOutputImage(url);
+                chatOutput.imageUrl = url;
+                toast("Output image updated");
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Dropzone({
+  updateImageUrl,
+}: {
+  updateImageUrl: (url: string) => void;
+}): React.ReactElement {
+  const { chatOutput } = useSyncedStore(store);
+  const [isUploading, setIsUploading] = useState(false);
+  const [file, setFile] = useState<File & { preview: string }>();
+  const { getRootProps, getInputProps, isDragAccept, isDragReject } =
+    useDropzone({
+      accept: {
+        "image/*": [],
+      },
+      disabled: isUploading,
+      onDrop: (acceptedFiles) => {
+        if (acceptedFiles.length >= 1) {
+          const _file = acceptedFiles[0];
+          setIsUploading(true);
+          setFile(
+            Object.assign(_file, {
+              preview: URL.createObjectURL(_file),
+            })
+          );
+
+          upload(_file.name, _file, {
+            access: "public",
+            handleUploadUrl: "/sm/handle-image-upload",
+          })
+            .then((result) => {
+              updateImageUrl(result.url);
+              setIsUploading(false);
+            })
+            .catch((err) => {
+              console.error(err);
+              setIsUploading(false);
+              alert("upload error, try again");
+            })
+            .finally(() => {
+              setFile(undefined);
+            });
+        }
+      },
+    });
+
+  const thumb = function (): React.ReactElement {
+    return file !== undefined ? (
+      <div>
+        <img
+          alt="preview"
+          src={file.preview}
+          onLoad={() => {
+            URL.revokeObjectURL(file.preview);
+          }}
+        />
+      </div>
+    ) : chatOutput.imageUrl !== undefined ? (
+      <div>
+        <img alt="preview" src={chatOutput.imageUrl} />
+      </div>
+    ) : (
+      <div> </div>
+    );
+  };
+
+  useEffect(() => {
+    // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
+    return () => {
+      if (file !== undefined) {
+        URL.revokeObjectURL(file.preview);
+      }
+    };
+  }, []);
+
+  return (
+    <div>
+      <div
+        {...getRootProps({
+          className: `dropzone w-full border ${
+            isDragReject
+              ? "bg-red-100"
+              : isDragAccept
+              ? "bg-blue-100"
+              : "bg-white"
+          }`,
+        })}
+      >
+        <input {...getInputProps()} />
         <button
           type="button"
-          disabled={thinkingCategory}
-          onClick={async () => {
-            setThinkingCategory(true);
-            const chatStr = _chat
-              .sort(
-                (a, b) =>
-                  new Date(a.timestamp).getTime() -
-                  new Date(b.timestamp).getTime()
-              )
-              .map((c) => `${c.timestamp} - ${c.sender} : ${c.message}\r\n`)
-              .join("");
-
-            try {
-              const req = await fetch("/api/categorise-conversation", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  conversation: chatStr,
-                  prompt: otherPrompts.chatCategory || "",
-                }),
-              });
-
-              const res = (await req.json()) as {
-                ok: boolean;
-                chatResponse?: {
-                  index: 0;
-                  message: { role: string; content: string };
-                };
-              };
-
-              if (res.ok) {
-                const payload = JSON.parse(
-                  res.chatResponse?.message.content || ""
-                ) as {
-                  title: string;
-                  content: string;
-                  reason: string;
-                };
-                setCategoriseResult(payload);
-              } else {
-                throw Error("Error getting response from GPT");
-              }
-              setThinkingCategory(false);
-            } catch (err) {
-              /* eslint no-console: ["error", { allow: ["warn", "error"] }] -- warn user here */
-              console.warn(err);
-              /*eslint no-alert: "off" -- allow for now */
-              alert("failed to get response from GPT. Try again.");
-              setThinkingCategory(false);
-            }
-          }}
+          className={`w-full h-20 ${
+            isUploading ? "opacity-25" : "opacity-100"
+          }`}
         >
-          {thinkingCategory ? "Thinking..." : "Go"}
+          {isUploading
+            ? "Uploading..."
+            : `${
+                chatOutput.imageUrl !== undefined ? "To update the image, " : ""
+              }select image file or drag & drop an image here`}
         </button>
-        {categoriseResult !== undefined && (
-          <div>
-            Type: {categoriseResult.title}
-            <br />
-            Reason: {categoriseResult.reason}
-            <br />
-            Content:{" "}
-            <div
-              className="[&>ul]:list-disc [&>ul]:list-inside"
-              dangerouslySetInnerHTML={{ __html: categoriseResult.content }}
-            />
-            <hr className="my-8 border-t border-black bg-none" />
-            <button
-              type="button"
-              onClick={async () => {
-                setImaginingPickle(true);
-
-                const chatStr = _chat
-                  .sort(
-                    (a, b) =>
-                      new Date(a.timestamp).getTime() -
-                      new Date(b.timestamp).getTime()
-                  )
-                  .map((c) => `${c.timestamp} - ${c.sender} : ${c.message}`)
-                  .join("  ");
-
-                try {
-                  const req = await fetch("/api/imagine-pickle", {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                      conversation: chatStr,
-                      category: categoriseResult.title,
-                      description: categoriseResult.content,
-                      prompt: otherPrompts.imaginePickle,
-                    }),
-                  });
-
-                  const res = (await req.json()) as {
-                    ok: boolean;
-                    chatResponse?: {
-                      index: number;
-                      message: { role: string; content: string };
-                    };
-                  };
-
-                  if (res.ok) {
-                    setPickleResult(res.chatResponse?.message.content || "");
-                    setImaginingPickle(false);
-                  } else {
-                    throw Error("Error getting response from GPT");
-                  }
-                } catch (err) {
-                  /* eslint no-console: ["error", { allow: ["warn", "error"] }] -- warn user here */
-                  console.warn(err);
-                  /*eslint no-alert: "off" -- allow for now */
-                  alert("failed to get response from GPT. Try again.");
-                  setImaginingPickle(false);
-                }
-              }}
-              disabled={imaginingPickle}
-            >
-              {imaginingPickle ? "thinking..." : "Imagine A Pickle"}
-            </button>
-            <p>{pickleResult}</p>
-          </div>
-        )}
+        <aside>{thumb()}</aside>
       </div>
     </div>
   );

@@ -67,6 +67,12 @@ interface ChatMessage {
   admin?: boolean;
 }
 
+interface ChatOutput {
+  heading: string;
+  body: string;
+  imageUrl: string;
+}
+
 interface GifSubmission {
   url: string;
   sender: string;
@@ -87,4 +93,5 @@ export type {
   ChatMessage,
   GifSubmission,
   GifFeedItem,
+  ChatOutput,
 };

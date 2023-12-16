@@ -4,6 +4,8 @@ module.exports = {
   safelist: [
     "mt-1",
     "mt-2",
+    "bg-red-100",
+    "bg-blue-100",
     "col-span-3",
     "col-span-4",
     "grid-cols-1",
