@@ -1,10 +1,9 @@
 import { useSyncedStore } from "@syncedstore/react";
 import { useEffect, useState } from "react";
-import { put, type PutBlobResult } from "@vercel/blob";
 import { upload } from "@vercel/blob/client";
 import { useDropzone } from "react-dropzone";
+import { toast } from "react-hot-toast";
 import { store } from "../store";
-import toast from "react-hot-toast";
 
 export function ChatAdmin(): JSX.Element {
   const { chat, room, otherPrompts, chatOutput } = useSyncedStore(store);
@@ -16,9 +15,6 @@ export function ChatAdmin(): JSX.Element {
     chatOutput.heading || ""
   );
   const [chatOutputBody, setChatOutputBody] = useState(chatOutput.body || "");
-  const [chatOutputImage, setChatOutputImage] = useState(
-    chatOutput.imageUrl || ""
-  );
 
   const [categoriseResult, setCategoriseResult] = useState<{
     title: string;
@@ -393,7 +389,6 @@ export function ChatAdmin(): JSX.Element {
 
             <Dropzone
               updateImageUrl={(url) => {
-                setChatOutputImage(url);
                 chatOutput.imageUrl = url;
                 toast("Output image updated");
               }}
