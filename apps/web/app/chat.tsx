@@ -181,10 +181,18 @@ export default function Page({ userId }: { userId: string }): ReactElement {
                     new Date(a.timestamp).getTime() -
                     new Date(b.timestamp).getTime()
                 )
-                .map((msg, n, chatArr) => (
-                  <div
-                    key={msg.id}
-                    className={`flex flex-col items-start md:flex-row message gap-1 md:gap-2
+                .map((msg, n, chatArr) => {
+                  let _msg = msg.message;
+                  try {
+                    _msg = filter.clean(_msg);
+                  } catch (err) {
+                    // eslint-disable-next-line -- log on server
+                    console.error(err);
+                  }
+                  return (
+                    <div
+                      key={msg.id}
+                      className={`flex flex-col items-start md:flex-row message gap-1 md:gap-2
 											${
                         (chatArr[n - 1] as ChatMessage | undefined) !==
                           undefined && chatArr[n - 1].sender === msg.sender
@@ -192,26 +200,27 @@ export default function Page({ userId }: { userId: string }): ReactElement {
                           : "mt-4"
                       }
 											`}
-                  >
-                    <label
-                      className={`p-1 text-sm pointer-events-none sender flex-shrink-0 w-[4em] truncate text-black/90 text-xs ${
-                        (chatArr[n - 1] as ChatMessage | undefined) !==
-                          undefined && chatArr[n - 1].sender === msg.sender
-                          ? "opacity-0 md:h-auto h-[0] md:overflow-hidden"
-                          : ""
-                      }`}
                     >
-                      {msg.sender}
-                    </label>
-                    <span
-                      className={`flex-grow p-1 px-2 text-sm ${
-                        msg.sender === userId ? "bg-[#31e4ee]" : "bg-white"
-                      }`}
-                    >
-                      {filter.clean(msg.message)}
-                    </span>
-                  </div>
-                ))}
+                      <label
+                        className={`p-1 text-sm pointer-events-none sender flex-shrink-0 w-[4em] truncate text-black/90 text-xs ${
+                          (chatArr[n - 1] as ChatMessage | undefined) !==
+                            undefined && chatArr[n - 1].sender === msg.sender
+                            ? "opacity-0 md:h-auto h-[0] md:overflow-hidden"
+                            : ""
+                        }`}
+                      >
+                        {msg.sender}
+                      </label>
+                      <span
+                        className={`flex-grow p-1 px-2 text-sm ${
+                          msg.sender === userId ? "bg-[#31e4ee]" : "bg-white"
+                        }`}
+                      >
+                        {_msg}
+                      </span>
+                    </div>
+                  );
+                })}
             </div>
           </div>
         </div>
