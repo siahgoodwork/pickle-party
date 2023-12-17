@@ -23,7 +23,7 @@ export async function POST(
         " "
       )}. Return the results as a JSON object with key 'headlines', with the value being an array of ${
       pollResults.length
-    } strings.`;
+    } strings. Each string contains just the headline, without index number. `;
 
     const chatResponse = await fetch(
       `${process.env.SERVER_HOSTNAME || ""}/chat/general`,
