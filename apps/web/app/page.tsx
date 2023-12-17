@@ -82,7 +82,9 @@ export default function Page(): JSX.Element {
               className="block p-2 text-lg text-center border border-black w-full max-w-[20em]"
               value={userId}
               onChange={(e) => {
-                setUserId(e.target.value);
+                const filterOnlyEngChars =
+                  e.target.value.match(/[a-zA-Z0-9]+/g)?.[0] || "";
+                setUserId(filterOnlyEngChars);
               }}
               placeholder="Your name"
               data-1p-ignore
