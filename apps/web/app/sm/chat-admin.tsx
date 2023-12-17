@@ -14,6 +14,10 @@ export function ChatAdmin(): JSX.Element {
   const [chatOutputTitle, setChatOutputTitle] = useState(
     chatOutput.heading || ""
   );
+
+  const [chatOutputPickle, setChatOutputPickle] = useState(
+    chatOutput.pickleName || ""
+  );
   const [chatOutputBody, setChatOutputBody] = useState(chatOutput.body || "");
 
   const [categoriseResult, setCategoriseResult] = useState<{
@@ -351,7 +355,16 @@ export function ChatAdmin(): JSX.Element {
         <div className="p-4 border border-l border-black min-h-[60vh]">
           <h2 className="font-bold">Output</h2>
           <div className="grid grid-cols-[10em_auto] gap-2">
-            <span>Title</span>
+            <span>Pickle name</span>
+            <input
+              type="text"
+              className="p-1"
+              value={chatOutputPickle}
+              onChange={(e) => {
+                setChatOutputPickle(e.target.value);
+              }}
+            />
+            <span>Heading</span>
             <input
               type="text"
               className="p-1"
@@ -370,13 +383,15 @@ export function ChatAdmin(): JSX.Element {
             />
 
             <div className="col-span-2">
-              {chatOutputBody !== chatOutput.body ||
+              {chatOutputPickle !== chatOutput.pickleName ||
+              chatOutputBody !== chatOutput.body ||
               chatOutputTitle !== chatOutput.heading ? (
                 <button
                   type="button"
                   onClick={() => {
                     chatOutput.heading = chatOutputTitle;
                     chatOutput.body = chatOutputBody;
+                    chatOutput.pickleName = chatOutputPickle;
                   }}
                 >
                   Save Title & Text

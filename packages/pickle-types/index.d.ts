@@ -71,6 +71,7 @@ interface ChatOutput {
   heading: string;
   body: string;
   imageUrl: string;
+  pickleName: string;
 }
 
 interface GifSubmission {

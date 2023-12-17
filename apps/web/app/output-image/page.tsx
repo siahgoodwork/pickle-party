@@ -6,7 +6,6 @@ import { store } from "../store";
 
 export default function Ticker(): React.ReactNode {
   const { chatOutput } = useSyncedStore(store);
-
   const [yesno, setYesno] = useState(false);
 
   useEffect(() => {
@@ -23,12 +22,21 @@ export default function Ticker(): React.ReactNode {
   }
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full">
+    <div
+      className="fixed top-0 left-0 w-full h-full"
+      style={{
+        backgroundImage: "url(/output-text-bg.jpg)",
+        backgroundSize: "cover",
+      }}
+    >
       <img
         src={chatOutput.imageUrl}
         alt="chat output"
-        className="absolute object-cover w-full h-full"
+        className="absolute object-cover w-[80%] aspect-video top-[45%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
       />
+      <span className="text-[2vw] text-center absolute top-[86%] w-full left-0 font-vcr">
+        {chatOutput.pickleName}
+      </span>
 
       <span className="h-[0]">{yesno ? " " : "  "}</span>
     </div>
