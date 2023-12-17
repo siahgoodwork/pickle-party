@@ -25,10 +25,10 @@ export default function Ticker(): React.ReactNode {
         backgroundSize: "cover",
       }}
     >
-      <h1 className="w-[80vw] text-[3vw] whitespace-pre-line font-vcr leading-[1.1] mb-12 text-center">
+      <h1 className="w-[80vw] text-[3vw] whitespace-pre-line font-vcr leading-[1.1] mb-12 text-left">
         {chatOutput.heading}
       </h1>
-      <p className="w-[80vw] text-[2vw] whitespace-pre-line font-vcr leading-[1.1] text-center">
+      <p className="w-[80vw] text-[2vw] whitespace-pre-line font-vcr leading-[1.1] text-left">
         {chatOutput.body}
       </p>
 
