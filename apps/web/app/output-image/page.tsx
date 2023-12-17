@@ -34,7 +34,7 @@ export default function Ticker(): React.ReactNode {
         alt="chat output"
         className="absolute object-cover w-[80%] aspect-video top-[45%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
       />
-      <span className="text-[2vw] text-center absolute top-[86%] w-full left-0 font-vcr">
+      <span className="text-[3vw] text-center absolute top-[86%] w-full left-0 font-vcr">
         {chatOutput.pickleName}
       </span>
 
