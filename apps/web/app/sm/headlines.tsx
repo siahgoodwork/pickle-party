@@ -396,7 +396,7 @@ export default function Page(): React.ReactElement {
                       onClick={() => {
                         state.headlines.push({
                           id: nanoid(),
-                          active: false,
+                          active: true,
                           text: hl,
                         });
                         toast("added to ticker tape headlines");
