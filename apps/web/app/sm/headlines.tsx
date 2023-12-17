@@ -423,7 +423,7 @@ export default function Page(): React.ReactElement {
           onClick={() => {
             state.headlines.push({
               id: nanoid(),
-              active: false,
+              active: true,
               text: headlineInput,
             });
             setHeadlineInput(() => "");
