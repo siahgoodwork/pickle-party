@@ -25,7 +25,7 @@ export default function Ticker(): React.ReactNode {
     <div
       className="fixed top-0 left-0 w-full h-full"
       style={{
-        backgroundImage: "url(/output-text-bg.jpg)",
+        backgroundImage: "url(/output-image-bg.jpg)",
         backgroundSize: "cover",
       }}
     >
