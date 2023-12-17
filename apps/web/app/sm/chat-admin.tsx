@@ -347,7 +347,7 @@ export function ChatAdmin(): JSX.Element {
               >
                 {imaginingPickle ? "thinking..." : "Imagine A Pickle"}
               </button>
-              <p>{pickleResult}</p>
+              <p className="whitespace-pre-line">{pickleResult}</p>
             </div>
           )}
         </div>
