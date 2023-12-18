@@ -5,7 +5,7 @@ import { store } from "../store";
 export default function Page(): React.ReactElement {
   const { room, pollResults } = useSyncedStore(store);
 
-  const showingPollResults = pollResults[room.activePollResult || ""];
+  const showingPollResults = pollResults["where-poll"];
 
   const totalVotes =
     showingPollResults === undefined
@@ -16,7 +16,7 @@ export default function Page(): React.ReactElement {
           .flat().length;
 
   if (showingPollResults === undefined) {
-    return <div />;
+    return <div className="opacity-15">waiting for votes</div>;
   }
 
   return (
