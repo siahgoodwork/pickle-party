@@ -275,7 +275,12 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                 {
                   id: "where-oceania",
                   text: "Oceania",
-                  pos: { x: 80, y: 75 },
+                  pos: { x: 85, y: 70 },
+                },
+                {
+                  id: "where-antarctica",
+                  text: "Antarctica",
+                  pos: { x: 50, y: 90 },
                 },
               ].map((option) => (
                 <span

@@ -51,6 +51,10 @@ export const wherePoll: WherePoll = {
     { id: "where-africa", text: "Africa" },
     { id: "where-europe", text: "Europe" },
     { id: "where-oceania", text: "Oceania" },
+    {
+      id: "where-antarctica",
+      text: "Antarctica",
+    },
   ],
   question: "Which part of the world do you come from?",
   trivia: "",
