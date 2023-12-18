@@ -3,7 +3,7 @@ import { useSyncedStore } from "@syncedstore/react";
 import { store } from "../store";
 
 export default function Page(): React.ReactElement {
-  const { room, pollResults } = useSyncedStore(store);
+  const { pollResults } = useSyncedStore(store);
 
   const showingPollResults = pollResults["where-poll"];
 
