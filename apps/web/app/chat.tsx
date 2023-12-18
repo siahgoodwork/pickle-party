@@ -126,10 +126,7 @@ export default function Page({ userId }: { userId: string }): ReactElement {
               backgroundSize: "cover",
             }}
           >
-            <h1 className="p-2 leading-[1.2]">
-              Pickle Messenger
-              <br />({userPresences.length} online)
-            </h1>
+            <h1 className="p-2 leading-[1.2]">Pickle Messenger</h1>
           </div>
           <div id="chat" className="flex flex-col-reverse">
             <div className="flex-shrink-0 w-full p-1 height-24">
