@@ -32,7 +32,7 @@ export default function Page(): React.ReactElement {
             backgroundSize: "cover",
           }}
         >
-          <div className="w-full relative top-[8%]">
+          <div className="w-full relative top-[2%]">
             <img
               src="/continents.svg"
               alt="world map"
@@ -55,7 +55,12 @@ export default function Page(): React.ReactElement {
               {
                 id: "where-oceania",
                 text: "Oceania",
-                pos: { x: 80, y: 75 },
+                pos: { x: 85, y: 70 },
+              },
+              {
+                id: "where-antarctica",
+                text: "Antarctica",
+                pos: { x: 50, y: 90 },
               },
             ].map((option) => (
               <span
