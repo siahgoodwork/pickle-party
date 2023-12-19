@@ -295,6 +295,7 @@ export default function Page(): JSX.Element {
                         }`}
                       >
                         <Chat
+                          gifOn={state.room.gifSearchOn || false}
                           userId={userId}
                           key={`chat_${
                             state.room.gifSearchOn

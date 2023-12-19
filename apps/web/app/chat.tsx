@@ -6,41 +6,26 @@ import type { ReactElement } from "react";
 import { useState, useCallback, useEffect } from "react";
 import type { ChatMessage } from "pickle-types";
 import BadWords from "bad-words";
-import type { UserPresence } from "./page";
-import { store, websocketProvider } from "./store";
+import { store } from "./store";
 
 export const additionalFilterWords = ["fuckface"];
 const filter = new BadWords();
 filter.addWords(...additionalFilterWords);
 
-export default function Page({ userId }: { userId: string }): ReactElement {
+export default function Page({
+  userId,
+  gifOn,
+}: {
+  userId: string;
+  gifOn: boolean;
+}): ReactElement {
   const [chatInput, setChatInput] = useState("");
   const { chat, room } = useSyncedStore(store);
-  const [userPresences, setUserPresences] = useState<UserPresence[]>([]);
   const _chat = [...chat].filter((c) =>
     room.chatBanned === undefined
       ? true
       : !room.chatBanned.includes(c.sender) || c.sender === userId
   );
-
-  useEffect(() => {
-    const awareness = websocketProvider.awareness;
-    const handleChange = function (): void {
-      const users = Array.from(awareness.getStates().values()).filter(
-        (a: UserPresence) =>
-          a.user !== undefined && typeof a.user.name === "string"
-      );
-      setUserPresences(users);
-    };
-
-    awareness.on("change", handleChange);
-
-    handleChange();
-
-    return () => {
-      awareness.off("change", handleChange);
-    };
-  }, []);
 
   useEffect(() => {
     const messageDiv = document.getElementById("chatMessages");
@@ -65,11 +50,13 @@ export default function Page({ userId }: { userId: string }): ReactElement {
       return;
     }
 
-    messageDiv.scrollTo({
-      top: messageDiv.scrollHeight,
-      behavior: "smooth",
-    });
-  }, []);
+    setTimeout(() => {
+      messageDiv.scrollTo({
+        top: messageDiv.scrollHeight,
+        behavior: "smooth",
+      });
+    }, 1000);
+  }, [gifOn]);
 
   const sendMessage = useCallback(
     (msg: ChatMessage) => {
