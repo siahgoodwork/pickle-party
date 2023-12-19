@@ -127,6 +127,25 @@ export default function VideoStream(): React.ReactElement {
           Update
         </button>
       </div>
+      <div>
+        <h2>Blackout</h2>
+        <button
+          type="button"
+          onClick={() => {
+            room.curtains = false;
+          }}
+        >
+          Show time
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            room.curtains = true;
+          }}
+        >
+          Black out
+        </button>
+      </div>
     </div>
   );
 }

@@ -14,6 +14,7 @@ interface Room {
   youtubeEmbedUrl: string;
   chatBanned: string[];
   gifSearchOn: boolean;
+  curtains: boolean;
 }
 
 interface Poll {
