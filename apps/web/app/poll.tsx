@@ -325,7 +325,7 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                 return (
                   <div
                     key={c.id}
-                    className="flex flex-col items-start justify-center p-4"
+                    className="flex flex-col items-start justify-center px-4 py-2 leading-[1.05]"
                   >
                     <span className="text-[1.3vw] text-right">
                       {(
@@ -399,11 +399,11 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
             {polls[room.activePollTrivia]?.trivia}
           </div>
         ) : room.pollLayout === "D" ? (
-          <div className="flex items-center justify-start p-4 text-left bg-[#b3f5b2]/80 row-start-2 row-span-1 text-[1.0vw] top-[0] left-[68.23%] w-[21.35%] h-[50.75%] absolute leading-[1.10] whitespace-pre-line">
+          <div className="flex items-center justify-start px-4 py-2 text-left bg-[#b3f5b2]/80 row-start-2 row-span-1 text-[1.0vw] top-[0] left-[68.23%] w-[21.35%] h-[50.75%] absolute leading-[1.10] whitespace-pre-line">
             {polls[room.activePollTrivia]?.trivia}
           </div>
         ) : room.pollLayout === "E" ? (
-          <div className="flex items-center justify-start p-4 text-left bg-[#b3f5b2]/80 row-start-2 row-span-1 text-[1.0vw] top-[30.55%] left-[58.33%] w-[21.35%] h-[50.92%] absolute leading-[1.1] whitespace-pre-line">
+          <div className="flex items-center justify-start px-4 py-2 text-left bg-[#b3f5b2]/80 row-start-2 row-span-1 text-[1.0vw] top-[30.55%] left-[58.33%] w-[21.35%] h-[50.92%] absolute leading-[1.1] whitespace-pre-line">
             {polls[room.activePollTrivia]?.trivia}
           </div>
         ) : (
