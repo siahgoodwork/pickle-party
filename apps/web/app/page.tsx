@@ -67,7 +67,7 @@ export default function Page(): JSX.Element {
       <link rel="preload" as="image" href="/continents.svg" />
       <link rel="preload" as="image" href="/iceland.jpg" />
 
-      {onboarding ? (
+      {onboarding || pwInput !== state.room.password ? (
         <div
           className="w-full h-[100vh] relative"
           style={{ backgroundImage: "url(/bg.jpg)", backgroundSize: "cover" }}
