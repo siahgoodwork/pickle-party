@@ -127,10 +127,15 @@ export default function VideoStream(): React.ReactElement {
           Update
         </button>
       </div>
-      <div>
-        <h2>Blackout</h2>
+      <div className="p-4">
+        <h2 className="font-bold">Blackout</h2>
         <button
           type="button"
+          className={
+            !room.curtains
+              ? "bg-pickle-green text-pickle-beige hover:bg-pickle-green/90"
+              : ""
+          }
           onClick={() => {
             room.curtains = false;
           }}
@@ -139,6 +144,11 @@ export default function VideoStream(): React.ReactElement {
         </button>
         <button
           type="button"
+          className={
+            room.curtains
+              ? "bg-pickle-green text-pickle-beige hover:bg-pickle-green/90"
+              : ""
+          }
           onClick={() => {
             room.curtains = true;
           }}
