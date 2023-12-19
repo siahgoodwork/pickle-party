@@ -180,7 +180,7 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                               : room.pollLayout === "A"
                               ? "inline-block bg-white rounded text-black mx-2 border-black border border-2 hover:bg-white/90"
                               : "w-[20%] bg-[#FE52F8] text-black hover:bg-[#fe52f8]/90"
-                          } text-[1.3vw] leading-[1] py-1`}
+                          } text-[1.1vw] leading-[1] py-1`}
                           onClick={() => {
                             sendVote(c.id);
                           }}
@@ -228,7 +228,7 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                               : room.pollLayout === "A"
                               ? "inline-block bg-white rounded text-black mx-2 border-black border border-2 hover:bg-white/90"
                               : "w-[20%] bg-[#FE52F8] text-black hover:bg-[#fe52f8]/90"
-                          } text-[1.3vw] leading-[1] py-1`}
+                          } text-[1.1vw] leading-[1] py-1`}
                           onClick={() => {
                             sendVote(c.id);
                           }}
@@ -352,13 +352,13 @@ export function PollView({ userId }: { userId: string }): React.ReactElement {
                 : "h-auto bg-[#f6ff65]/90"
             }`}
           >
-            <h2 className="p-4 text-[1.7vw] leading-[1.1] m-0 text-[#fe52f8] text-center">
+            <h2 className="p-4 text-[1.7vw] leading-[1.1] m-0 text-[#fe52f8] text-center pt-0">
               {prPoll.question}
             </h2>
             <div
               className={
                 room.pollLayout === "A"
-                  ? "flex gap-12 flex-wrap"
+                  ? "flex gap-12 gap-y-2 flex-wrap"
                   : room.pollLayout === "C"
                   ? " text-[#fe52f8]"
                   : "flex flex-col gap-2"
