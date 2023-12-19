@@ -50,6 +50,11 @@ export default function Page(): JSX.Element {
     };
   }, []);
 
+  useEffect(() => {
+    setPwInput(() => "");
+    setOnboarding(() => true);
+  }, [state.room.password]);
+
   const showingPanel1 =
     state.room.chatOn === true || state.room.gifSearchOn === true;
 
