@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  @apply w-[100vw] overflow-hidden;
+}
+
 @font-face {
   font-family: "VCR";
   src:

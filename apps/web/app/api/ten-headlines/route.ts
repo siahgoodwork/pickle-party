@@ -21,7 +21,7 @@ export async function POST(
       .map((pr, n) => `${n + 1}. ${pr}`)
       .join(
         " "
-      )}. Return the results as a JSON object with key 'headlines', with the value being an array of 10 strings. Each string contains just the headline, without index number. `;
+      )}. Return the results as a JSON object with key 'headlines', with the value being an array of 10 strings. Each string contains just the headline. Omit the list number. `;
 
     const chatResponse = await fetch(
       `${process.env.SERVER_HOSTNAME || ""}/chat/general`,
