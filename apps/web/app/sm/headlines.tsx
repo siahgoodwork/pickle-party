@@ -3,7 +3,7 @@ import { nanoid } from "nanoid";
 import classNames from "classnames";
 import { toast } from "react-hot-toast";
 import type { HeadlinePrompt, PollResult } from "pickle-types";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { store } from "../store";
 import { wherePoll } from "./polls";
 
@@ -61,6 +61,8 @@ export default function Page(): React.ReactElement {
     id: "",
     prompt: "",
   });
+
+  useEffect(() => {}, [tenHeadlines]);
 
   return (
     <div className="p-4 grid grid-cols-2 gap-4">
@@ -370,6 +372,15 @@ export default function Page(): React.ReactElement {
                         tenHeadlines.length,
                         ...contentObj.headlines
                       );
+
+                      (contentObj.headlines as string[]).forEach((h, n) => {
+                        const input = document.getElementById(
+                          `input_headline_${n}`
+                        );
+                        if (input !== null) {
+                          (input as HTMLInputElement).value = h;
+                        }
+                      });
                     }
                   } else {
                     throw Error("Failed to generate headline");
@@ -386,26 +397,40 @@ export default function Page(): React.ReactElement {
               {generatingHeadline ? "generating..." : "Generate"}
             </button>
             <ul className="p-2">
-              {Array.isArray(tenHeadlines) &&
-                tenHeadlines.map((hl) => (
-                  <li key={hl}>
-                    {hl}{" "}
-                    <button
-                      type="button"
-                      className="text-sm"
-                      onClick={() => {
-                        state.headlines.push({
-                          id: nanoid(),
-                          active: true,
-                          text: hl,
-                        });
-                        toast("added to ticker tape headlines");
-                      }}
-                    >
-                      Add to ticker
-                    </button>
-                  </li>
-                ))}
+              {new Array(10).fill(0).map((_, n) => (
+                <li
+                  className="flex mb-1 gap-2"
+                  // eslint-disable-next-line -- uncontrolled input
+                  key={`headline_${n}`}
+                >
+                  <input
+                    type="text"
+                    className="flex-grow"
+                    id={`input_headline_${n}`}
+                  />
+                  <button
+                    type="button"
+                    className="text-sm"
+                    onClick={() => {
+                      const input = document.getElementById(
+                        `input_headline_${n}`
+                      );
+                      if (input === null) {
+                        return;
+                      }
+                      const text = (input as HTMLInputElement).value;
+                      state.headlines.push({
+                        id: nanoid(),
+                        active: true,
+                        text,
+                      });
+                      toast("added to ticker tape headlines");
+                    }}
+                  >
+                    Add to ticker
+                  </button>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
