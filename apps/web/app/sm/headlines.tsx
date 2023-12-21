@@ -62,8 +62,6 @@ export default function Page(): React.ReactElement {
     prompt: "",
   });
 
-  useEffect(() => {}, [tenHeadlines]);
-
   return (
     <div className="p-4 grid grid-cols-2 gap-4">
       <div className="hidden p-2 col-span-2">
