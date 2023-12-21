@@ -371,7 +371,8 @@ export default function Page(): React.ReactElement {
                         ...contentObj.headlines
                       );
 
-                      (contentObj.headlines as string[]).forEach((h, n) => {
+                      // eslint-disable-next-line -- might be empty
+                      contentObj.headlines?.forEach((h, n) => {
                         const input = document.getElementById(
                           `input_headline_${n}`
                         );
