@@ -3,7 +3,7 @@ import { nanoid } from "nanoid";
 import classNames from "classnames";
 import { toast } from "react-hot-toast";
 import type { HeadlinePrompt, PollResult } from "pickle-types";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { store } from "../store";
 import { wherePoll } from "./polls";
 
